@@ -29,7 +29,7 @@ export function IslandMap({
         role="img"
         aria-label={`Location of ${island.name} in the Caribbean. Dots show political power in ${Math.floor(year)}; the ring marks the selected island.`}
       >
-        <rect width="300" height="200" fill="#eef1ea" />
+        <rect width="300" height="200" fill="var(--map-sea)" />
         {[15, 20, 25].map((lat) => (
           <line
             key={lat}
@@ -37,7 +37,7 @@ export function IslandMap({
             x2="300"
             y1={(29 - lat) * 10}
             y2={(29 - lat) * 10}
-            stroke="#dde4d8"
+            stroke="var(--map-grid)"
             strokeWidth=".5"
           />
         ))}
@@ -48,7 +48,7 @@ export function IslandMap({
             y2="200"
             x1={((lon + 89) / 31) * 300}
             x2={((lon + 89) / 31) * 300}
-            stroke="#dde4d8"
+            stroke="var(--map-grid)"
             strokeWidth=".5"
           />
         ))}
@@ -56,8 +56,8 @@ export function IslandMap({
           <path
             key={n}
             d={d}
-            fill="#d4ddcd"
-            stroke="#bccab5"
+            fill="var(--map-land)"
+            stroke="var(--map-coast)"
             strokeWidth=".6"
           />
         ))}
@@ -72,8 +72,8 @@ export function IslandMap({
               cx={cx}
               cy={cy}
               r={i.id === island.id ? 3 : 1.9}
-              fill={owners[stateAt(i, year, mode)].color}
-              stroke="#fffef9"
+              fill={`light-dark(${owners[stateAt(i, year, mode)].color}, color-mix(in srgb, ${owners[stateAt(i, year, mode)].color} 70%, white))`}
+              stroke="var(--paper)"
               strokeWidth=".6"
             />
           );
@@ -83,13 +83,13 @@ export function IslandMap({
           cy={y}
           r="7"
           fill="none"
-          stroke="#283b3b"
+          stroke="var(--ink)"
           strokeWidth="1"
         />
         <path
           d={`M${x - 11},${y}h3M${x + 8},${y}h3M${x},${y - 11}v3M${x},${y + 8}v3`}
           fill="none"
-          stroke="#283b3b"
+          stroke="var(--ink)"
           strokeWidth=".6"
         />
       </svg>

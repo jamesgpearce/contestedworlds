@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { themeBootstrap } from '@/lib/theme';
 import './globals.css';
 export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
@@ -10,7 +11,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+      </head>
       <body>{children}</body>
     </html>
   );

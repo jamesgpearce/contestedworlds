@@ -47,6 +47,48 @@
     'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia,
     serif;
 }
+
+:root {
+  color-scheme: light;
+  --caution: #70654c;
+  --caution-border: #aaa183;
+  --border-strong: #bbc6b7;
+  --slider-fill: #94a28d;
+  --active-surface: #e8e8de;
+  --map-sea: #eef1ea;
+  --map-grid: #dde4d8;
+  --map-land: #d4ddcd;
+  --map-coast: #bccab5;
+  --era-fill: #665d4d;
+  --era-free: #367c6c;
+}
+:root.dark {
+  color-scheme: dark;
+  --background: #171e20;
+  --foreground: #e2e8e2;
+  --paper: #171e20;
+  --ink: #e2e8e2;
+  --popover: #202b2b;
+  --primary: #8fd3c5;
+  --secondary: #283332;
+  --muted: #283332;
+  --muted-foreground: #afbeb5;
+  --accent: #30483f;
+  --border: #3c4b47;
+  --border-strong: #64786d;
+  --faint: #afbeb5;
+  --red: #f09483;
+  --active-surface: #31443c;
+  --caution: #ddc994;
+  --caution-border: #aa9561;
+  --slider-fill: #869e8b;
+  --map-sea: #18272c;
+  --map-grid: #34494d;
+  --map-land: #3a504a;
+  --map-coast: #6a7c70;
+  --era-fill: #c5bba7;
+  --era-free: #7ad1b7;
+}
 * {
   box-sizing: border-box;
 }
@@ -85,11 +127,11 @@ a:focus-visible,
 summary:focus-visible,
 input:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid #245e59;
+  outline: 2px solid var(--primary);
   outline-offset: 4px;
 }
 ::selection {
-  background: #d5e2d9;
+  background: var(--accent);
   color: var(--ink);
 }
 main {
@@ -140,7 +182,7 @@ main {
 .atlas-mark {
   font-size: 38px;
   font-weight: 400;
-  color: #56796b;
+  color: var(--faint);
   line-height: 1;
 }
 .wordmark-sub {
@@ -247,11 +289,11 @@ main {
 .story-number {
   font-family: var(--serif);
   font-size: 22px;
-  color: #78877b;
+  color: var(--faint);
 }
 .story > span:last-child {
   margin-left: auto;
-  color: #64786b;
+  color: var(--faint);
 }
 .story.active {
   color: var(--ink);
@@ -270,7 +312,7 @@ main {
 }
 .story:hover {
   color: var(--ink);
-  background: #efefe7;
+  background: var(--secondary);
 }
 .explorer {
   display: grid;
@@ -326,7 +368,7 @@ main {
 }
 .toolbar [data-slot='tabs-list'] {
   border-radius: 3px;
-  background: #eaece4;
+  background: var(--secondary);
   padding: 3px;
   height: 34px;
 }
@@ -369,36 +411,36 @@ main {
   overflow: visible;
 }
 .year-grid {
-  stroke: #cdd3c7;
+  stroke: var(--border);
   stroke-width: 0.5;
   stroke-dasharray: 2 4;
 }
 .owner-grid {
-  stroke: #d9dcd1;
+  stroke: var(--border);
   stroke-width: 0.6;
 }
 .year-label {
-  fill: #627064;
+  fill: var(--faint);
   font-size: 13px;
   font-family: Arial, Helvetica, sans-serif;
 }
 .owner-label {
   font-size: 13.5px;
-  fill: #59675f;
+  fill: var(--faint);
   font-family: Arial, Helvetica, sans-serif;
 }
 .owner-label.owner-used {
-  fill: #243e38;
+  fill: var(--ink);
   font-weight: 500;
 }
 .era-label {
   font-size: 12px;
-  fill: #6d7867;
+  fill: var(--faint);
   font-family: Arial, Helvetica, sans-serif;
 }
 .chart-footnote {
   font-size: 12px;
-  fill: #687760;
+  fill: var(--faint);
   font-family: Arial, Helvetica, sans-serif;
 }
 .island-path path {
@@ -417,10 +459,10 @@ main {
   position: absolute;
   pointer-events: none;
   z-index: 4;
-  background: #fffef9;
+  background: var(--popover);
   width: 285px;
-  border: 1px solid #bbc6b7;
-  border-top: 2px solid #a14a40;
+  border: 1px solid var(--border-strong);
+  border-top: 2px solid var(--red);
   box-shadow: 0 6px 18px #26322212;
   padding: 13px 15px;
   font-size: 13px;
@@ -543,11 +585,11 @@ main {
   flex-shrink: 0;
 }
 .island-chip.selected {
-  background: #e8e8de;
-  color: #1f3f37;
+  background: var(--active-surface);
+  color: var(--ink);
 }
 .island-chip:hover {
-  background: #edeee5;
+  background: var(--secondary);
 }
 .island-chip.selected > span {
   height: 3px;
@@ -598,7 +640,7 @@ main {
 }
 .island-summary {
   font-size: 14px;
-  color: #607063;
+  color: var(--faint);
   line-height: 1.55;
   margin: 13px 0 18px;
 }
@@ -706,7 +748,7 @@ main {
 .citations a {
   text-decoration: none;
   font-size: 12px;
-  color: #396961;
+  color: var(--primary);
   white-space: nowrap;
 }
 .citations a:hover {
@@ -732,9 +774,9 @@ main {
   padding: 4px 0;
 }
 .qualification {
-  border-left: 2px solid #aaa183;
+  border-left: 2px solid var(--caution-border);
   padding: 5px 0 5px 10px !important;
-  color: #70654c;
+  color: var(--caution);
   font-size: 12px !important;
   font-style: italic;
   line-height: 1.6;
@@ -784,7 +826,7 @@ main {
   margin: 10px 0 0;
 }
 .event-list li {
-  border-top: 1px solid #e2e3da;
+  border-top: 1px solid var(--border);
 }
 .event-list button {
   width: 100%;
@@ -806,7 +848,7 @@ main {
 }
 .event-list button:hover,
 .event-list button.active {
-  background: #ecece2;
+  background: var(--active-surface);
 }
 .event-list button i {
   height: 4px;
@@ -1574,15 +1616,15 @@ footer p {
   min-width: 80px;
 }
 .time-control [data-slot='slider-track'] {
-  background: #d4dbce;
+  background: var(--border);
 }
 .time-control [data-slot='slider-range'] {
-  background: #94a28d;
+  background: var(--slider-fill);
 }
 .time-control [data-slot='slider-thumb'] {
   width: 15px;
   height: 15px;
-  border-color: #245e59;
+  border-color: var(--primary);
   background: var(--paper);
 }
 .year-state {
@@ -1622,7 +1664,7 @@ footer p {
 .sea-label {
   font-size: 10px;
   font-family: Georgia, serif;
-  fill: #7d907e;
+  fill: var(--faint);
   letter-spacing: 1.2px;
 }
 .map-slot .coordinates {
@@ -1779,4 +1821,65 @@ footer p {
   background: none;
   padding: 0;
   text-align: left;
+}
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--paper);
+}
+html {
+  scroll-padding-top: 104px;
+}
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  gap: 1px;
+  min-width: 0;
+}
+.masthead-right .theme-switcher button {
+  padding: 5px 8px;
+  min-height: 32px;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  border-radius: 2px;
+}
+.theme-switcher button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.theme-switcher button:hover:not([aria-pressed='true']) {
+  background: var(--secondary);
+}
+@media (max-width: 600px) {
+  .masthead {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 90px;
+    padding: 10px 0;
+    gap: 8px;
+  }
+  .masthead-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .masthead-right .theme-switcher button {
+    font-size: 0.8125rem;
+  }
+  .wordmark-sub {
+    display: none;
+  }
+}
+@media print {
+  .masthead {
+    position: static;
+  }
+  .theme-switcher {
+    display: none;
+  }
 }

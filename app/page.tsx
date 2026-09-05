@@ -15,6 +15,7 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { IslandMap } from '@/components/island-map';
+import { ThemeSwitcher } from '@/components/theme-switcher';
 import {
   Table,
   TableCaption,
@@ -258,6 +259,7 @@ export default function Home() {
           </span>
         </button>
         <div className="masthead-right">
+          <ThemeSwitcher />
           <span>1450 — 2026</span>
           <button
             onClick={() => {
@@ -463,7 +465,11 @@ export default function Home() {
                               x(Math.max(c.start, range[0])),
                           )}
                           height={H - TOP + 4}
-                          fill={c.id === 'independence' ? '#367c6c' : '#665d4d'}
+                          fill={
+                            c.id === 'independence'
+                              ? 'var(--era-free)'
+                              : 'var(--era-fill)'
+                          }
                           opacity={c.id === 'independence' ? 0.045 : 0.035}
                         />
                         {(period !== 'all' ||
@@ -506,7 +512,12 @@ export default function Home() {
                         y2={y(o.id)}
                         className="owner-grid"
                       />
-                      <circle cx={13} cy={y(o.id) - 1} r={3.3} fill={o.color} />
+                      <circle
+                        cx={13}
+                        cy={y(o.id) - 1}
+                        r={3.3}
+                        fill={`light-dark(${o.color}, color-mix(in srgb, ${o.color} 70%, white))`}
+                      />
                       <text
                         x={24}
                         y={y(o.id) + 4}
@@ -610,10 +621,14 @@ export default function Home() {
                                 cy={yy}
                                 r={e.id === eventId ? 5 : 3.7}
                                 fill={
-                                  e.kind === 'claim' ? '#f9f8f3' : color(focus)
+                                  e.kind === 'claim'
+                                    ? 'var(--paper)'
+                                    : color(focus)
                                 }
                                 stroke={
-                                  e.kind === 'claim' ? color(focus) : '#f9f8f3'
+                                  e.kind === 'claim'
+                                    ? color(focus)
+                                    : 'var(--paper)'
                                 }
                                 strokeWidth={1.5}
                               />
@@ -638,7 +653,7 @@ export default function Home() {
                           x2={x(year)}
                           y1={TOP - 23}
                           y2={H - 24}
-                          stroke="#263b3e"
+                          stroke="var(--ink)"
                           strokeWidth={1}
                           strokeDasharray="3 5"
                           opacity={0.5}
