@@ -1,0 +1,128 @@
+{
+  "id": "trinidad",
+  "name": "Trinidad",
+  "place": "Trinidad and Tobago",
+  "region": "Southern Caribbean",
+  "coordinates": [
+    -61.3,
+    10.5
+  ],
+  "peoples": "Diverse Arawakan- and Cariban-speaking peoples",
+  "summary": "Spanish sovereignty, a British conquest, and a shared national future.",
+  "notes": "Trinidad and Tobago were not one colonial unit until 1889. Early Spanish settlements repeatedly failed; 1592 marks the enduring colonial capital.",
+  "sources": [
+    "tt-trust",
+    "tt-nalis",
+    "ws-tt"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "trinidad-01",
+      "date": "1498-07-31",
+      "precision": "day",
+      "kind": "claim",
+      "title": "Spain claims Trinidad",
+      "detail": "Columbus’s third voyage reached the island.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tt"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "trinidad-02",
+      "date": "1532",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "Indigenous resistance at Cumucurapo",
+      "detail": "Resistance defeated an early Spanish colonizing attempt.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "tt-trust"
+      ]
+    },
+    {
+      "id": "trinidad-03",
+      "date": "1592",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "San José de Oruña founded",
+      "detail": "Antonio de Berrío’s expedition established a durable colonial capital.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "tt-nalis"
+      ]
+    },
+    {
+      "id": "trinidad-04",
+      "date": "1595",
+      "precision": "year",
+      "kind": "context",
+      "title": "Raleigh raids San José",
+      "detail": "English forces captured the governor and burned the settlement, without establishing lasting rule.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "trinidad-05",
+      "date": "1797-02",
+      "precision": "month",
+      "kind": "capture",
+      "title": "Trinidad falls to Britain",
+      "detail": "A British fleet and army compelled the Spanish governor to surrender.",
+      "controller": "britain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "trinidad-06",
+      "date": "1802-03-27",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Spain cedes Trinidad",
+      "detail": "The Treaty of Amiens confirmed the British conquest.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "trinidad-07",
+      "date": "1889-01-01",
+      "precision": "day",
+      "kind": "status",
+      "title": "Trinidad and Tobago united",
+      "detail": "Britain combined two islands with markedly different colonial histories.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "trinidad-08",
+      "date": "1962-08-31",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Trinidad and Tobago independent",
+      "detail": "The united colony became a sovereign state.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-tt"
+      ]
+    }
+  ]
+}

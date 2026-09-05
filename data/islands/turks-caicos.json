@@ -1,0 +1,210 @@
+{
+  "id": "turks-caicos",
+  "name": "Turks & Caicos Islands",
+  "place": "Turks and Caicos Islands",
+  "region": "Lucayan Archipelago",
+  "coordinates": [
+    -71.8,
+    21.8
+  ],
+  "peoples": "Lucayan Taíno communities",
+  "summary": "Salt islands contested by Bermudian settlers and French expeditions.",
+  "notes": "The track follows the principal salt islands and colonial administration, not simultaneous possession of every cay. Early French incursions were geographically partial and are annotated as such.",
+  "sources": [
+    "ws-tci",
+    "tci-history"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "turks-caicos-01",
+      "date": "1512",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Ponce de León visits",
+      "detail": "The voyage reached the islands in the period of Spanish slaving and depopulation.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "tci-history"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "turks-caicos-02",
+      "date": "1520",
+      "precision": "circa",
+      "kind": "withdrawal",
+      "title": "Lucayan settlement disappears",
+      "detail": "Enslavement and displacement devastated the Indigenous population.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "tci-history"
+      ],
+      "uncertainty": "An approximate marker for a gradual process, not a dated island-wide handover."
+    },
+    {
+      "id": "turks-caicos-03",
+      "date": "1673",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Bermudian salt-rakers arrive",
+      "detail": "Seasonal English settlement grew around the salt ponds.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tci"
+      ],
+      "uncertainty": "Use was seasonal and uneven; permanent communities developed later."
+    },
+    {
+      "id": "turks-caicos-04",
+      "date": "1706",
+      "precision": "year",
+      "kind": "capture",
+      "title": "Privateers disrupt the salt islands",
+      "detail": "French and Spanish privateers occupied Grand Turk and expelled salt-rakers.",
+      "controller": "contested",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tci"
+      ]
+    },
+    {
+      "id": "turks-caicos-05",
+      "date": "1710",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "Britain retakes possession",
+      "detail": "A British expedition from Bermuda restored the settlers’ access.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tci"
+      ]
+    },
+    {
+      "id": "turks-caicos-06",
+      "date": "1753",
+      "precision": "year",
+      "kind": "context",
+      "title": "French incursions",
+      "detail": "French forces seized particular islands; these raids did not establish uniform control of the archipelago.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tci",
+        "tci-history"
+      ]
+    },
+    {
+      "id": "turks-caicos-07",
+      "date": "1764",
+      "precision": "year",
+      "kind": "capture",
+      "title": "France evicts Bermudian salt-rakers",
+      "detail": "French forces occupied the principal salt settlements.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tci"
+      ],
+      "uncertainty": "This track represents the salt-island administration; other islands were not necessarily occupied."
+    },
+    {
+      "id": "turks-caicos-08",
+      "date": "1766",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "British forces return",
+      "detail": "HMS Druid restored British possession.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tci"
+      ]
+    },
+    {
+      "id": "turks-caicos-09",
+      "date": "1783-02-12",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France captures Grand Turk",
+      "detail": "A French force held Grand Turk despite a British counterattack.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tci"
+      ]
+    },
+    {
+      "id": "turks-caicos-10",
+      "date": "1783-09",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "The peace restores British possession",
+      "detail": "France relinquished its wartime acquisition.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tci",
+        "tci-history"
+      ]
+    },
+    {
+      "id": "turks-caicos-11",
+      "date": "1799",
+      "precision": "year",
+      "kind": "status",
+      "title": "Administered through the Bahamas",
+      "detail": "Both island groups were placed under Bahamian administration.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tci"
+      ]
+    },
+    {
+      "id": "turks-caicos-12",
+      "date": "1848-12-25",
+      "precision": "day",
+      "kind": "status",
+      "title": "A separate crown colony",
+      "detail": "The islands were separated from the Bahamas.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tci"
+      ]
+    },
+    {
+      "id": "turks-caicos-13",
+      "date": "1874-01-01",
+      "precision": "day",
+      "kind": "status",
+      "title": "A dependency of Jamaica",
+      "detail": "Administration moved within the British Empire.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tci"
+      ]
+    },
+    {
+      "id": "turks-caicos-14",
+      "date": "1962-08-06",
+      "precision": "day",
+      "kind": "status",
+      "title": "Remaining under Britain",
+      "detail": "The islands remained British as Jamaica became independent.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tci"
+      ]
+    }
+  ]
+}

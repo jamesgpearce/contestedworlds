@@ -1,0 +1,323 @@
+{
+  "id": "sint-eustatius",
+  "name": "Sint Eustatius",
+  "place": "Sint Eustatius",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -62.97,
+    17.49
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "The “Golden Rock”: a trading island repeatedly seized by rival powers.",
+  "notes": "British attacks in 1781 targeted a vital entrepôt supplying Britain’s enemies. Privateer raids lasting days in 1709 and 1713 are annotations; the 1673 Dutch recapture is retained because it interrupted an established military administration.",
+  "sources": [
+    "ws-statia",
+    "dutch-status"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "sint-eustatius-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A Spanish claim",
+      "detail": "The island was associated with Columbus’s second voyage; no lasting Spanish colony followed.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-statia"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "sint-eustatius-02",
+      "date": "1636-04-25",
+      "precision": "day",
+      "kind": "settlement",
+      "title": "A Dutch colony",
+      "detail": "Dutch settlers established a colonial trading post.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-03",
+      "date": "1665-07-23",
+      "precision": "day",
+      "kind": "capture",
+      "title": "English occupation",
+      "detail": "The Second Anglo-Dutch War brought English forces.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-04",
+      "date": "1666-11-17",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French forces take the island",
+      "detail": "France acted as a Dutch ally against England.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-05",
+      "date": "1667-08-16",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Dutch possession restored",
+      "detail": "The peace returned the colony to Dutch administration.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-06",
+      "date": "1672-07-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "England takes the colony again",
+      "detail": "The Third Anglo-Dutch War reached the island.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-07",
+      "date": "1673-06-08",
+      "precision": "day",
+      "kind": "capture",
+      "title": "A short Dutch recapture",
+      "detail": "Dutch forces briefly retook the island.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-08",
+      "date": "1673-06-18",
+      "precision": "day",
+      "kind": "capture",
+      "title": "English forces return",
+      "detail": "The Dutch recapture lasted days.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-09",
+      "date": "1681-04",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "Dutch government restored",
+      "detail": "The long English occupation ended.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ],
+      "uncertainty": "Some summaries substitute the 1674 peace date; this is the administration chronology’s handover date."
+    },
+    {
+      "id": "sint-eustatius-10",
+      "date": "1689-04-06",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French occupation",
+      "detail": "The Nine Years’ War brought a French seizure.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-11",
+      "date": "1690-07-28",
+      "precision": "day",
+      "kind": "capture",
+      "title": "English forces displace France",
+      "detail": "English troops took the colony from the French.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-12",
+      "date": "1696-04",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "The Dutch return",
+      "detail": "English military administration ended.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-13",
+      "date": "1709",
+      "precision": "year",
+      "kind": "context",
+      "title": "French privateers raid the island",
+      "detail": "A short ransom raid was not a durable sovereign transfer.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-14",
+      "date": "1713",
+      "precision": "year",
+      "kind": "context",
+      "title": "Cassard’s privateers return",
+      "detail": "French raiders again held the island briefly for ransom.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-15",
+      "date": "1781-02-03",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Rodney seizes the Golden Rock",
+      "detail": "Britain captured and plundered the commercial entrepôt in the Fourth Anglo-Dutch War.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-16",
+      "date": "1781-11-25",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French forces retake the island",
+      "detail": "A French expedition displaced the British.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-17",
+      "date": "1784-02-07",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Dutch administration restored",
+      "detail": "The peace settlement restored the colony.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-18",
+      "date": "1795-04-14",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French military occupation",
+      "detail": "French forces established control during the revolutionary wars.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-19",
+      "date": "1801-04-21",
+      "precision": "day",
+      "kind": "capture",
+      "title": "British occupation",
+      "detail": "British troops displaced French military control.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-20",
+      "date": "1802-11-21",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Dutch government returns",
+      "detail": "The Treaty of Amiens was implemented.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-21",
+      "date": "1810-02-21",
+      "precision": "day",
+      "kind": "capture",
+      "title": "A final British occupation",
+      "detail": "The Napoleonic Wars brought another seizure.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-22",
+      "date": "1816-02-01",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The Netherlands regains the island",
+      "detail": "Postwar restitution was implemented.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-statia"
+      ]
+    },
+    {
+      "id": "sint-eustatius-23",
+      "date": "2010-10-10",
+      "precision": "day",
+      "kind": "status",
+      "title": "A public body of the Netherlands",
+      "detail": "The Netherlands Antilles dissolved; Statia joined the Caribbean Netherlands.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "dutch-status"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+{
+  "id": "saint-lucia",
+  "name": "Saint Lucia",
+  "place": "Saint Lucia",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -60.98,
+    13.91
+  ],
+  "peoples": "Kalinago communities and earlier Arawakan-speaking societies",
+  "summary": "The island where the imperial contest is written into the line.",
+  "notes": "The familiar “fourteen times” depends on counting claims, neutralizations and occupations. This dataset separates those categories. French settlers remained through much of the island’s nominal neutrality. Early European discovery stories are disputed.",
+  "sources": [
+    "lucia-gov",
+    "lucia-study",
+    "ws-lucia"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "saint-lucia-01",
+      "date": "1627",
+      "precision": "year",
+      "kind": "claim",
+      "title": "England grants an island it does not control",
+      "detail": "The Carlisle patent included Saint Lucia despite Indigenous occupation.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-lucia"
+      ],
+      "claimant": "britain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "saint-lucia-02",
+      "date": "1635",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A competing French claim",
+      "detail": "France asserted a claim before the enduring colony was established.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-lucia"
+      ],
+      "claimant": "france",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "saint-lucia-03",
+      "date": "1650",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French colony established",
+      "detail": "Settlers from Martinique established a foothold and negotiated with Kalinago inhabitants.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "lucia-study",
+        "lucia-gov"
+      ],
+      "uncertainty": "Some specialist chronologies date a French foothold to 1643; 1650 follows the historical study’s settlement account."
+    },
+    {
+      "id": "saint-lucia-04",
+      "date": "1664",
+      "precision": "year",
+      "kind": "capture",
+      "title": "English invasion",
+      "detail": "An expedition from Barbados displaced the French colony.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "lucia-study"
+      ]
+    },
+    {
+      "id": "saint-lucia-05",
+      "date": "1667",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "France regains the island",
+      "detail": "English withdrawal and the Treaty of Breda restored French authority.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "lucia-study"
+      ]
+    },
+    {
+      "id": "saint-lucia-06",
+      "date": "1723",
+      "precision": "year",
+      "kind": "treaty",
+      "title": "The Treaty of Choc declares neutrality",
+      "detail": "Britain and France agreed to neutrality; French settlers remained.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-07",
+      "date": "1744",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French administration reasserted",
+      "detail": "A French commandant resumed organized government.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-08",
+      "date": "1748-10-18",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Neutral on paper once more",
+      "detail": "The Treaty of Aix-la-Chapelle declared neutrality despite continuing French presence.",
+      "controller": null,
+      "sovereign": "contested",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-09",
+      "date": "1753-03",
+      "precision": "month",
+      "kind": "withdrawal",
+      "title": "French administration withdraws",
+      "detail": "Evacuation briefly made neutrality more than a paper arrangement.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-10",
+      "date": "1755-09",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "French administration returns",
+      "detail": "France re-established its command on the island.",
+      "controller": "france",
+      "sovereign": "contested",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-11",
+      "date": "1762-02-25",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain captures Saint Lucia",
+      "detail": "The Seven Years’ War produced a brief British occupation.",
+      "controller": "britain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-12",
+      "date": "1763-02-10",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Paris awards Saint Lucia to France",
+      "detail": "The treaty explicitly assigned the island to France.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "paris1763",
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-13",
+      "date": "1778-12-28",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain wins a strategic anchorage",
+      "detail": "British forces secured Saint Lucia during the American Revolutionary War.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-14",
+      "date": "1783-09-03",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "The peace restores French rights",
+      "detail": "The peace settlement provided for French restoration; handover followed in January.",
+      "controller": null,
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-15",
+      "date": "1784-01-03",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French administration resumes",
+      "detail": "The 1783 settlement was implemented on the island.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-16",
+      "date": "1794-04-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain invades again",
+      "detail": "War with revolutionary France brought another occupation.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-17",
+      "date": "1795-06-18",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Republican forces retake the island",
+      "detail": "French republican forces and local resistance expelled the British.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-18",
+      "date": "1796-05-25",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain retakes Saint Lucia",
+      "detail": "Abercromby’s expedition captured the island; resistance continued.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-19",
+      "date": "1802-09-29",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The Peace of Amiens is implemented",
+      "detail": "French government returned for less than a year.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-20",
+      "date": "1803-06-22",
+      "precision": "day",
+      "kind": "capture",
+      "title": "The last British conquest",
+      "detail": "Renewed war brought the island under British administration again.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-21",
+      "date": "1814-05-30",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "France cedes Saint Lucia permanently",
+      "detail": "The Treaty of Paris confirmed British sovereignty.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-22",
+      "date": "1967-03-01",
+      "precision": "day",
+      "kind": "status",
+      "title": "Associated statehood",
+      "detail": "Internal self-government expanded, while Britain retained external responsibilities.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-lucia"
+      ]
+    },
+    {
+      "id": "saint-lucia-23",
+      "date": "1979-02-22",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Saint Lucia becomes independent",
+      "detail": "The island became a sovereign state after more than a century and a half of British rule.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-lucia"
+      ]
+    }
+  ]
+}

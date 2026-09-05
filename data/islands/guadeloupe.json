@@ -1,0 +1,214 @@
+{
+  "id": "guadeloupe",
+  "name": "Guadeloupe",
+  "place": "Guadeloupe",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -61.6,
+    16.2
+  ],
+  "peoples": "Kalinago communities and earlier Indigenous societies",
+  "summary": "So valuable that Britain traded it back—and later assigned its title to Sweden.",
+  "notes": "Basse-Terre and Grande-Terre form the principal track. In 1794 republican reconquest unfolded over months. Sweden received a title in 1813, but Britain continued to administer the colony.",
+  "sources": [
+    "guadeloupe-loc",
+    "guadeloupe-occupations",
+    "ws-guadeloupe"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "guadeloupe-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A Spanish claim to Karukera",
+      "detail": "Columbus’s second voyage reached an island inhabited by Kalinago communities.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "guadeloupe-loc"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "guadeloupe-02",
+      "date": "1635-06-28",
+      "precision": "day",
+      "kind": "settlement",
+      "title": "French colonization begins",
+      "detail": "A chartered company expedition established a colony; warfare and dispossession followed.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-guadeloupe"
+      ]
+    },
+    {
+      "id": "guadeloupe-03",
+      "date": "1759-04",
+      "precision": "month",
+      "kind": "capture",
+      "title": "Britain captures Guadeloupe",
+      "detail": "The Seven Years’ War brought British occupation of the sugar colony.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-guadeloupe",
+        "guadeloupe-loc"
+      ]
+    },
+    {
+      "id": "guadeloupe-04",
+      "date": "1763-07-04",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Returned under the Treaty of Paris",
+      "detail": "France recovered Guadeloupe as part of the global peace settlement.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-guadeloupe",
+        "paris1763"
+      ]
+    },
+    {
+      "id": "guadeloupe-05",
+      "date": "1794-04",
+      "precision": "month",
+      "kind": "capture",
+      "title": "British invasion",
+      "detail": "British forces occupied the colony during war with revolutionary France.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "guadeloupe-loc",
+        "ws-guadeloupe"
+      ]
+    },
+    {
+      "id": "guadeloupe-06",
+      "date": "1794-12",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "Republican forces expel Britain",
+      "detail": "Victor Hugues’s campaign, supported by newly freed Black soldiers, completed the reconquest.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "guadeloupe-loc",
+        "guadeloupe-occupations"
+      ],
+      "uncertainty": "French reconquest began in June; December marks the end of British occupation rather than Hugues’s arrival."
+    },
+    {
+      "id": "guadeloupe-07",
+      "date": "1802",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "Resistance to restored slavery",
+      "detail": "French troops crushed resistance to the reimposition of slavery. Sovereignty did not change.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "guadeloupe-loc"
+      ]
+    },
+    {
+      "id": "guadeloupe-08",
+      "date": "1810-02-06",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain takes the colony again",
+      "detail": "The Napoleonic Wars brought renewed British occupation.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-guadeloupe"
+      ]
+    },
+    {
+      "id": "guadeloupe-09",
+      "date": "1813-03-03",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "A Swedish title, British administration",
+      "detail": "Britain granted Guadeloupe to the Swedish crown as part of an anti-Napoleonic alliance; Sweden never administered it.",
+      "controller": null,
+      "sovereign": "sweden",
+      "sources": [
+        "guadeloupe-loc",
+        "guadeloupe-occupations"
+      ]
+    },
+    {
+      "id": "guadeloupe-10",
+      "date": "1814-05-30",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Swedish title relinquished",
+      "detail": "The Treaty of Paris restored French sovereignty; British administration continued until handover.",
+      "controller": null,
+      "sovereign": "france",
+      "sources": [
+        "guadeloupe-occupations"
+      ]
+    },
+    {
+      "id": "guadeloupe-11",
+      "date": "1814-12-07",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French administration resumes",
+      "detail": "The treaty was implemented on the island.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-guadeloupe"
+      ]
+    },
+    {
+      "id": "guadeloupe-12",
+      "date": "1815-08-10",
+      "precision": "day",
+      "kind": "capture",
+      "title": "One last British occupation",
+      "detail": "Napoleon’s Hundred Days triggered a final British expedition.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-guadeloupe",
+        "guadeloupe-occupations"
+      ]
+    },
+    {
+      "id": "guadeloupe-13",
+      "date": "1816-07",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "The final handover to France",
+      "detail": "British occupation ended in July.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "guadeloupe-occupations"
+      ],
+      "uncertainty": "Published accounts disagree on the precise July handover day."
+    },
+    {
+      "id": "guadeloupe-14",
+      "date": "1946-03-19",
+      "precision": "day",
+      "kind": "status",
+      "title": "An overseas department",
+      "detail": "Guadeloupe became a department of France; it did not become independent.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-guadeloupe"
+      ]
+    }
+  ]
+}

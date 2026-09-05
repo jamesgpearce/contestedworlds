@@ -1,0 +1,257 @@
+{
+  "id": "saint-kitts",
+  "name": "Saint Kitts",
+  "place": "Saint Kitts and Nevis",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -62.77,
+    17.32
+  ],
+  "peoples": "Kalinago communities",
+  "summary": "An island divided between English and French colonists before repeated conquests.",
+  "notes": "The shared lane means separately administered English and French zones, not a peaceful condominium. The Knights of Malta administered only the French zone in 1651–1666; this is an annotation to the shared track.",
+  "sources": [
+    "ws-kitts",
+    "regional"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "saint-kitts-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims the island",
+      "detail": "Columbus sighted the island; no Spanish colony followed.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-kitts"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "saint-kitts-02",
+      "date": "1623",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "English settlement established",
+      "detail": "Thomas Warner’s colonists established an English foothold.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-03",
+      "date": "1625",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French colonists join the English",
+      "detail": "French and English colonies developed in different parts of the island.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-04",
+      "date": "1626",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "Kalinago people massacred",
+      "detail": "English and French colonists attacked Kalinago inhabitants, violently consolidating their footholds.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "regional"
+      ]
+    },
+    {
+      "id": "saint-kitts-05",
+      "date": "1629-09",
+      "precision": "month",
+      "kind": "capture",
+      "title": "A Spanish expedition takes the colonies",
+      "detail": "Spain expelled or dispersed English and French colonists.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-06",
+      "date": "1630",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "English and French settlement resumes",
+      "detail": "The divided colonial arrangement was restored after Spanish withdrawal.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-07",
+      "date": "1651",
+      "precision": "year",
+      "kind": "status",
+      "title": "The French zone passes to the Knights",
+      "detail": "The Order of Saint John acquired proprietary administration of the French colony under French sovereignty.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-08",
+      "date": "1666-04-22",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France takes the English zone",
+      "detail": "French forces secured control of the whole colonial island.",
+      "controller": "france",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-09",
+      "date": "1671-07-05",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Partition restored after Breda",
+      "detail": "The 1667 treaty’s restoration of the English zone was implemented in 1671.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-10",
+      "date": "1689-08-15",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France occupies the whole island",
+      "detail": "The Nine Years’ War disrupted the partition again.",
+      "controller": "france",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-11",
+      "date": "1690-07-16",
+      "precision": "day",
+      "kind": "capture",
+      "title": "English forces conquer both zones",
+      "detail": "An English expedition displaced French control.",
+      "controller": "britain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-12",
+      "date": "1699-01-13",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The French zone restored",
+      "detail": "The Treaty of Ryswick’s terms were implemented.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-13",
+      "date": "1702-07-16",
+      "precision": "day",
+      "kind": "capture",
+      "title": "England takes the French colony",
+      "detail": "The War of the Spanish Succession brought another conquest.",
+      "controller": "britain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-14",
+      "date": "1706",
+      "precision": "year",
+      "kind": "context",
+      "title": "French troops raid Saint Kitts",
+      "detail": "A brief invasion pillaged the island without a lasting new administration.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-15",
+      "date": "1713-04-11",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Utrecht ends the partition",
+      "detail": "France ceded its part to Britain.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-16",
+      "date": "1782-02-12",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Brimstone Hill falls",
+      "detail": "French forces captured Saint Kitts in the American Revolutionary War.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-17",
+      "date": "1783-09-03",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The peace returns the island",
+      "detail": "Saint Kitts was restored to Britain.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "saint-kitts-18",
+      "date": "1983-09-19",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Saint Kitts and Nevis independent",
+      "detail": "The federation became sovereign.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-kitts"
+      ]
+    }
+  ]
+}

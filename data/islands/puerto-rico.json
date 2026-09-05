@@ -1,0 +1,103 @@
+{
+  "id": "puerto-rico",
+  "name": "Puerto Rico",
+  "place": "Puerto Rico",
+  "region": "Greater Antilles",
+  "coordinates": [
+    -66.4,
+    18.2
+  ],
+  "peoples": "Taíno communities",
+  "summary": "From Spanish colony to a U.S. territory, without independence.",
+  "notes": "The 1598 English occupation concerned San Juan. Commonwealth status in 1952 established local constitutional government, not sovereignty outside the United States.",
+  "sources": [
+    "ws-pr",
+    "indigenous",
+    "paris1898"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "puerto-rico-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A Spanish claim to Borikén",
+      "detail": "Columbus reached the island on his second voyage.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-pr"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "puerto-rico-02",
+      "date": "1508",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Spanish colonization begins",
+      "detail": "Juan Ponce de León established Caparra; Taíno resistance followed.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-pr"
+      ]
+    },
+    {
+      "id": "puerto-rico-03",
+      "date": "1598",
+      "precision": "year",
+      "kind": "context",
+      "title": "English forces occupy San Juan",
+      "detail": "The Earl of Cumberland captured the capital but disease forced withdrawal. The whole island did not change hands.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-pr"
+      ]
+    },
+    {
+      "id": "puerto-rico-04",
+      "date": "1898-10-18",
+      "precision": "day",
+      "kind": "capture",
+      "title": "U.S. administration takes over",
+      "detail": "Spanish forces evacuated and U.S. military government began after the Spanish–American War.",
+      "controller": "usa",
+      "sovereign": "spain",
+      "sources": [
+        "ws-pr"
+      ]
+    },
+    {
+      "id": "puerto-rico-05",
+      "date": "1899-04-11",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Cession to the United States takes effect",
+      "detail": "Ratifications of the December 1898 Treaty of Paris were exchanged, transferring sovereignty.",
+      "controller": null,
+      "sovereign": "usa",
+      "sources": [
+        "paris1898",
+        "ws-pr"
+      ]
+    },
+    {
+      "id": "puerto-rico-06",
+      "date": "1952-07-25",
+      "precision": "day",
+      "kind": "status",
+      "title": "Commonwealth constitution",
+      "detail": "Puerto Rico’s constitution took effect while the island remained a U.S. territory.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-pr"
+      ]
+    }
+  ]
+}

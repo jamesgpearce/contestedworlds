@@ -1,0 +1,103 @@
+{
+  "id": "barbados",
+  "name": "Barbados",
+  "place": "Barbados",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -59.55,
+    13.2
+  ],
+  "peoples": "Earlier Indigenous communities; no established settlement at English arrival",
+  "summary": "A remarkably steady line through a turbulent region.",
+  "notes": "Earlier Indigenous occupation is well established, but its chronology and population at European contact should not be flattened into a continuous Kalinago state. Barbados became a republic in 2021, fifty-five years after independence.",
+  "sources": [
+    "ws-barbados",
+    "regional"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "barbados-01",
+      "date": "1500",
+      "precision": "circa",
+      "kind": "context",
+      "title": "Early European encounters",
+      "detail": "Portuguese and Spanish voyages are associated with early sightings; neither established durable colonial government.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-barbados"
+      ],
+      "uncertainty": "Dates and attributions vary. No invented Spanish ownership interval is assigned."
+    },
+    {
+      "id": "barbados-02",
+      "date": "1625",
+      "precision": "year",
+      "kind": "claim",
+      "title": "An English claim",
+      "detail": "John Powell claimed Barbados before permanent settlement.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-barbados"
+      ],
+      "claimant": "britain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "barbados-03",
+      "date": "1627-02-17",
+      "precision": "day",
+      "kind": "settlement",
+      "title": "English colony established",
+      "detail": "Settlers arrived under a proprietary venture; plantation slavery transformed the island.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-barbados",
+        "regional"
+      ]
+    },
+    {
+      "id": "barbados-04",
+      "date": "1652",
+      "precision": "year",
+      "kind": "status",
+      "title": "Parliamentary authority imposed",
+      "detail": "An English fleet ended royalist resistance; this changed the regime, not the imperial power.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-barbados"
+      ]
+    },
+    {
+      "id": "barbados-05",
+      "date": "1966-11-30",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Barbados becomes independent",
+      "detail": "The former colony became a sovereign state.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-barbados"
+      ]
+    },
+    {
+      "id": "barbados-06",
+      "date": "2021-11-30",
+      "precision": "day",
+      "kind": "status",
+      "title": "A republic within the Commonwealth",
+      "detail": "A president replaced the monarch as head of state; independence dated from 1966.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-barbados"
+      ]
+    }
+  ]
+}

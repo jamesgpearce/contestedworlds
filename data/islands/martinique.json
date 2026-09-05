@@ -1,0 +1,155 @@
+{
+  "id": "martinique",
+  "name": "Martinique",
+  "place": "Martinique",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -61,
+    14.6
+  ],
+  "peoples": "Kalinago communities and earlier Indigenous societies",
+  "summary": "Three British occupations punctuate a long French colonial history.",
+  "notes": "The chart tracks external administration, not changes between French regimes. Departmental status in 1946 and the later territorial collectivity are internal French constitutional changes.",
+  "sources": [
+    "martinique-defense",
+    "martinique-snl"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "martinique-01",
+      "date": "1502",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A recorded European encounter",
+      "detail": "Columbus reached Martinique; Spain did not establish a colony.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "martinique-snl"
+      ],
+      "claimant": "spain",
+      "uncertainty": "Sources disagree about early sightings; 1502 is a conventional encounter date."
+    },
+    {
+      "id": "martinique-02",
+      "date": "1635",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French settlement at Saint-Pierre",
+      "detail": "D’Esnambuc’s colonists established a foothold and expanded at Indigenous expense.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "martinique-defense"
+      ]
+    },
+    {
+      "id": "martinique-03",
+      "date": "1658",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "Kalinago dispossession",
+      "detail": "French colonial expansion drove remaining Kalinago communities from much of the island.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "martinique-snl"
+      ]
+    },
+    {
+      "id": "martinique-04",
+      "date": "1762",
+      "precision": "year",
+      "kind": "capture",
+      "title": "The first British occupation",
+      "detail": "Britain captured the island in the Seven Years’ War.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "martinique-defense"
+      ]
+    },
+    {
+      "id": "martinique-05",
+      "date": "1763",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "The Treaty of Paris restores France",
+      "detail": "Britain returned Martinique under the peace settlement.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "martinique-defense",
+        "paris1763"
+      ]
+    },
+    {
+      "id": "martinique-06",
+      "date": "1794",
+      "precision": "year",
+      "kind": "capture",
+      "title": "Britain returns",
+      "detail": "British forces took Martinique during the French Revolutionary Wars.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "martinique-defense"
+      ]
+    },
+    {
+      "id": "martinique-07",
+      "date": "1802",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "Amiens restores French administration",
+      "detail": "The peace briefly ended the British occupation.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "martinique-defense"
+      ]
+    },
+    {
+      "id": "martinique-08",
+      "date": "1809",
+      "precision": "year",
+      "kind": "capture",
+      "title": "A third British occupation",
+      "detail": "British forces captured the colony in the Napoleonic Wars.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "martinique-snl"
+      ]
+    },
+    {
+      "id": "martinique-09",
+      "date": "1814",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "French administration restored",
+      "detail": "The Treaty of Paris returned the island to France.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "martinique-defense",
+        "martinique-snl"
+      ]
+    },
+    {
+      "id": "martinique-10",
+      "date": "1946-03-19",
+      "precision": "day",
+      "kind": "status",
+      "title": "An overseas department",
+      "detail": "Martinique became a department of the French Republic.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "martinique-snl"
+      ]
+    }
+  ]
+}

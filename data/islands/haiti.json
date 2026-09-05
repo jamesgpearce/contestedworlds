@@ -1,0 +1,190 @@
+{
+  "id": "haiti",
+  "name": "Haiti",
+  "place": "Haiti",
+  "region": "Greater Antilles",
+  "coordinates": [
+    -72.5,
+    19
+  ],
+  "peoples": "Taíno communities",
+  "summary": "The revolution that broke the plantation empire.",
+  "notes": "The western part of Hispaniola is tracked separately from the east. Spanish and British incursions during the revolution held parts of the territory; they did not replace French rule everywhere. Indigenous communities and descendants survived conquest.",
+  "sources": [
+    "haiti-revolution",
+    "haiti-occupation",
+    "indigenous"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "haiti-01",
+      "date": "1492",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Hispaniola",
+      "detail": "Columbus asserted a Spanish claim to an inhabited island.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "haiti-revolution",
+        "haiti-occupation",
+        "indigenous",
+        "ws-haiti"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "haiti-02",
+      "date": "1493",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Spanish colonial foothold",
+      "detail": "La Navidad’s destruction was followed by a renewed Spanish colonizing expedition. Rule spread violently and unevenly.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "regional",
+        "ws-haiti"
+      ],
+      "uncertainty": "The western track summarizes the early Hispaniola colony; this is not a date of complete territorial conquest."
+    },
+    {
+      "id": "haiti-03",
+      "date": "1630",
+      "precision": "circa",
+      "kind": "settlement",
+      "title": "A fractured western frontier",
+      "detail": "French and English buccaneers established bases around Tortuga while Spain claimed the island.",
+      "controller": "contested",
+      "sovereign": "spain",
+      "sources": [
+        "haiti-revolution",
+        "ws-haiti"
+      ],
+      "uncertainty": "Settlement was gradual; no single handover date."
+    },
+    {
+      "id": "haiti-04",
+      "date": "1665",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French colonial administration",
+      "detail": "France brought western settlements into its colonial system.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "haiti-revolution",
+        "ws-haiti"
+      ]
+    },
+    {
+      "id": "haiti-05",
+      "date": "1697-09-20",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Ryswick recognizes the division",
+      "detail": "The peace settlement is conventionally used to mark recognition of French Saint-Domingue in the west.",
+      "controller": null,
+      "sovereign": "france",
+      "sources": [
+        "ws-dr"
+      ],
+      "uncertainty": "Recognition consolidated an existing colonial foothold; the modern border was not drawn in 1697."
+    },
+    {
+      "id": "haiti-06",
+      "date": "1791-08",
+      "precision": "month",
+      "kind": "resistance",
+      "title": "Enslaved people rise in revolution",
+      "detail": "A mass uprising began the struggle that would overthrow slavery and colonial rule.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "haiti-revolution"
+      ]
+    },
+    {
+      "id": "haiti-07",
+      "date": "1793",
+      "precision": "year",
+      "kind": "context",
+      "title": "A war on several fronts",
+      "detail": "Spanish and British forces intervened as revolutionary armies fought for freedom and power.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "haiti-revolution"
+      ]
+    },
+    {
+      "id": "haiti-08",
+      "date": "1801",
+      "precision": "year",
+      "kind": "context",
+      "title": "Toussaint’s autonomous constitution",
+      "detail": "Louverture governed under nominal French sovereignty; autonomy was not yet Haitian independence.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "haiti-revolution"
+      ]
+    },
+    {
+      "id": "haiti-09",
+      "date": "1802",
+      "precision": "year",
+      "kind": "context",
+      "title": "Napoleon sends an expedition",
+      "detail": "France attempted to reassert metropolitan control; resistance defeated the expedition.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "haiti-revolution"
+      ]
+    },
+    {
+      "id": "haiti-10",
+      "date": "1804-01-01",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Haiti declares independence",
+      "detail": "The revolution defeated France and created an independent state founded on the abolition of slavery.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "haiti-revolution"
+      ]
+    },
+    {
+      "id": "haiti-11",
+      "date": "1915-07-28",
+      "precision": "day",
+      "kind": "capture",
+      "title": "U.S. occupation begins",
+      "detail": "U.S. Marines landed after a presidential assassination; military and financial control followed without annexation.",
+      "controller": "usa",
+      "sovereign": "independent",
+      "sources": [
+        "haiti-occupation",
+        "navy-haiti"
+      ]
+    },
+    {
+      "id": "haiti-12",
+      "date": "1934-08-15",
+      "precision": "day",
+      "kind": "withdrawal",
+      "title": "The occupation ends",
+      "detail": "The last U.S. Marines left; foreign financial oversight outlasted military occupation.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "navy-haiti"
+      ]
+    }
+  ]
+}

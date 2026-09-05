@@ -1,0 +1,142 @@
+{
+  "id": "grenada",
+  "name": "Grenada",
+  "place": "Grenada",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -61.7,
+    12.1
+  ],
+  "peoples": "Kalinago communities",
+  "summary": "French settlement, British conquest, French recapture, British restoration.",
+  "notes": "The track represents Grenada and its associated southern Grenadines. Fédon’s rebellion controlled much of the countryside but not the colonial capital; the 1983 invasion did not annex Grenada.",
+  "sources": [
+    "grenada-museum",
+    "ws-grenada",
+    "grenada-gov"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "grenada-01",
+      "date": "1498",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Grenada",
+      "detail": "Columbus sighted the island, without establishing a Spanish colony.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-grenada"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "grenada-02",
+      "date": "1649",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French colonization begins",
+      "detail": "Du Parquet’s expedition established a colony, followed by violent dispossession of Kalinago inhabitants.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "grenada-museum"
+      ],
+      "uncertainty": "The museum explains why older accounts say 1650; this dataset follows 1649."
+    },
+    {
+      "id": "grenada-03",
+      "date": "1762-03-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain captures Grenada",
+      "detail": "The island fell during the Seven Years’ War.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-grenada"
+      ]
+    },
+    {
+      "id": "grenada-04",
+      "date": "1763-02-10",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "France cedes Grenada",
+      "detail": "The Treaty of Paris confirmed British possession.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "paris1763"
+      ]
+    },
+    {
+      "id": "grenada-05",
+      "date": "1779-07-06",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France retakes Grenada",
+      "detail": "D’Estaing’s forces captured the island in the American Revolutionary War.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-grenada"
+      ]
+    },
+    {
+      "id": "grenada-06",
+      "date": "1784-01-06",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Britain returns after the peace",
+      "detail": "The 1783 settlement was implemented with British restoration.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-grenada"
+      ]
+    },
+    {
+      "id": "grenada-07",
+      "date": "1795-03",
+      "precision": "month",
+      "kind": "resistance",
+      "title": "Fédon’s rebellion",
+      "detail": "A major uprising challenged British rule and plantation slavery; it was defeated in 1796.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-grenada"
+      ]
+    },
+    {
+      "id": "grenada-08",
+      "date": "1974-02-07",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Grenada becomes independent",
+      "detail": "Associated statehood was followed by sovereignty.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "grenada-gov"
+      ]
+    },
+    {
+      "id": "grenada-09",
+      "date": "1983-10-25",
+      "precision": "day",
+      "kind": "context",
+      "title": "U.S. and Caribbean forces invade",
+      "detail": "Foreign forces overthrew the military government after the killing of Maurice Bishop; Grenada remained a sovereign state.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-grenada"
+      ]
+    }
+  ]
+}

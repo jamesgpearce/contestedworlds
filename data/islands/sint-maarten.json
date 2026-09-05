@@ -1,0 +1,282 @@
+{
+  "id": "sint-maarten",
+  "name": "Sint Maarten",
+  "place": "Sint Maarten",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -63.05,
+    18.03
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "The Dutch half of an island whose partition repeatedly disappeared.",
+  "notes": "The 1648 division is represented by two tracks, one for each modern jurisdiction. During French military occupations in 1781–1784 and 1795–1801, Dutch civil officials continued working.",
+  "sources": [
+    "ws-maarten",
+    "ws-martin",
+    "dutch-status"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "sint-maarten-01",
+      "date": "1631-08",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "A Dutch salt colony",
+      "detail": "Dutch colonists established a settlement in the south.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-02",
+      "date": "1633-07-01",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Spain takes the settlement",
+      "detail": "A Spanish expedition expelled the Dutch.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-03",
+      "date": "1648-03-23",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "The island is divided",
+      "detail": "The Concordia agreement provided for Dutch and French zones after Spanish withdrawal.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-04",
+      "date": "1672-04",
+      "precision": "month",
+      "kind": "capture",
+      "title": "France occupies both halves",
+      "detail": "War temporarily erased the administrative partition.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-05",
+      "date": "1676-06-15",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Dutch forces take the island",
+      "detail": "A Dutch expedition briefly captured both zones.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-06",
+      "date": "1676-06-30",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France returns",
+      "detail": "French forces again controlled the island.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-07",
+      "date": "1690",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "Colonial administration collapses",
+      "detail": "Evacuation and war left no organized island government.",
+      "controller": "contested",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-08",
+      "date": "1699",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "French government resumes",
+      "detail": "France initially controlled both parts.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-09",
+      "date": "1702",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "Colonists evacuate",
+      "detail": "Both administrations withdrew during renewed war.",
+      "controller": "contested",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-10",
+      "date": "1703-04-10",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Dutch government resumes",
+      "detail": "The Dutch controlled both zones until France returned to the north in 1715.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-11",
+      "date": "1779-02-24",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French occupation of the Dutch half",
+      "detail": "The American Revolutionary War disrupted the division.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-12",
+      "date": "1781-02-05",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain takes the island",
+      "detail": "A British occupation followed the capture of nearby Dutch colonies.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-13",
+      "date": "1781-11-27",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France displaces Britain",
+      "detail": "French forces returned, with Dutch civil officials remaining.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-14",
+      "date": "1784-02-11",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The Dutch zone restored",
+      "detail": "The peace settlement restored the divided administration.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-15",
+      "date": "1795-04-05",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French military control",
+      "detail": "French commissioners arrived; Dutch civil administration continued under French military power.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-16",
+      "date": "1801-03-24",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain occupies both zones",
+      "detail": "War brought a new British occupation.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-17",
+      "date": "1802-12-01",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Dutch government restored",
+      "detail": "The Peace of Amiens restored the prewar arrangement.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-18",
+      "date": "1810-02-14",
+      "precision": "day",
+      "kind": "capture",
+      "title": "British occupation returns",
+      "detail": "British troops held the Dutch zone until 1816.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-19",
+      "date": "1816-02-12",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The Dutch return",
+      "detail": "The final British occupation ended.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-maarten"
+      ]
+    },
+    {
+      "id": "sint-maarten-20",
+      "date": "2010-10-10",
+      "precision": "day",
+      "kind": "status",
+      "title": "A country within the Kingdom",
+      "detail": "Sint Maarten became an autonomous constituent country.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "dutch-status"
+      ]
+    }
+  ]
+}

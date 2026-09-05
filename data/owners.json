@@ -1,0 +1,92 @@
+[
+  {
+    "id": "indigenous",
+    "label": "Indigenous societies",
+    "color": "#748c6b",
+    "description": "Many distinct peoples and polities, never a single Caribbean empire."
+  },
+  {
+    "id": "contested",
+    "label": "Shared / unsettled",
+    "color": "#999384",
+    "description": "Concurrent administrations, disputed rule, or an interval without established colonial government. Read each island’s notes."
+  },
+  {
+    "id": "spain",
+    "label": "Spain",
+    "color": "#b79a35",
+    "description": "Spanish monarchy and its colonial administrations."
+  },
+  {
+    "id": "netherlands",
+    "label": "Netherlands",
+    "color": "#c87843",
+    "description": "Dutch Republic, colonial companies, and the Kingdom of the Netherlands."
+  },
+  {
+    "id": "britain",
+    "label": "England / Britain",
+    "color": "#ab4b48",
+    "description": "England before 1707; Great Britain and then the United Kingdom."
+  },
+  {
+    "id": "france",
+    "label": "France",
+    "color": "#567f9b",
+    "description": "French colonial companies, monarchy, republics and empires."
+  },
+  {
+    "id": "usa",
+    "label": "United States",
+    "color": "#817593",
+    "description": "Military occupations are distinct from sovereignty. Puerto Rico and the U.S. Virgin Islands are U.S. territories."
+  },
+  {
+    "id": "denmark",
+    "label": "Denmark",
+    "color": "#856a8f",
+    "description": "Danish colonial company and crown; Denmark–Norway before 1814."
+  },
+  {
+    "id": "sweden",
+    "label": "Sweden",
+    "color": "#b4a63e",
+    "description": "Swedish crown and colonial company; Guadeloupe was a title without Swedish administration."
+  },
+  {
+    "id": "courland",
+    "label": "Courland",
+    "color": "#7b897a",
+    "description": "The Duchy of Courland and Semigallia, in present-day Latvia."
+  },
+  {
+    "id": "malta",
+    "label": "Knights of Malta",
+    "color": "#977e70",
+    "description": "Proprietary administration by the Order of Saint John under French sovereignty."
+  },
+  {
+    "id": "haiti",
+    "label": "Haiti",
+    "color": "#6f7f9e",
+    "description": "Haitian government of eastern Hispaniola, 1822–1844."
+  },
+  {
+    "id": "colombia",
+    "label": "Gran Colombia",
+    "color": "#a28b4a",
+    "description": "The Republic of Colombia established in 1819, conventionally called Gran Colombia."
+  },
+  {
+    "id": "venezuela",
+    "label": "Venezuela",
+    "color": "#6b8278",
+    "description": "Venezuelan republican government; Margarita is part of today’s Nueva Esparta state."
+  },
+  {
+    "id": "independent",
+    "label": "Independent",
+    "color": "#2c756e",
+    "description": "Sovereign island states. Commonwealth membership or a shared monarch does not imply British ownership."
+  }
+]

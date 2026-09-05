@@ -1,0 +1,219 @@
+{
+  "id": "saba",
+  "name": "Saba",
+  "place": "Saba",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -63.24,
+    17.63
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "Even this small volcanic island was repeatedly pulled into European wars.",
+  "notes": "Saba followed neighbouring Dutch colonies through several military occupations. It is now part of the Netherlands as a special public body.",
+  "sources": [
+    "ws-saba",
+    "dutch-status"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "saba-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A Spanish claim",
+      "detail": "Columbus’s second voyage was associated with the island; no Spanish colony followed.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-saba"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "saba-02",
+      "date": "1640-04",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "Dutch settlement begins",
+      "detail": "Saba became a dependency of Sint Eustatius.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-03",
+      "date": "1665-08-05",
+      "precision": "day",
+      "kind": "capture",
+      "title": "English occupation",
+      "detail": "English forces took the Dutch colony.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-04",
+      "date": "1667-10-07",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The Dutch return",
+      "detail": "The Treaty of Breda restored Dutch possession.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-05",
+      "date": "1672-07-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "English occupation returns",
+      "detail": "Renewed Anglo-Dutch war brought another seizure.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-06",
+      "date": "1681-04",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "Dutch government restored",
+      "detail": "The English occupation ended.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ],
+      "uncertainty": "Some summaries give 1679; this follows the detailed administration chronology."
+    },
+    {
+      "id": "saba-07",
+      "date": "1781-02-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "British forces take Saba",
+      "detail": "The capture of nearby Sint Eustatius was followed by Saba.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-08",
+      "date": "1781-11-25",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French forces displace Britain",
+      "detail": "French troops took the island.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-09",
+      "date": "1784-02-07",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Dutch possession restored",
+      "detail": "The peace settlement returned the colony.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-10",
+      "date": "1795-04",
+      "precision": "month",
+      "kind": "capture",
+      "title": "French military occupation",
+      "detail": "Revolutionary France established military control.",
+      "controller": "france",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-11",
+      "date": "1801-04-21",
+      "precision": "day",
+      "kind": "capture",
+      "title": "British occupation",
+      "detail": "British forces displaced the French.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-12",
+      "date": "1803-01-17",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Dutch administration returns",
+      "detail": "The Treaty of Amiens was implemented.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-13",
+      "date": "1810-02-22",
+      "precision": "day",
+      "kind": "capture",
+      "title": "The last British occupation",
+      "detail": "The Napoleonic Wars brought another occupation.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-14",
+      "date": "1816-02-21",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Saba returned to the Netherlands",
+      "detail": "The postwar settlement was implemented.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-saba"
+      ]
+    },
+    {
+      "id": "saba-15",
+      "date": "2010-10-10",
+      "precision": "day",
+      "kind": "status",
+      "title": "Part of the Caribbean Netherlands",
+      "detail": "Saba became a public body of the Netherlands.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "dutch-status"
+      ]
+    }
+  ]
+}

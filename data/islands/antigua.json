@@ -1,0 +1,114 @@
+{
+  "id": "antigua",
+  "name": "Antigua",
+  "place": "Antigua and Barbuda",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -61.8,
+    17.08
+  ],
+  "peoples": "Earlier Indigenous societies, including Arawakan-speaking communities",
+  "summary": "English settlement, a French wartime interlude, then independence.",
+  "notes": "Antigua and Barbuda have separate tracks because the French invasions of Antigua do not establish a French transfer of Barbuda.",
+  "sources": [
+    "ws-antigua",
+    "regional"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "antigua-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Antigua",
+      "detail": "Columbus named the island without founding a Spanish colony.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-antigua"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "antigua-02",
+      "date": "1632",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "An English colony",
+      "detail": "Settlers from Saint Kitts established the colony.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "antigua-03",
+      "date": "1666-11-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French forces invade",
+      "detail": "The Second Anglo-Dutch War reached Antigua.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "antigua-04",
+      "date": "1666-11-12",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The first French force withdraws",
+      "detail": "The first occupation lasted days.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "antigua-05",
+      "date": "1666-11-30",
+      "precision": "day",
+      "kind": "capture",
+      "title": "A second French occupation",
+      "detail": "French forces returned later in the month.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "antigua-06",
+      "date": "1667-05",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "English authority restored",
+      "detail": "French occupation ended; the Treaty of Breda confirmed restitution.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "antigua-07",
+      "date": "1981-11-01",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Antigua and Barbuda independent",
+      "detail": "The associated state became sovereign.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-antigua"
+      ]
+    }
+  ]
+}

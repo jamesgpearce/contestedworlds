@@ -1,0 +1,103 @@
+{
+  "id": "jamaica",
+  "name": "Jamaica",
+  "place": "Jamaica",
+  "region": "Greater Antilles",
+  "coordinates": [
+    -77.3,
+    18.1
+  ],
+  "peoples": "Taíno communities",
+  "summary": "An English invasion creates a lasting colonial possession.",
+  "notes": "Maroon communities resisted colonial control and secured treaties in 1739–1740. Neither conquest nor treaty meant uniform control of the island.",
+  "sources": [
+    "jamaica-gov",
+    "ws-jamaica",
+    "indigenous"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "jamaica-01",
+      "date": "1494-05-05",
+      "precision": "day",
+      "kind": "claim",
+      "title": "Spain claims Jamaica",
+      "detail": "Columbus landed and claimed the island for the Spanish monarchs.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "jamaica-gov"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "jamaica-02",
+      "date": "1509",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Spanish settlers arrive",
+      "detail": "Juan de Esquivel led the first Spanish colonists.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "jamaica-gov"
+      ],
+      "uncertainty": "Some chronologies use 1510; the Jamaican government dates the settlement to 1509."
+    },
+    {
+      "id": "jamaica-03",
+      "date": "1655",
+      "precision": "year",
+      "kind": "capture",
+      "title": "England invades Jamaica",
+      "detail": "The failed English expedition against Hispaniola turned to Jamaica and took the Spanish colony.",
+      "controller": "britain",
+      "sovereign": "spain",
+      "sources": [
+        "jamaica-gov"
+      ]
+    },
+    {
+      "id": "jamaica-04",
+      "date": "1670-07-18",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Spain recognizes English possession",
+      "detail": "The Treaty of Madrid confirmed England’s hold on Jamaica.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "ws-jamaica"
+      ]
+    },
+    {
+      "id": "jamaica-05",
+      "date": "1739",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "Maroon autonomy recognized",
+      "detail": "Treaties following the First Maroon War recognized communities beyond ordinary plantation control.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "jamaica-gov"
+      ]
+    },
+    {
+      "id": "jamaica-06",
+      "date": "1962-08-06",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Jamaica becomes independent",
+      "detail": "Self-government and the collapse of the West Indies Federation preceded independence.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "jamaica-gov"
+      ]
+    }
+  ]
+}

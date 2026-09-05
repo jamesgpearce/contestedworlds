@@ -1,0 +1,156 @@
+{
+  "id": "cuba",
+  "name": "Cuba",
+  "place": "Cuba",
+  "region": "Greater Antilles",
+  "coordinates": [
+    -79.5,
+    21.7
+  ],
+  "peoples": "Taíno and Guanahatabey communities",
+  "summary": "Spain’s long-held colony, then an independence constrained by U.S. intervention.",
+  "notes": "The British held Havana and western districts in 1762–1763, not all Cuba. Guantánamo Bay’s lease is not an island-wide transfer. The 1959 revolution changed the government, not Cuba’s sovereign independence.",
+  "sources": [
+    "ws-cuba",
+    "cuba-state",
+    "indigenous"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "cuba-01",
+      "date": "1492",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Cuba",
+      "detail": "Columbus’s voyage reached Cuba; colonization followed later.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-cuba"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "cuba-02",
+      "date": "1511",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Spanish conquest begins",
+      "detail": "Diego Velázquez established a colony and launched the conquest of Indigenous communities.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-cuba"
+      ]
+    },
+    {
+      "id": "cuba-03",
+      "date": "1762-08-13",
+      "precision": "day",
+      "kind": "context",
+      "title": "Britain captures Havana",
+      "detail": "British forces occupied Havana and nearby districts during the Seven Years’ War. Most of Cuba remained Spanish.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-cuba"
+      ]
+    },
+    {
+      "id": "cuba-04",
+      "date": "1763-07-08",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Havana returned to Spain",
+      "detail": "The Treaty of Paris exchanged occupied Havana back to Spain; Spain ceded Florida to Britain.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-cuba",
+        "paris1763"
+      ]
+    },
+    {
+      "id": "cuba-05",
+      "date": "1898-12-10",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Spain relinquishes sovereignty",
+      "detail": "The Treaty of Paris ended Spain’s claim to Cuba. Unlike Puerto Rico, Cuba was not ceded to the United States.",
+      "controller": null,
+      "sovereign": "contested",
+      "sources": [
+        "paris1898"
+      ]
+    },
+    {
+      "id": "cuba-06",
+      "date": "1899-01-01",
+      "precision": "day",
+      "kind": "capture",
+      "title": "U.S. military government",
+      "detail": "Spanish colonial authority was replaced by an American military administration.",
+      "controller": "usa",
+      "sovereign": "contested",
+      "sources": [
+        "ws-cuba",
+        "cuba-state"
+      ]
+    },
+    {
+      "id": "cuba-07",
+      "date": "1902-05-20",
+      "precision": "day",
+      "kind": "independence",
+      "title": "The Republic of Cuba takes office",
+      "detail": "Occupation authority ended, but the Platt Amendment constrained independence by reserving a U.S. intervention right.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "cuba-state"
+      ]
+    },
+    {
+      "id": "cuba-08",
+      "date": "1906-09-29",
+      "precision": "day",
+      "kind": "capture",
+      "title": "A second U.S. administration",
+      "detail": "Domestic political crisis led to a U.S. provisional government.",
+      "controller": "usa",
+      "sovereign": "independent",
+      "sources": [
+        "ws-cuba"
+      ]
+    },
+    {
+      "id": "cuba-09",
+      "date": "1909-01-28",
+      "precision": "day",
+      "kind": "withdrawal",
+      "title": "Cuban government restored",
+      "detail": "The provisional administration ended; American troops departed later that year.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-cuba"
+      ]
+    },
+    {
+      "id": "cuba-10",
+      "date": "1934",
+      "precision": "year",
+      "kind": "status",
+      "title": "Platt Amendment restrictions end",
+      "detail": "A new treaty ended the general U.S. right of intervention; the Guantánamo lease continued.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "cuba-state"
+      ]
+    }
+  ]
+}

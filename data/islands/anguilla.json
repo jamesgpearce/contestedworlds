@@ -1,0 +1,127 @@
+{
+  "id": "anguilla",
+  "name": "Anguilla",
+  "place": "Anguilla",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -63.05,
+    18.22
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "An island that rebelled against a federation—and sought a British connection.",
+  "notes": "Anguilla’s 1967–1969 separation was locally effective but internationally unrecognized. It belongs on the contested/local-government lane, not among recognized sovereign states. French and Spanish raids did not establish enduring colonial governments.",
+  "sources": [
+    "ws-anguilla",
+    "regional"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "anguilla-01",
+      "date": "1627",
+      "precision": "year",
+      "kind": "claim",
+      "title": "The Carlisle patent",
+      "detail": "England granted Anguilla without establishing a colony.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-anguilla"
+      ],
+      "claimant": "britain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "anguilla-02",
+      "date": "1650",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "English settlers arrive",
+      "detail": "Settlers from Saint Kitts established a colony.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-anguilla"
+      ]
+    },
+    {
+      "id": "anguilla-03",
+      "date": "1666",
+      "precision": "year",
+      "kind": "context",
+      "title": "A French raid",
+      "detail": "A French expedition attacked from Saint Martin; no lasting change of government followed.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-anguilla"
+      ]
+    },
+    {
+      "id": "anguilla-04",
+      "date": "1967-02-27",
+      "precision": "day",
+      "kind": "status",
+      "title": "Part of an associated state",
+      "detail": "Saint Christopher-Nevis-Anguilla gained internal autonomy under Britain.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-anguilla"
+      ]
+    },
+    {
+      "id": "anguilla-05",
+      "date": "1967-05-30",
+      "precision": "day",
+      "kind": "context-change",
+      "title": "Anguilla breaks with Saint Kitts",
+      "detail": "Islanders expelled the federation’s police and established local control.",
+      "controller": "contested",
+      "sovereign": "britain",
+      "sources": [
+        "ws-anguilla"
+      ]
+    },
+    {
+      "id": "anguilla-06",
+      "date": "1967-07-12",
+      "precision": "day",
+      "kind": "context",
+      "title": "Unrecognized independence proclaimed",
+      "detail": "The declaration sought separation from Saint Kitts; Britain did not recognize an independent state.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-anguilla"
+      ]
+    },
+    {
+      "id": "anguilla-07",
+      "date": "1969-03-19",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "British direct administration returns",
+      "detail": "British forces landed and restored administration under emergency powers.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-anguilla"
+      ]
+    },
+    {
+      "id": "anguilla-08",
+      "date": "1980-12-19",
+      "precision": "day",
+      "kind": "status",
+      "title": "A separate British dependency",
+      "detail": "Formal separation from Saint Kitts-Nevis confirmed Anguilla’s chosen British connection.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-anguilla"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "id": "saint-barts",
+  "name": "Saint Barthélemy",
+  "place": "Saint Barthélemy",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -62.83,
+    17.9
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "A French island, a Swedish free port, and a French island again.",
+  "notes": "The 1784 treaty preceded Sweden’s 1785 takeover. The Order of Saint John held proprietary rights under French sovereignty. Some early British-occupation stories conflict with specialist archival accounts; no unsupported 1758–1764 interval is drawn.",
+  "sources": [
+    "barts-museum",
+    "barts-sweden",
+    "ws-barts"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "saint-barts-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims the island",
+      "detail": "Columbus named the island after his brother’s patron saint.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-barts"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "saint-barts-02",
+      "date": "1648",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French settlement begins",
+      "detail": "De Poincy sent colonists from Saint Kitts.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "barts-museum"
+      ]
+    },
+    {
+      "id": "saint-barts-03",
+      "date": "1651-05-24",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "The Knights acquire proprietary rights",
+      "detail": "The French company sold the administration to the Order of Saint John.",
+      "controller": "malta",
+      "sovereign": "france",
+      "sources": [
+        "barts-museum",
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-04",
+      "date": "1656",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "Settlement abandoned after an attack",
+      "detail": "An Indigenous attack ended the first colonial settlement.",
+      "controller": "contested",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-05",
+      "date": "1659",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Colonists return",
+      "detail": "Settlement resumed while the Order held proprietary rights.",
+      "controller": "malta",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-06",
+      "date": "1666-01-04",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French company administration resumes",
+      "detail": "The sale of the Order’s rights was implemented.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-07",
+      "date": "1690-01-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "English forces occupy the island",
+      "detail": "An English expedition removed French settlers.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-08",
+      "date": "1690-01-26",
+      "precision": "day",
+      "kind": "withdrawal",
+      "title": "The settlement is abandoned",
+      "detail": "The brief occupation was followed by evacuation.",
+      "controller": "contested",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-09",
+      "date": "1698",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French settlement renewed",
+      "detail": "Colonial settlement resumed after the interruption.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-10",
+      "date": "1781-03-17",
+      "precision": "day",
+      "kind": "capture",
+      "title": "British occupation",
+      "detail": "The American Revolutionary War reached Saint Barthélemy.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-11",
+      "date": "1781-11-26",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French administration returns",
+      "detail": "French forces displaced the British occupation.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-12",
+      "date": "1784-07-01",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "France cedes the island to Sweden",
+      "detail": "A treaty exchanged the island for commercial privileges in Gothenburg.",
+      "controller": null,
+      "sovereign": "sweden",
+      "sources": [
+        "barts-sweden",
+        "barts-treaty"
+      ]
+    },
+    {
+      "id": "saint-barts-13",
+      "date": "1785-03-07",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Sweden takes possession",
+      "detail": "The first Swedish governor received the island from the French commandant.",
+      "controller": "sweden",
+      "sovereign": "sweden",
+      "sources": [
+        "barts-sweden"
+      ]
+    },
+    {
+      "id": "saint-barts-14",
+      "date": "1801-03-21",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain occupies the Swedish colony",
+      "detail": "The anti-Danish and anti-neutrality campaigns reached the island.",
+      "controller": "britain",
+      "sovereign": "sweden",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-15",
+      "date": "1802-07-10",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Swedish administration returns",
+      "detail": "British occupation ended.",
+      "controller": "sweden",
+      "sovereign": "sweden",
+      "sources": [
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-16",
+      "date": "1878-03-16",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "France buys the island back",
+      "detail": "An 1877 treaty and local vote preceded the formal handover to France.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "barts-treaty",
+        "ws-barts"
+      ]
+    },
+    {
+      "id": "saint-barts-17",
+      "date": "2007-07-09",
+      "precision": "day",
+      "kind": "status",
+      "title": "A separate French collectivity",
+      "detail": "The island separated administratively from Guadeloupe within France.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-barts"
+      ]
+    }
+  ]
+}

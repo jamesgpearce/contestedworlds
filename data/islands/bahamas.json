@@ -1,0 +1,143 @@
+{
+  "id": "bahamas",
+  "name": "The Bahamas",
+  "place": "The Bahamas",
+  "region": "Lucayan Archipelago",
+  "coordinates": [
+    -76.1,
+    24.2
+  ],
+  "peoples": "Lucayan Taíno communities",
+  "summary": "From a depopulated archipelago to pirate havens, crown colony and independence.",
+  "notes": "Nassau’s pirate ascendancy and brief U.S. raids did not constitute sovereignty over every Bahamian island. The contested interval records the collapse of colonial administration around Nassau.",
+  "sources": [
+    "ws-bahamas",
+    "regional",
+    "indigenous"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "bahamas-01",
+      "date": "1492-10-12",
+      "precision": "day",
+      "kind": "claim",
+      "title": "Columbus lands in the Bahamas",
+      "detail": "The Spanish claim began at Guanahaní, conventionally identified as San Salvador.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-bahamas"
+      ],
+      "claimant": "spain",
+      "uncertainty": "The precise modern identification of Guanahaní remains debated."
+    },
+    {
+      "id": "bahamas-02",
+      "date": "1520",
+      "precision": "circa",
+      "kind": "withdrawal",
+      "title": "Enslavement devastates the Lucayans",
+      "detail": "Spanish slaving expeditions removed the Indigenous population; no lasting Spanish colony followed.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "regional"
+      ],
+      "uncertainty": "An approximate marker for a gradual process, not a dated island-wide handover."
+    },
+    {
+      "id": "bahamas-03",
+      "date": "1648",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "The Eleutheran Adventurers",
+      "detail": "English settlers from Bermuda established a colony on Eleuthera.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "regional"
+      ],
+      "uncertainty": "Some histories use 1647 or 1649; 1648 is the conventional settlement date."
+    },
+    {
+      "id": "bahamas-04",
+      "date": "1706",
+      "precision": "year",
+      "kind": "context-change",
+      "title": "Nassau becomes a pirate haven",
+      "detail": "Attacks and administrative collapse left Nassau dominated by pirates, while Britain retained its claim.",
+      "controller": "contested",
+      "sovereign": "britain",
+      "sources": [
+        "ws-bahamas"
+      ]
+    },
+    {
+      "id": "bahamas-05",
+      "date": "1718-07-26",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Royal government reasserted",
+      "detail": "Woodes Rogers arrived to establish effective crown government.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-bahamas"
+      ]
+    },
+    {
+      "id": "bahamas-06",
+      "date": "1776-03",
+      "precision": "month",
+      "kind": "context",
+      "title": "American raid on Nassau",
+      "detail": "Continental forces briefly seized forts and military supplies; this was not an archipelago-wide transfer.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-bahamas"
+      ]
+    },
+    {
+      "id": "bahamas-07",
+      "date": "1782-05-08",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Spain takes the Bahamas",
+      "detail": "An expedition from Cuba compelled the British governor to surrender.",
+      "controller": "spain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-bahamas"
+      ]
+    },
+    {
+      "id": "bahamas-08",
+      "date": "1783-04-19",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "British rule returns",
+      "detail": "Loyalist forces retook Nassau; the peace settlement confirmed British possession.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-bahamas"
+      ]
+    },
+    {
+      "id": "bahamas-09",
+      "date": "1973-07-10",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Bahamian independence",
+      "detail": "The Commonwealth of The Bahamas became sovereign.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-bahamas"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "id": "british-virgins",
+  "name": "British Virgin Islands",
+  "place": "British Virgin Islands",
+  "region": "Virgin Islands",
+  "coordinates": [
+    -64.6,
+    18.45
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "A Dutch foothold on Tortola becomes a lasting English possession.",
+  "notes": "The main track follows Tortola. The timing and extent of authority over the other islands differed; a modern archipelago should not be projected intact into the seventeenth century.",
+  "sources": [
+    "bvi-gov",
+    "ws-bvi"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "british-virgins-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A Spanish claim to the Virgin Islands",
+      "detail": "The Spanish expedition named the group; durable Spanish settlement did not follow.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "bvi-gov"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "british-virgins-02",
+      "date": "1612",
+      "precision": "circa",
+      "kind": "settlement",
+      "title": "Informal Dutch settlement",
+      "detail": "Joost van Dyk and other settlers operated on Tortola before a formal colony.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "bvi-gov"
+      ],
+      "uncertainty": "Settlement chronology is approximate and the early communities were politically fluid."
+    },
+    {
+      "id": "british-virgins-03",
+      "date": "1648",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "A Dutch colony on Tortola",
+      "detail": "Dutch settlement acquired a more organized colonial form.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-bvi"
+      ]
+    },
+    {
+      "id": "british-virgins-04",
+      "date": "1665",
+      "precision": "year",
+      "kind": "capture",
+      "title": "English occupation",
+      "detail": "The Second Anglo-Dutch War brought a brief English interruption.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-bvi"
+      ]
+    },
+    {
+      "id": "british-virgins-05",
+      "date": "1666",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "Dutch control resumes",
+      "detail": "The temporary English occupation ended.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-bvi"
+      ]
+    },
+    {
+      "id": "british-virgins-06",
+      "date": "1672",
+      "precision": "year",
+      "kind": "capture",
+      "title": "England takes Tortola",
+      "detail": "The English governor described a conquest; the Dutch later described a protective arrangement and sought restitution.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "bvi-gov"
+      ]
+    },
+    {
+      "id": "british-virgins-07",
+      "date": "1698",
+      "precision": "circa",
+      "kind": "treaty",
+      "title": "The English claim prevails",
+      "detail": "Diplomatic negotiations failed to restore Dutch administration; British possession endured.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "bvi-gov"
+      ],
+      "uncertainty": "There was no single unambiguous cession date. This is a conventional endpoint for the late-century dispute."
+    },
+    {
+      "id": "british-virgins-08",
+      "date": "1960",
+      "precision": "year",
+      "kind": "status",
+      "title": "A separate British colony",
+      "detail": "Administrative separation from the Leeward Islands did not constitute independence.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-bvi"
+      ]
+    }
+  ]
+}

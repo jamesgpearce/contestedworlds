@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/caribbean-atlas/island.schema.json",
+  "title": "Caribbean historical track",
+  "description": "Editable historical facts. The Python compiler additionally checks dates, references, chronology and political-power semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "place", "region", "coordinates", "peoples", "summary", "notes", "sources", "initialController", "initialSovereign", "events"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "place": {"type": "string", "minLength": 1},
+    "region": {"type": "string", "minLength": 1},
+    "coordinates": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+    "peoples": {"type": "string", "minLength": 1},
+    "summary": {"type": "string", "minLength": 1},
+    "notes": {"type": "string", "minLength": 1},
+    "sources": {"$ref": "#/$defs/citations"},
+    "initialController": {"type": "string"},
+    "initialSovereign": {"type": "string"},
+    "events": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/event"}}
+  },
+  "$defs": {
+    "citations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "date", "precision", "kind", "title", "detail", "controller", "sovereign", "sources"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "date": {"type": "string", "pattern": "^[0-9]{4}(-[0-9]{2}){0,2}$"},
+        "precision": {"enum": ["year", "month", "day", "circa"]},
+        "kind": {"enum": ["settlement", "capture", "restoration", "treaty", "independence", "withdrawal", "context-change", "resistance-change", "claim", "context", "resistance", "status"]},
+        "title": {"type": "string", "minLength": 1},
+        "detail": {"type": "string", "minLength": 1},
+        "controller": {"type": ["string", "null"]},
+        "sovereign": {"type": ["string", "null"]},
+        "sources": {"$ref": "#/$defs/citations"},
+        "claimant": {"type": "string"},
+        "uncertainty": {"type": "string", "minLength": 1},
+        "qualification": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

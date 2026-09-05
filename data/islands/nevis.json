@@ -1,0 +1,127 @@
+{
+  "id": "nevis",
+  "name": "Nevis",
+  "place": "Saint Kitts and Nevis",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -62.6,
+    17.15
+  ],
+  "peoples": "Kalinago and earlier Indigenous communities",
+  "summary": "Nevis’s chronology differs from its divided northern neighbour.",
+  "notes": "French raids in 1706 devastated Nevis, but the island did not share Saint Kitts’s long Anglo-French partition. Nevis became independent as part of the federation, not as a separate sovereign state.",
+  "sources": [
+    "ws-kitts",
+    "regional"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "nevis-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Nevis",
+      "detail": "Columbus sighted the island without establishing a Spanish colony.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-kitts"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "nevis-02",
+      "date": "1628-07-22",
+      "precision": "day",
+      "kind": "settlement",
+      "title": "English colonists settle Nevis",
+      "detail": "An English colony grew separately from Saint Kitts.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "nevis-03",
+      "date": "1629",
+      "precision": "year",
+      "kind": "capture",
+      "title": "Spanish expedition",
+      "detail": "Spain temporarily displaced the new colony.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "nevis-04",
+      "date": "1630",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "English settlement resumes",
+      "detail": "Colonists returned after the Spanish expedition.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "nevis-05",
+      "date": "1706-03-21",
+      "precision": "day",
+      "kind": "context",
+      "title": "French forces sack Nevis",
+      "detail": "A devastating raid included the capture and removal of enslaved people.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "nevis-06",
+      "date": "1782-02-14",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France occupies Nevis",
+      "detail": "French conquest of the neighbouring islands reached Nevis.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "nevis-07",
+      "date": "1783-09-03",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Nevis restored to Britain",
+      "detail": "The peace settlement ended the French occupation.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-kitts"
+      ]
+    },
+    {
+      "id": "nevis-08",
+      "date": "1983-09-19",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Independence in the federation",
+      "detail": "Nevis joined the sovereign Federation of Saint Kitts and Nevis with local self-government.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-kitts"
+      ]
+    }
+  ]
+}

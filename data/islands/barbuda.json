@@ -1,0 +1,86 @@
+{
+  "id": "barbuda",
+  "name": "Barbuda",
+  "place": "Antigua and Barbuda",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -61.8,
+    17.62
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "A long English lease with a lasting legacy for land and community.",
+  "notes": "The Codrington family were proprietors under the English crown, not a separate empire. Barbuda’s track does not inherit Antigua’s French occupations.",
+  "sources": [
+    "ws-antigua",
+    "regional"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "barbuda-01",
+      "date": "1628",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "English settlement",
+      "detail": "A colony was established before Barbuda became a dependency of Antigua.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "barbuda-02",
+      "date": "1685-01-09",
+      "precision": "day",
+      "kind": "status",
+      "title": "The Codrington lease",
+      "detail": "The crown leased the island to the Codrington family.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "barbuda-03",
+      "date": "1860-08-01",
+      "precision": "day",
+      "kind": "status",
+      "title": "United administratively with Antigua",
+      "detail": "Barbuda was joined to Antigua within the British colonial system.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "barbuda-04",
+      "date": "1870-07-13",
+      "precision": "day",
+      "kind": "status",
+      "title": "The proprietary lease ends",
+      "detail": "The Codrington lease was surrendered to the crown.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-antigua"
+      ]
+    },
+    {
+      "id": "barbuda-05",
+      "date": "1981-11-01",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Independence with Antigua",
+      "detail": "Barbuda became part of the sovereign state of Antigua and Barbuda.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-antigua"
+      ]
+    }
+  ]
+}

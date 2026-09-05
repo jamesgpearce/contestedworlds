@@ -1,0 +1,79 @@
+[
+  {
+    "id": "contact",
+    "start": 1492,
+    "end": 1511,
+    "title": "Encounter & conquest",
+    "description": "European claims preceded coercive colonization. Indigenous Caribbean societies were diverse, and their descendants survive today.",
+    "sources": [
+      "indigenous",
+      "survival",
+      "regional"
+    ]
+  },
+  {
+    "id": "plantations",
+    "start": 1630,
+    "end": 1700,
+    "title": "The plantation frontier",
+    "description": "Sugar, trade and enslaved labour made small islands prizes in European imperial competition. Colonial footholds spread through Indigenous resistance.",
+    "sources": [
+      "regional"
+    ]
+  },
+  {
+    "id": "seven-years",
+    "start": 1756,
+    "end": 1763,
+    "title": "Seven Years’ War",
+    "description": "The war’s Caribbean conquests were rearranged at Paris: France recovered its sugar islands while Britain acquired Grenada, Dominica, Saint Vincent and Tobago.",
+    "sources": [
+      "paris1763"
+    ]
+  },
+  {
+    "id": "american-war",
+    "start": 1778,
+    "end": 1783,
+    "title": "War beyond America",
+    "description": "The American Revolutionary War became an Atlantic conflict. France, Spain and the Netherlands fought Britain across the Caribbean.",
+    "sources": [
+      "regional",
+      "ws-grenada",
+      "ws-bahamas"
+    ]
+  },
+  {
+    "id": "revolution",
+    "start": 1791,
+    "end": 1804,
+    "title": "Revolution & emancipation",
+    "description": "The Haitian Revolution overthrew slavery and colonial rule. European war and the struggle for emancipation reshaped neighbouring islands.",
+    "sources": [
+      "haiti-revolution"
+    ]
+  },
+  {
+    "id": "napoleon",
+    "start": 1803,
+    "end": 1815,
+    "title": "Napoleonic Wars",
+    "description": "British naval power seized French, Dutch and Danish colonies. Peace treaties often preceded actual handovers by years.",
+    "sources": [
+      "ws-tt",
+      "guadeloupe-occupations",
+      "ws-curacao"
+    ]
+  },
+  {
+    "id": "independence",
+    "start": 1962,
+    "end": 1983,
+    "title": "The independence generation",
+    "description": "Most British island colonies became sovereign states. Several territories retained constitutional connections to European powers and the United States.",
+    "sources": [
+      "regional",
+      "dutch-status"
+    ]
+  }
+]

@@ -1,0 +1,168 @@
+{
+  "id": "aruba",
+  "name": "Aruba",
+  "place": "Aruba",
+  "region": "Southern Caribbean",
+  "coordinates": [
+    -69.97,
+    12.52
+  ],
+  "peoples": "Caquetío communities",
+  "summary": "Spanish rule, Dutch rule and a succession of brief British interruptions.",
+  "notes": "The 1986 status aparte made Aruba a constituent country within the Kingdom, not independent. Miranda’s visits in 1806 are recorded as expeditions rather than sovereign Venezuelan annexations.",
+  "sources": [
+    "ws-aruba",
+    "dutch-status"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "aruba-01",
+      "date": "1499",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Aruba",
+      "detail": "Ojeda’s expedition reached the Caquetío islands.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-aruba"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "aruba-02",
+      "date": "1527",
+      "precision": "circa",
+      "kind": "settlement",
+      "title": "Spanish colonial administration",
+      "detail": "The ABC islands entered Spanish colonial administration after forced Indigenous removals.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-curacao"
+      ],
+      "uncertainty": "Regional administrative date; no single island-wide conquest is implied."
+    },
+    {
+      "id": "aruba-03",
+      "date": "1636-05-10",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Dutch possession begins",
+      "detail": "The Dutch West India Company took Aruba as a dependency of Curaçao.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-aruba"
+      ]
+    },
+    {
+      "id": "aruba-04",
+      "date": "1804-10",
+      "precision": "month",
+      "kind": "capture",
+      "title": "A brief British occupation",
+      "detail": "British forces held Aruba for about a week.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-aruba"
+      ]
+    },
+    {
+      "id": "aruba-05",
+      "date": "1804-10",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "Dutch administration resumes",
+      "detail": "British forces withdrew after an occupation of about a week.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-aruba"
+      ],
+      "uncertainty": "The exact days are unresolved. Arrival and withdrawal are both recorded at month precision; their plotted positions coincide."
+    },
+    {
+      "id": "aruba-06",
+      "date": "1805-02-12",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain occupies Aruba again",
+      "detail": "A second British occupation began.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-aruba"
+      ]
+    },
+    {
+      "id": "aruba-07",
+      "date": "1805-11-20",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The British withdraw",
+      "detail": "Dutch administration returned.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-aruba"
+      ]
+    },
+    {
+      "id": "aruba-08",
+      "date": "1806",
+      "precision": "year",
+      "kind": "context",
+      "title": "Miranda uses Aruba as a base",
+      "detail": "The Venezuelan revolutionary’s expeditions briefly occupied the island; no lasting government followed.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-aruba"
+      ]
+    },
+    {
+      "id": "aruba-09",
+      "date": "1807-01-01",
+      "precision": "day",
+      "kind": "capture",
+      "title": "A longer British occupation",
+      "detail": "The Napoleonic Wars brought another seizure.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-aruba"
+      ]
+    },
+    {
+      "id": "aruba-10",
+      "date": "1816-03-11",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Aruba returned to the Dutch",
+      "detail": "The postwar settlement was implemented on the island.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-aruba"
+      ]
+    },
+    {
+      "id": "aruba-11",
+      "date": "1986-01-01",
+      "precision": "day",
+      "kind": "status",
+      "title": "Status aparte",
+      "detail": "Aruba left the Netherlands Antilles to become a country within the Kingdom.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-aruba"
+      ]
+    }
+  ]
+}

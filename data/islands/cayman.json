@@ -1,0 +1,76 @@
+{
+  "id": "cayman",
+  "name": "Cayman Islands",
+  "place": "Cayman Islands",
+  "region": "Western Caribbean",
+  "coordinates": [
+    -81.25,
+    19.32
+  ],
+  "peoples": "No established permanent precolonial population",
+  "summary": "Claimed by Spain, settled from Jamaica, retained by Britain.",
+  "notes": "The chart does not invent a Taíno state for the Caymans. Archaeological and historical accounts do not establish a permanent population at European contact.",
+  "sources": [
+    "ws-cayman",
+    "regional"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "cayman-01",
+      "date": "1503-05-10",
+      "precision": "day",
+      "kind": "claim",
+      "title": "Columbus sights the sister islands",
+      "detail": "Cayman Brac and Little Cayman were named Las Tortugas; Spain did not settle them.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-cayman"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "cayman-02",
+      "date": "1661",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Early English settlements",
+      "detail": "Settlements on the sister islands preceded Spain’s recognition of English possession.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-cayman"
+      ],
+      "uncertainty": "These settlements were interrupted by raids; durable occupation grew gradually."
+    },
+    {
+      "id": "cayman-03",
+      "date": "1670-07-18",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "English possession recognized",
+      "detail": "The Treaty of Madrid recognized the English Caribbean possessions held with Jamaica.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "ws-cayman"
+      ]
+    },
+    {
+      "id": "cayman-04",
+      "date": "1962-08-06",
+      "precision": "day",
+      "kind": "status",
+      "title": "Cayman remains British",
+      "detail": "As Jamaica became independent, the Caymans remained a British dependency.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-cayman"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,546 @@
+[
+  {
+    "id": "indigenous",
+    "title": "Taíno: Native Heritage and Identity in the Caribbean",
+    "publisher": "Smithsonian Institution",
+    "url": "https://www.si.edu/exhibitions/taino-native-heritage-and-identity-caribbean-event-exhib-6313",
+    "type": "museum",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "survival",
+    "title": "The New Old World: Antilles—Living Beyond the Myth",
+    "publisher": "National Museum of the American Indian",
+    "url": "https://americanindian.si.edu/explore/exhibitions/item?id=567",
+    "type": "museum",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "regional",
+    "title": "Islands of the Commonwealth Caribbean: a regional study (1987)",
+    "publisher": "Library of Congress",
+    "url": "https://tile.loc.gov/storage-services/master/frd/frdcstdy/is/islandsofcommonw00medi/islandsofcommonw00medi.pdf",
+    "type": "research",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-cuba",
+    "title": "Cuba: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Cuba.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-dr",
+    "title": "Dominican Republic: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Dominican_Republic.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-pr",
+    "title": "Puerto Rico: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Puerto_Rico.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-jamaica",
+    "title": "Jamaica: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Jamaica.htm",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-tt",
+    "title": "Trinidad and Tobago: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Trinidad.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-bahamas",
+    "title": "The Bahamas: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Bahamas.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-guadeloupe",
+    "title": "Guadeloupe: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Guadeloupe.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-barbados",
+    "title": "Barbados: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Barbados.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-curacao",
+    "title": "Curaçao: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Curacao.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-lucia",
+    "title": "Saint Lucia: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saint_Lucia.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-grenada",
+    "title": "Grenada: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Grenada.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-aruba",
+    "title": "Aruba: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Aruba.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-vincent",
+    "title": "Saint Vincent and the Grenadines: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saint_Vincent.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-usvi",
+    "title": "U.S. Virgin Islands: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Virgin_Islands.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-antigua",
+    "title": "Antigua and Barbuda: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Antigua_and_Barbuda.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-dominica",
+    "title": "Dominica: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Dominica.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-cayman",
+    "title": "Cayman Islands: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Cayman_Islands.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-kitts",
+    "title": "Saint Kitts and Nevis: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saint_Kitts_and_Nevis.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-tci",
+    "title": "Turks and Caicos Islands: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Turks_Caicos.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-maarten",
+    "title": "Sint Maarten: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saint_Maarten.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-bvi",
+    "title": "British Virgin Islands: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Br_Virgin_Is.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-martin",
+    "title": "Saint-Martin: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saint_Martin.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-anguilla",
+    "title": "Anguilla: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Anguilla.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-barts",
+    "title": "Saint Barthélemy: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saint_Bart.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-montserrat",
+    "title": "Montserrat: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Montserrat.htm",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-statia",
+    "title": "Sint Eustatius: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saint_Eustatius.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-saba",
+    "title": "Saba: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Saba.html",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "haiti-revolution",
+    "title": "The United States and the Haitian Revolution, 1791–1804",
+    "publisher": "U.S. Department of State, Office of the Historian",
+    "url": "https://history.state.gov/milestones/1784-1800/haitian-rev",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "haiti-occupation",
+    "title": "U.S. Invasion and Occupation of Haiti, 1915–34",
+    "publisher": "U.S. Department of State, Office of the Historian",
+    "url": "https://history.state.gov/milestones/1914-1920/haiti",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "navy-haiti",
+    "title": "U.S. Occupation of Haiti, 1915–1934",
+    "publisher": "Naval History and Heritage Command",
+    "url": "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/u/us-occupation-of-haiti-1915-1934.html",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "cuba-state",
+    "title": "Cuba: recognition and diplomatic relations",
+    "publisher": "U.S. Department of State, Office of the Historian",
+    "url": "https://history.state.gov/countries/cuba",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "dr-occupation",
+    "title": "Foreign Relations of the United States, 1918: Dominican Republic",
+    "publisher": "U.S. Department of State, Office of the Historian",
+    "url": "https://history.state.gov/historicaldocuments/frus1918/d402",
+    "type": "primary",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "jamaica-gov",
+    "title": "The History of Jamaica",
+    "publisher": "Jamaica Information Service",
+    "url": "https://jis.gov.jm/information/jamaican-history/",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "tt-trust",
+    "title": "T&T History Timeline",
+    "publisher": "National Trust of Trinidad and Tobago",
+    "url": "https://nationaltrust.tt/about-us/tt-history-timeline/",
+    "type": "heritage",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "tt-nalis",
+    "title": "Significant Sites A–I: San José de Oruña",
+    "publisher": "NALIS",
+    "url": "https://www.nalis.gov.tt/resources/tt-content-guide/significant-sites/significant-sites-a-i/",
+    "type": "library",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "tobago-gov",
+    "title": "Historical Timeline",
+    "publisher": "Tobago Tourism Agency",
+    "url": "https://visittobago.gov.tt/local-culture-people-heritage/history-culture/historical-timeline",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "tobago-study",
+    "title": "History of Tobago",
+    "publisher": "Wikipedia, references to Boomert, Goslinga and Riddell",
+    "url": "https://en.wikipedia.org/wiki/History_of_Tobago",
+    "type": "secondary overview",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "guadeloupe-loc",
+    "title": "Guadeloupe: Francophone Caribbean collections",
+    "publisher": "Library of Congress",
+    "url": "https://guides.loc.gov/francophone-caribbean-collections-library-of-congress/guadeloupe",
+    "type": "library",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "guadeloupe-occupations",
+    "title": "Les occupations anglaises de la Guadeloupe (2016 proceedings)",
+    "publisher": "Société d’histoire de la Guadeloupe / Érudit",
+    "url": "https://www.erudit.org/en/books/hors-collection/les-occupations-anglaises-guadeloupe-978-2-900339-41-1/",
+    "type": "research",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "martinique-defense",
+    "title": "L’histoire du fort Saint-Louis de la Martinique",
+    "publisher": "French Ministry of the Armed Forces / ECPAD",
+    "url": "https://imagesdefense.gouv.fr/fr/l-histoire-du-fort-saint-louis-de-la-martinique.html",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "martinique-snl",
+    "title": "Martinique – historie",
+    "publisher": "Store norske leksikon",
+    "url": "https://snl.no/Martinique_-_historie",
+    "type": "reference",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "lucia-gov",
+    "title": "Brief History of Saint Lucia",
+    "publisher": "Government of Saint Lucia",
+    "url": "https://www.govt.lc/stluciahistory",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "lucia-study",
+    "title": "Bases historiques du développement du patwa à Sainte-Lucie",
+    "publisher": "Études créoles / Persée (1985)",
+    "url": "https://www.persee.fr/doc/ecreo_0708-2398_1985_num_8_1_1143",
+    "type": "research",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "grenada-museum",
+    "title": "European Invasion",
+    "publisher": "Grenada National Museum",
+    "url": "https://museum.gd/european-invasion/",
+    "type": "museum",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "grenada-gov",
+    "title": "About Grenada",
+    "publisher": "Government of Grenada",
+    "url": "https://www.gov.gd/index.php/grenada",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "dutch-status",
+    "title": "Caribbean Parts of the Kingdom",
+    "publisher": "Government of the Netherlands",
+    "url": "https://www.government.nl/themes/government-and-democracy/caribbean-parts-of-the-kingdom",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "bonaire-snl",
+    "title": "Bonaire",
+    "publisher": "Store norske leksikon",
+    "url": "https://snl.no/Bonaire",
+    "type": "reference",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "usvi-nps",
+    "title": "The Harbor of Many Flags",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/places/the-harbor-of-many-flags.htm",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "croix-nps",
+    "title": "Basic Information: Christiansted National Historic Site",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/chri/planyourvisit/basicinfo.htm",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "usvi-archeology",
+    "title": "Making Contact with the Archeological Record",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/articles/contact-period-sites-usvi.htm",
+    "type": "research",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "bvi-gov",
+    "title": "Our History",
+    "publisher": "Government of the Virgin Islands",
+    "url": "https://bvi.gov.vg/content/our-history%26lang%3Den",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "tci-history",
+    "title": "Turks and Caicos History",
+    "publisher": "Visit Turks and Caicos Islands",
+    "url": "https://www.visittci.com/nature-and-history/history",
+    "type": "local reference",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "barts-museum",
+    "title": "Post-Colombian Period",
+    "publisher": "Musées de Saint-Barthélemy",
+    "url": "https://www.museesstbarth.com/en/page/brigantin-epoque3",
+    "type": "museum",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "barts-sweden",
+    "title": "Arvet efter Sankt-Barthélemy",
+    "publisher": "National Library of Sweden",
+    "url": "https://www.kb.se/upptack-samlingarna/samlingsbloggen/blogginlagg/2022-09-08-arvet-efter-sankt-barthelemy.html",
+    "type": "library",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "barts-treaty",
+    "title": "Saint-Barthélemy: referendum and retrocession, 1877–1878",
+    "publisher": "Université de Perpignan, Digithèque MJP",
+    "url": "https://mjp.univ-perp.fr/france/reft1877barth.htm",
+    "type": "primary treaty edition",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "margarita-study",
+    "title": "La Provincia de Margarita en el Pacto de 1810",
+    "publisher": "Tiempo y Espacio / SciELO (2008)",
+    "url": "https://ve.scielo.org/scielo.php?pid=S1315-94962008000200004&script=sci_arttext",
+    "type": "research",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "margarita-origins",
+    "title": "Los Orígenes Históricos de Margarita (1996)",
+    "publisher": "Efraín Subero",
+    "url": "https://eldienteroto.org/wp49/wp-content/uploads/2025/06/Efrain-Subero_Los-Origenes-Historicos-de-Margarita-1996.pdf",
+    "type": "research",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "margarita-governors",
+    "title": "Gobernantes de Margarita (1525–2000)",
+    "publisher": "Ángel Félix Gómez (2001)",
+    "url": "https://bibliotecadigitalne.org/wp-content/uploads/2024/06/Angel-Felix-Gomez_Gobernantes-de-Margarita-1525-2000-2001.pdf",
+    "type": "research",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "venezuela-history",
+    "title": "Historia de Venezuela",
+    "publisher": "Embajada de Venezuela",
+    "url": "https://www.embajadadevenezuela.org/generalidades/historia/",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "paris1763",
+    "title": "Treaty of Paris, 1763",
+    "publisher": "The Avalon Project, Yale Law School",
+    "url": "https://avalon.law.yale.edu/18th_century/paris763.asp",
+    "type": "primary treaty edition",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "paris1898",
+    "title": "Treaty of Peace between the United States and Spain, 1898",
+    "publisher": "The Avalon Project, Yale Law School",
+    "url": "https://avalon.law.yale.edu/19th_century/sp1898.asp",
+    "type": "primary treaty edition",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "ws-haiti",
+    "title": "Haiti: chronology",
+    "publisher": "World Statesmen (Ben Cahoon, ed.)",
+    "url": "https://www.worldstatesmen.org/Haiti.htm",
+    "type": "specialist chronology",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "vi-transfer",
+    "title": "Transfer of the Danish West Indies, 1917",
+    "publisher": "U.S. Department of State, Foreign Relations of the United States",
+    "url": "https://history.state.gov/historicaldocuments/frus1917/d889",
+    "type": "primary",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "vi-timeline",
+    "title": "St. John History Timeline",
+    "publisher": "U.S. National Park Service",
+    "url": "https://www.nps.gov/viis/learn/timeline.htm",
+    "type": "government",
+    "accessed": "2026-09-06"
+  },
+  {
+    "id": "vi-lex",
+    "title": "Dansk Vestindien",
+    "publisher": "Lex, Danish national encyclopedia",
+    "url": "https://lex.dk/Dansk_Vestindien",
+    "type": "reference",
+    "accessed": "2026-09-06"
+  }
+]

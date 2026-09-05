@@ -1,0 +1,127 @@
+{
+  "id": "bonaire",
+  "name": "Bonaire",
+  "place": "Bonaire",
+  "region": "Southern Caribbean",
+  "coordinates": [
+    -68.3,
+    12.2
+  ],
+  "peoples": "Caquetío communities",
+  "summary": "A Spanish outpost, Dutch salt island, and modern Caribbean Netherlands.",
+  "notes": "The early Spanish transition followed slaving raids and forced removals. Bonaire became a public body of the Netherlands in 2010, not an independent country.",
+  "sources": [
+    "bonaire-snl",
+    "dutch-status"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "bonaire-01",
+      "date": "1499",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Bonaire",
+      "detail": "A Spanish expedition reached the Caquetío islands.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "bonaire-snl"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "bonaire-02",
+      "date": "1526",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Spanish settlement and livestock",
+      "detail": "Spanish administration brought livestock and returned some deported Indigenous people.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "bonaire-snl"
+      ]
+    },
+    {
+      "id": "bonaire-03",
+      "date": "1636",
+      "precision": "year",
+      "kind": "capture",
+      "title": "The Dutch take Bonaire",
+      "detail": "The West India Company took the island for its Caribbean network.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "bonaire-snl"
+      ]
+    },
+    {
+      "id": "bonaire-04",
+      "date": "1800",
+      "precision": "year",
+      "kind": "capture",
+      "title": "First British occupation",
+      "detail": "The Napoleonic-era wars displaced Dutch government.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "bonaire-snl"
+      ]
+    },
+    {
+      "id": "bonaire-05",
+      "date": "1803",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "Dutch administration restored",
+      "detail": "The first occupation ended.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "bonaire-snl"
+      ]
+    },
+    {
+      "id": "bonaire-06",
+      "date": "1807",
+      "precision": "year",
+      "kind": "capture",
+      "title": "Britain occupies Bonaire again",
+      "detail": "A second British occupation began.",
+      "controller": "britain",
+      "sovereign": "netherlands",
+      "sources": [
+        "bonaire-snl"
+      ]
+    },
+    {
+      "id": "bonaire-07",
+      "date": "1816",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "Returned to the Netherlands",
+      "detail": "Postwar restitution restored Dutch government.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "bonaire-snl"
+      ]
+    },
+    {
+      "id": "bonaire-08",
+      "date": "2010-10-10",
+      "precision": "day",
+      "kind": "status",
+      "title": "Part of the Caribbean Netherlands",
+      "detail": "Bonaire became a special public body within the Netherlands.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "dutch-status"
+      ]
+    }
+  ]
+}

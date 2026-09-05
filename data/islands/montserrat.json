@@ -1,0 +1,127 @@
+{
+  "id": "montserrat",
+  "name": "Montserrat",
+  "place": "Montserrat",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -62.2,
+    16.75
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "An English colony interrupted by French occupation and local rebellion.",
+  "notes": "The 1667 Treaty of Breda and the restoration of effective English government in 1668 are separate events. The modern island remains a British Overseas Territory.",
+  "sources": [
+    "ws-montserrat",
+    "regional"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "montserrat-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Montserrat",
+      "detail": "Columbus named the island after the Catalan monastery.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-montserrat"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "montserrat-02",
+      "date": "1632",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "An English colony begins",
+      "detail": "Settlers, including Irish colonists, arrived from Saint Kitts.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-montserrat"
+      ]
+    },
+    {
+      "id": "montserrat-03",
+      "date": "1667-02-09",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French occupation",
+      "detail": "French forces took the colony during the Second Anglo-Dutch War.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-montserrat"
+      ]
+    },
+    {
+      "id": "montserrat-04",
+      "date": "1667-07",
+      "precision": "month",
+      "kind": "context-change",
+      "title": "Rebellion after the occupation",
+      "detail": "A local uprising interrupted the transition back to English authority.",
+      "controller": "contested",
+      "sovereign": "britain",
+      "sources": [
+        "ws-montserrat"
+      ]
+    },
+    {
+      "id": "montserrat-05",
+      "date": "1668-02",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "English government re-established",
+      "detail": "The Treaty of Breda’s restitution was followed by effective restoration.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-montserrat"
+      ]
+    },
+    {
+      "id": "montserrat-06",
+      "date": "1782-02-22",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France takes Montserrat again",
+      "detail": "French forces captured the island during the American Revolutionary War.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-montserrat"
+      ]
+    },
+    {
+      "id": "montserrat-07",
+      "date": "1784-01",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "British administration restored",
+      "detail": "The 1783 peace settlement was implemented.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-montserrat"
+      ]
+    },
+    {
+      "id": "montserrat-08",
+      "date": "1956-07-01",
+      "precision": "day",
+      "kind": "status",
+      "title": "Separate colony",
+      "detail": "Montserrat became a separate colony after the Leeward Islands federation ended.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-montserrat"
+      ]
+    }
+  ]
+}

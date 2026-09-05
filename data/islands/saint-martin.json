@@ -1,0 +1,359 @@
+{
+  "id": "saint-martin",
+  "name": "Saint Martin",
+  "place": "Saint Martin",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -63.06,
+    18.09
+  ],
+  "peoples": "Earlier Indigenous communities",
+  "summary": "The French half: a border that survives centuries of interrupted rule.",
+  "notes": "The Spanish, Dutch, French and British administered the whole island at different moments. The modern northern jurisdiction is a French overseas collectivity; it is not independent.",
+  "sources": [
+    "ws-martin",
+    "ws-maarten"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "saint-martin-01",
+      "date": "1629",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French settlement begins",
+      "detail": "Settlers from Saint Kitts established a foothold on the eastern coast.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-02",
+      "date": "1633-07",
+      "precision": "month",
+      "kind": "capture",
+      "title": "Spanish occupation",
+      "detail": "Spain took control of the European settlements.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-03",
+      "date": "1648-03-23",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "A French northern zone",
+      "detail": "The Concordia agreement divided the island after Spain withdrew.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-04",
+      "date": "1651-05-24",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "The Knights acquire administration",
+      "detail": "The Order of Saint John purchased proprietary rights under French sovereignty.",
+      "controller": "malta",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-05",
+      "date": "1666-01-04",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French company administration",
+      "detail": "The sale of the Order’s rights to the French West India Company took effect.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-06",
+      "date": "1676-06-15",
+      "precision": "day",
+      "kind": "capture",
+      "title": "A brief Dutch occupation",
+      "detail": "Dutch forces took the whole island.",
+      "controller": "netherlands",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-07",
+      "date": "1676-06-30",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French forces return",
+      "detail": "French control resumed after two weeks.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-08",
+      "date": "1690",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "Administration interrupted",
+      "detail": "War and evacuation disrupted organized colonial government.",
+      "controller": "contested",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-09",
+      "date": "1699",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "French administration returns",
+      "detail": "French settlement and government resumed.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-10",
+      "date": "1702",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "The French evacuate",
+      "detail": "Colonial administration again withdrew.",
+      "controller": "contested",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-11",
+      "date": "1703-04-10",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Dutch government of the whole island",
+      "detail": "The Dutch governed the vacant French zone.",
+      "controller": "netherlands",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-12",
+      "date": "1715-08",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "The French zone restored",
+      "detail": "French administration resumed as a dependency of Guadeloupe.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-13",
+      "date": "1744",
+      "precision": "year",
+      "kind": "context",
+      "title": "Raids force settlers to flee",
+      "detail": "British privateers attacked the French side; these raids are not plotted as a durable annexation.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-14",
+      "date": "1779-01-05",
+      "precision": "day",
+      "kind": "capture",
+      "title": "British forces occupy the French zone",
+      "detail": "A force from Tortola briefly occupied northern Saint Martin.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-15",
+      "date": "1779-02-25",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "France regains the north",
+      "detail": "The British occupation ended.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-16",
+      "date": "1781-02-04",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain takes the island",
+      "detail": "A British expedition occupied both zones.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-17",
+      "date": "1781-11-27",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French forces retake the island",
+      "detail": "The British occupation ended.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-18",
+      "date": "1793-05-19",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Dutch government in the French zone",
+      "detail": "A Dutch-backed provisional council took control.",
+      "controller": "netherlands",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-19",
+      "date": "1795-04-05",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French republican government returns",
+      "detail": "French forces resumed control.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-20",
+      "date": "1801-03-24",
+      "precision": "day",
+      "kind": "capture",
+      "title": "British occupation",
+      "detail": "British forces took the whole island.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-21",
+      "date": "1802-11-27",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French administration returns",
+      "detail": "The Peace of Amiens restored the northern zone.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-22",
+      "date": "1810-02-14",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Another British occupation",
+      "detail": "The Napoleonic Wars brought British rule again.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-23",
+      "date": "1815-01-24",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "France returns after the peace",
+      "detail": "French administration resumed in the north.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-24",
+      "date": "1815-07",
+      "precision": "month",
+      "kind": "capture",
+      "title": "The Hundred Days brings a final occupation",
+      "detail": "British forces reoccupied the French zone.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-25",
+      "date": "1816-11-22",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "French government restored",
+      "detail": "The final British occupation ended.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-martin"
+      ]
+    },
+    {
+      "id": "saint-martin-26",
+      "date": "2007-07-09",
+      "precision": "day",
+      "kind": "status",
+      "title": "A separate French collectivity",
+      "detail": "Saint Martin separated administratively from Guadeloupe within France.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-martin"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "id": "saint-john",
+  "name": "Saint John",
+  "place": "United States Virgin Islands",
+  "region": "Virgin Islands",
+  "coordinates": [
+    -64.73,
+    18.34
+  ],
+  "peoples": "Earlier Indigenous communities; contact-period settlements",
+  "summary": "The last of the three principal islands to enter Danish colonial government.",
+  "notes": "Informal occupation preceded the formal Danish plantation colony. The 1733 uprising held much of the island and deserves attention even though it did not establish a lasting successor state.",
+  "sources": [
+    "ws-usvi",
+    "usvi-archeology",
+    "croix-nps"
+  ],
+  "initialController": "contested",
+  "initialSovereign": "contested",
+  "events": [
+    {
+      "id": "saint-john-01",
+      "date": "1493",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims the Virgin Islands",
+      "detail": "The expedition named the island group without establishing a lasting Spanish colony.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-usvi"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "saint-john-02",
+      "date": "1718",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Danish colonization formalized",
+      "detail": "Denmark established a plantation colony, expanding from Saint Thomas.",
+      "controller": "denmark",
+      "sovereign": "denmark",
+      "sources": [
+        "croix-nps",
+        "usvi-archeology",
+        "vi-timeline",
+        "vi-lex"
+      ]
+    },
+    {
+      "id": "saint-john-03",
+      "date": "1733",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "Enslaved people seize much of Saint John",
+      "detail": "A major uprising challenged the plantation regime before its suppression in 1734.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "usvi-archeology",
+        "vi-timeline",
+        "vi-lex"
+      ]
+    },
+    {
+      "id": "saint-john-04",
+      "date": "1801",
+      "precision": "year",
+      "kind": "capture",
+      "title": "British occupation",
+      "detail": "War against Denmark brought British forces to the Danish West Indies.",
+      "controller": "britain",
+      "sovereign": "denmark",
+      "sources": [
+        "ws-usvi"
+      ]
+    },
+    {
+      "id": "saint-john-05",
+      "date": "1802",
+      "precision": "year",
+      "kind": "restoration",
+      "title": "Danish administration returns",
+      "detail": "The first British occupation ended.",
+      "controller": "denmark",
+      "sovereign": "denmark",
+      "sources": [
+        "ws-usvi"
+      ]
+    },
+    {
+      "id": "saint-john-06",
+      "date": "1807-12",
+      "precision": "month",
+      "kind": "capture",
+      "title": "Britain occupies the Danish islands again",
+      "detail": "The Napoleonic conflict brought a second occupation.",
+      "controller": "britain",
+      "sovereign": "denmark",
+      "sources": [
+        "ws-usvi"
+      ]
+    },
+    {
+      "id": "saint-john-07",
+      "date": "1815-04",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "The Danish government returns",
+      "detail": "The islands were restored following the European peace settlement.",
+      "controller": "denmark",
+      "sovereign": "denmark",
+      "sources": [
+        "ws-usvi"
+      ]
+    },
+    {
+      "id": "saint-john-08",
+      "date": "1917-03-31",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Denmark sells the islands to the United States",
+      "detail": "The United States paid $25 million in gold; strategic concerns helped drive the purchase.",
+      "controller": "usa",
+      "sovereign": "usa",
+      "sources": [
+        "vi-transfer"
+      ]
+    }
+  ]
+}

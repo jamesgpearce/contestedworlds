@@ -1,0 +1,143 @@
+{
+  "id": "saint-vincent",
+  "name": "Saint Vincent & the Grenadines",
+  "place": "Saint Vincent and the Grenadines",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -61.2,
+    13.2
+  ],
+  "peoples": "Kalinago; later Garifuna communities",
+  "summary": "European treaty-making met an island that fiercely resisted it.",
+  "notes": "British treaty title in 1763 did not mean complete control. Kalinago and Garifuna communities retained territory and fought colonial expansion. The main track represents Saint Vincent; the Grenadines were not politically uniform.",
+  "sources": [
+    "ws-vincent",
+    "regional",
+    "survival"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "saint-vincent-01",
+      "date": "1627",
+      "precision": "year",
+      "kind": "claim",
+      "title": "An English paper claim",
+      "detail": "The Carlisle grant included Saint Vincent without English settlement.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-vincent"
+      ],
+      "claimant": "britain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "saint-vincent-02",
+      "date": "1660",
+      "precision": "year",
+      "kind": "treaty",
+      "title": "An Indigenous island recognized",
+      "detail": "Anglo-French arrangements left Saint Vincent and Dominica to Indigenous peoples.",
+      "controller": null,
+      "sovereign": "indigenous",
+      "sources": [
+        "regional"
+      ]
+    },
+    {
+      "id": "saint-vincent-03",
+      "date": "1719",
+      "precision": "circa",
+      "kind": "settlement",
+      "title": "French settlement amid Indigenous autonomy",
+      "detail": "French colonists lived alongside Kalinago and Garifuna communities; they did not uniformly govern the island.",
+      "controller": "contested",
+      "sovereign": "indigenous",
+      "sources": [
+        "regional"
+      ],
+      "uncertainty": "Settlement was gradual and varied locally; not a clean transfer to France."
+    },
+    {
+      "id": "saint-vincent-04",
+      "date": "1763-02-10",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Britain receives treaty title",
+      "detail": "France and Britain assigned Saint Vincent to Britain without Indigenous consent.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "paris1763"
+      ]
+    },
+    {
+      "id": "saint-vincent-05",
+      "date": "1773",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "A treaty after the First Carib War",
+      "detail": "Britain recognized a division of territory following Indigenous resistance.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-vincent"
+      ]
+    },
+    {
+      "id": "saint-vincent-06",
+      "date": "1779-06-16",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French and Indigenous forces prevail",
+      "detail": "A French expedition allied with local opponents of Britain took the colony.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-vincent"
+      ]
+    },
+    {
+      "id": "saint-vincent-07",
+      "date": "1784-01-01",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "British government restored",
+      "detail": "The 1783 peace settlement returned the colony.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-vincent"
+      ]
+    },
+    {
+      "id": "saint-vincent-08",
+      "date": "1796",
+      "precision": "year",
+      "kind": "resistance",
+      "title": "The Second Carib War ends",
+      "detail": "British victory was followed by the mass deportation of Garifuna people in 1797.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "regional",
+        "ws-vincent"
+      ]
+    },
+    {
+      "id": "saint-vincent-09",
+      "date": "1979-10-27",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Saint Vincent and the Grenadines independent",
+      "detail": "The associated state became sovereign.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-vincent"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "id": "dominican",
+  "name": "Dominican Republic",
+  "place": "Dominican Republic",
+  "region": "Greater Antilles",
+  "coordinates": [
+    -70.4,
+    18.9
+  ],
+  "peoples": "Taíno communities",
+  "summary": "Spain, France, Haiti, independence—and back to Spain.",
+  "notes": "This is eastern Hispaniola. Toussaint Louverture acted in France’s name in 1801, before Haiti existed as an independent state. The 1965–1966 U.S./OAS intervention is an annotation, not an annexation.",
+  "sources": [
+    "ws-dr",
+    "dr-occupation",
+    "indigenous"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "dominican-01",
+      "date": "1492",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Hispaniola",
+      "detail": "Columbus asserted Spanish sovereignty over an inhabited island.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-dr",
+        "dr-occupation",
+        "indigenous"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "dominican-02",
+      "date": "1493",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Spanish colonization begins",
+      "detail": "The renewed expedition established La Isabela; colonial conquest followed.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "regional"
+      ]
+    },
+    {
+      "id": "dominican-03",
+      "date": "1795-07-22",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Spain cedes Santo Domingo",
+      "detail": "The Treaty of Basel awarded the eastern colony to France; Spanish administration continued until 1801.",
+      "controller": null,
+      "sovereign": "france",
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-04",
+      "date": "1801-01-26",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Louverture takes the eastern colony",
+      "detail": "His army ended Spanish administration and abolished slavery in the name of the French Republic.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-05",
+      "date": "1802",
+      "precision": "year",
+      "kind": "context",
+      "title": "Direct French military rule",
+      "detail": "Napoleon’s expedition replaced Louverture’s authority; the eastern colony remained French.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-06",
+      "date": "1809-07-09",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "The Reconquista succeeds",
+      "detail": "Spanish-aligned forces, supported by Britain, ended French rule. Rebellion began in 1808; the capital fell in 1809.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-07",
+      "date": "1821-12-01",
+      "precision": "day",
+      "kind": "independence",
+      "title": "A short-lived independence",
+      "detail": "The former Spanish colony declared independence and sought union with Gran Colombia; union did not take effect.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-08",
+      "date": "1822-02-09",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Boyer unifies Hispaniola",
+      "detail": "Haitian government incorporated the east and abolished slavery there.",
+      "controller": "haiti",
+      "sovereign": "haiti",
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-09",
+      "date": "1844-02-27",
+      "precision": "day",
+      "kind": "independence",
+      "title": "The Dominican Republic emerges",
+      "detail": "A separatist movement declared independence from Haiti.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-10",
+      "date": "1861-03-18",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Santana arranges Spanish annexation",
+      "detail": "President Pedro Santana invited Spain to resume sovereignty.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-11",
+      "date": "1863-08-16",
+      "precision": "day",
+      "kind": "resistance",
+      "title": "The Restoration War begins",
+      "detail": "Dominican resistance fought to end renewed Spanish rule.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-12",
+      "date": "1865",
+      "precision": "year",
+      "kind": "independence",
+      "title": "Independence restored",
+      "detail": "Spain abandoned annexation after the Restoration War.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-dr"
+      ],
+      "uncertainty": "Spain revoked annexation in May; evacuation continued into July. Year precision avoids conflating the two."
+    },
+    {
+      "id": "dominican-13",
+      "date": "1916-11-29",
+      "precision": "day",
+      "kind": "capture",
+      "title": "U.S. military government imposed",
+      "detail": "U.S. landings in May were followed by a formal military government in November.",
+      "controller": "usa",
+      "sovereign": "independent",
+      "sources": [
+        "dr-occupation"
+      ]
+    },
+    {
+      "id": "dominican-14",
+      "date": "1924",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "Dominican government restored",
+      "detail": "The U.S. military administration ended and troops withdrew.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "navy-haiti",
+        "ws-dr"
+      ]
+    },
+    {
+      "id": "dominican-15",
+      "date": "1965",
+      "precision": "year",
+      "kind": "context",
+      "title": "U.S. intervention returns",
+      "detail": "U.S. and later inter-American forces intervened in the civil war; withdrawal was completed in 1966.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-dr"
+      ]
+    }
+  ]
+}

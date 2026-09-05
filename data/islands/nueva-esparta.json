@@ -1,0 +1,156 @@
+{
+  "id": "nueva-esparta",
+  "name": "Nueva Esparta · Margarita",
+  "place": "Nueva Esparta",
+  "region": "Southern Caribbean",
+  "coordinates": [
+    -63.95,
+    10.98
+  ],
+  "peoples": "Guaiquerí communities",
+  "summary": "A Spanish pearl island becomes a stronghold of Venezuelan independence.",
+  "notes": "Margarita is the historical proxy for modern Nueva Esparta, which also includes Coche and Cubagua. These islands are not individually tracked. The 1810–1817 struggle involved overlapping royalist and republican control; the chart explicitly uses a contested interval.",
+  "sources": [
+    "margarita-study",
+    "margarita-origins",
+    "margarita-governors"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "nueva-esparta-01",
+      "date": "1498",
+      "precision": "year",
+      "kind": "claim",
+      "title": "Spain claims Margarita",
+      "detail": "Columbus’s voyage reached the island; pearl extraction drove subsequent colonial interest.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "margarita-origins"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "nueva-esparta-02",
+      "date": "1525",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "A Spanish governorship",
+      "detail": "Margarita was organized as a Spanish provincial governorship.",
+      "controller": "spain",
+      "sovereign": "spain",
+      "sources": [
+        "margarita-governors"
+      ]
+    },
+    {
+      "id": "nueva-esparta-03",
+      "date": "1810-05-04",
+      "precision": "day",
+      "kind": "resistance-change",
+      "title": "Margarita joins the revolutionary movement",
+      "detail": "A local junta joined the independence movement; royalist and republican power repeatedly contested the island.",
+      "controller": "contested",
+      "sovereign": "spain",
+      "sources": [
+        "margarita-study",
+        "margarita-origins"
+      ]
+    },
+    {
+      "id": "nueva-esparta-04",
+      "date": "1811-07-05",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Venezuelan independence declared",
+      "detail": "Margarita was among the provinces declaring independence; war continued.",
+      "controller": null,
+      "sovereign": "contested",
+      "sources": [
+        "venezuela-history",
+        "margarita-study"
+      ]
+    },
+    {
+      "id": "nueva-esparta-05",
+      "date": "1812",
+      "precision": "year",
+      "kind": "context",
+      "title": "Royalist government returns",
+      "detail": "The collapse of the First Republic brought a royalist governor; revolutionary resistance persisted.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "margarita-governors"
+      ]
+    },
+    {
+      "id": "nueva-esparta-06",
+      "date": "1813-06",
+      "precision": "month",
+      "kind": "resistance",
+      "title": "Republicans recover the initiative",
+      "detail": "An uprising freed Arismendi and put revolutionary forces back in command.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "margarita-study"
+      ]
+    },
+    {
+      "id": "nueva-esparta-07",
+      "date": "1815",
+      "precision": "year",
+      "kind": "context",
+      "title": "Morillo’s expedition",
+      "detail": "A Spanish expedition imposed a new royalist presence, followed by renewed resistance.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "margarita-governors"
+      ]
+    },
+    {
+      "id": "nueva-esparta-08",
+      "date": "1817-08-17",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Spanish forces leave Margarita",
+      "detail": "Island resistance defeated Morillo’s final campaign; Spain evacuated.",
+      "controller": "venezuela",
+      "sovereign": "venezuela",
+      "sources": [
+        "margarita-origins"
+      ]
+    },
+    {
+      "id": "nueva-esparta-09",
+      "date": "1819-12-17",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Part of the Republic of Colombia",
+      "detail": "The republican territories were united in the state now called Gran Colombia.",
+      "controller": "colombia",
+      "sovereign": "colombia",
+      "sources": [
+        "venezuela-history"
+      ]
+    },
+    {
+      "id": "nueva-esparta-10",
+      "date": "1830",
+      "precision": "year",
+      "kind": "independence",
+      "title": "Venezuela separates from Gran Colombia",
+      "detail": "Margarita remained with the new Venezuelan republic.",
+      "controller": "venezuela",
+      "sovereign": "venezuela",
+      "sources": [
+        "venezuela-history"
+      ]
+    }
+  ]
+}

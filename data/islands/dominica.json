@@ -1,0 +1,170 @@
+{
+  "id": "dominica",
+  "name": "Dominica",
+  "place": "Dominica",
+  "region": "Lesser Antilles",
+  "coordinates": [
+    -61.37,
+    15.42
+  ],
+  "peoples": "Kalinago communities",
+  "summary": "An Indigenous stronghold gradually drawn into the colonial contest.",
+  "notes": "French settlers arrived before formal administration in 1727. The Kalinago people maintained communities through colonization and remain part of Dominica today.",
+  "sources": [
+    "ws-dominica",
+    "regional",
+    "survival"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "dominica-01",
+      "date": "1493-11-03",
+      "precision": "day",
+      "kind": "claim",
+      "title": "Spain claims Dominica",
+      "detail": "Columbus sighted the island on a Sunday; no Spanish colony followed.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-dominica"
+      ],
+      "claimant": "spain",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "dominica-02",
+      "date": "1635",
+      "precision": "year",
+      "kind": "claim",
+      "title": "A French claim",
+      "detail": "French claims preceded organized settlement and rule.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-dominica"
+      ],
+      "claimant": "france",
+      "qualification": "A European claim; it does not establish island-wide administration or extinguish Indigenous rights."
+    },
+    {
+      "id": "dominica-03",
+      "date": "1660-03-31",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Dominica reserved for the Kalinago",
+      "detail": "An agreement between Indigenous representatives, France and England recognized Indigenous possession.",
+      "controller": null,
+      "sovereign": "indigenous",
+      "sources": [
+        "ws-dominica"
+      ]
+    },
+    {
+      "id": "dominica-04",
+      "date": "1690",
+      "precision": "circa",
+      "kind": "settlement",
+      "title": "French settlement expands",
+      "detail": "French settlers arrived among Kalinago communities.",
+      "controller": "contested",
+      "sovereign": "indigenous",
+      "sources": [
+        "ws-dominica"
+      ],
+      "uncertainty": "An approximate marker for a gradual process, not a dated island-wide handover."
+    },
+    {
+      "id": "dominica-05",
+      "date": "1727",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "French administration established",
+      "detail": "Organized French government followed the earlier settlements.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-dominica"
+      ]
+    },
+    {
+      "id": "dominica-06",
+      "date": "1748-10-18",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Neutrality on paper",
+      "detail": "Britain and France declared neutrality while French settlers remained.",
+      "controller": null,
+      "sovereign": "contested",
+      "sources": [
+        "ws-dominica"
+      ]
+    },
+    {
+      "id": "dominica-07",
+      "date": "1761-06-06",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain captures Dominica",
+      "detail": "A Seven Years’ War expedition took the colony.",
+      "controller": "britain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-dominica"
+      ]
+    },
+    {
+      "id": "dominica-08",
+      "date": "1763-02-10",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "British sovereignty confirmed",
+      "detail": "The Treaty of Paris assigned Dominica to Britain.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "paris1763"
+      ]
+    },
+    {
+      "id": "dominica-09",
+      "date": "1778-09-08",
+      "precision": "day",
+      "kind": "capture",
+      "title": "French forces retake Dominica",
+      "detail": "France captured the island during the American Revolutionary War.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-dominica"
+      ]
+    },
+    {
+      "id": "dominica-10",
+      "date": "1784-01-10",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "British government restored",
+      "detail": "The 1783 peace settlement returned the colony.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-dominica"
+      ]
+    },
+    {
+      "id": "dominica-11",
+      "date": "1978-11-03",
+      "precision": "day",
+      "kind": "independence",
+      "title": "The Commonwealth of Dominica independent",
+      "detail": "The associated state became an independent republic.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-dominica"
+      ]
+    }
+  ]
+}

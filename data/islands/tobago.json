@@ -1,0 +1,497 @@
+{
+  "id": "tobago",
+  "name": "Tobago",
+  "place": "Trinidad and Tobago",
+  "region": "Southern Caribbean",
+  "coordinates": [
+    -60.7,
+    11.2
+  ],
+  "peoples": "Indigenous communities including Kalinago",
+  "summary": "A small island with an extraordinary concentration of rival colonial projects.",
+  "notes": "Early colonies were coastal footholds amid Indigenous resistance. Dutch and Courlander settlements overlapped; repeated evacuation makes a single “number of owners” misleading. The sequence includes established administrations and substantial gaps, with very brief raids annotated.",
+  "sources": [
+    "tobago-gov",
+    "tobago-study",
+    "ws-tt"
+  ],
+  "initialController": "indigenous",
+  "initialSovereign": "indigenous",
+  "events": [
+    {
+      "id": "tobago-01",
+      "date": "1498",
+      "precision": "circa",
+      "kind": "claim",
+      "title": "An uncertain Spanish sighting",
+      "detail": "Tobago is sometimes associated with Columbus’s third voyage.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "ws-tt"
+      ],
+      "claimant": "spain",
+      "uncertainty": "The identification of the island in early voyage accounts is uncertain."
+    },
+    {
+      "id": "tobago-02",
+      "date": "1614-01",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "A short Spanish colony",
+      "detail": "Spain attempted a settlement, abandoned by May.",
+      "controller": "spain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-03",
+      "date": "1614-05",
+      "precision": "month",
+      "kind": "withdrawal",
+      "title": "The Spanish settlement is abandoned",
+      "detail": "An attempted colonial foothold ended.",
+      "controller": "indigenous",
+      "sovereign": "indigenous",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-04",
+      "date": "1628",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Nieuw Walcheren founded",
+      "detail": "Dutch settlers established a colony near present-day Plymouth.",
+      "controller": "netherlands",
+      "sovereign": "contested",
+      "sources": [
+        "tobago-gov",
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-05",
+      "date": "1630",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "The first Dutch settlement lapses",
+      "detail": "Settlement was interrupted before its revival in 1634.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-06",
+      "date": "1634",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Dutch settlement renewed",
+      "detail": "Settlers returned to Nieuw Walcheren.",
+      "controller": "netherlands",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-07",
+      "date": "1637",
+      "precision": "year",
+      "kind": "capture",
+      "title": "Spain destroys the Dutch colony",
+      "detail": "A Spanish attack ended the Dutch foothold; no lasting Spanish government followed.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ],
+      "uncertainty": "Sources variously date the attack to December 1636 or January 1637."
+    },
+    {
+      "id": "tobago-08",
+      "date": "1639",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "An English attempt",
+      "detail": "Warwick’s colonists tried to establish an English settlement.",
+      "controller": "britain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt",
+        "tobago-study"
+      ]
+    },
+    {
+      "id": "tobago-09",
+      "date": "1640",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "English settlement abandoned",
+      "detail": "The small colony failed.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-10",
+      "date": "1642",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "English settlers try again",
+      "detail": "Another short-lived settlement began.",
+      "controller": "britain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-11",
+      "date": "1643",
+      "precision": "year",
+      "kind": "withdrawal",
+      "title": "The colony fails again",
+      "detail": "Colonists abandoned their foothold.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-12",
+      "date": "1654-05",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "New Courland established",
+      "detail": "The Duchy of Courland founded a colony at Great Courland Bay.",
+      "controller": "courland",
+      "sovereign": "contested",
+      "sources": [
+        "tobago-study",
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-13",
+      "date": "1654-09",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "Dutch and Courlander colonies coexist",
+      "detail": "A Dutch settlement made this an island of concurrent colonial projects.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "tobago-study",
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-14",
+      "date": "1659",
+      "precision": "year",
+      "kind": "capture",
+      "title": "The Dutch absorb New Courland",
+      "detail": "The Courlander colony passed into Dutch hands.",
+      "controller": "netherlands",
+      "sovereign": "contested",
+      "sources": [
+        "tobago-gov",
+        "tobago-study"
+      ]
+    },
+    {
+      "id": "tobago-15",
+      "date": "1666-01",
+      "precision": "month",
+      "kind": "capture",
+      "title": "English forces take the colony",
+      "detail": "The Second Anglo-Dutch War reached Tobago.",
+      "controller": "britain",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt",
+        "tobago-study"
+      ]
+    },
+    {
+      "id": "tobago-16",
+      "date": "1666-09",
+      "precision": "month",
+      "kind": "capture",
+      "title": "France dislodges the English",
+      "detail": "French forces took the colonial foothold before withdrawing.",
+      "controller": "france",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ],
+      "uncertainty": "Accounts differ between August and September; month precision follows the specialist chronology."
+    },
+    {
+      "id": "tobago-17",
+      "date": "1667-04",
+      "precision": "month",
+      "kind": "restoration",
+      "title": "Dutch colonists return",
+      "detail": "A renewed Dutch colony followed French withdrawal and the war’s end.",
+      "controller": "netherlands",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-18",
+      "date": "1672-12",
+      "precision": "month",
+      "kind": "capture",
+      "title": "English attack, then evacuation",
+      "detail": "An English raid destroyed the Dutch settlement. No enduring English administration replaced it.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ],
+      "uncertainty": "Often dated 1673 in narrative histories; the source chronology dates it December 1672."
+    },
+    {
+      "id": "tobago-19",
+      "date": "1674-02-19",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Westminster restores Dutch title",
+      "detail": "The peace agreement restored the Dutch claim; resettlement came later.",
+      "controller": null,
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-20",
+      "date": "1676-09",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "Another Dutch colony",
+      "detail": "The Dutch established a fortified settlement.",
+      "controller": "netherlands",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-21",
+      "date": "1677-12",
+      "precision": "month",
+      "kind": "capture",
+      "title": "France destroys the colony",
+      "detail": "D’Estrées’s expedition ended the Dutch settlement.",
+      "controller": "contested",
+      "sovereign": "netherlands",
+      "sources": [
+        "ws-tt",
+        "tobago-study"
+      ]
+    },
+    {
+      "id": "tobago-22",
+      "date": "1678-08-10",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "France acquires a disputed title",
+      "detail": "The Nijmegen settlement awarded Tobago to France, without durable French settlement.",
+      "controller": null,
+      "sovereign": "france",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-23",
+      "date": "1680",
+      "precision": "year",
+      "kind": "settlement",
+      "title": "Courlanders return",
+      "detail": "A renewed colony survived intermittently amid rival claims.",
+      "controller": "courland",
+      "sovereign": "contested",
+      "sources": [
+        "ws-tt"
+      ],
+      "uncertainty": "Settlement was interrupted in 1683–1686 and 1687; shown as an intermittent episode, not continuous island-wide control."
+    },
+    {
+      "id": "tobago-24",
+      "date": "1690",
+      "precision": "circa",
+      "kind": "withdrawal",
+      "title": "Courland’s colonial project ends",
+      "detail": "The last settlements were abandoned while paper claims persisted.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "tobago-study",
+        "ws-tt"
+      ],
+      "uncertainty": "Accounts give 1690 or 1693; the chart uses circa 1690."
+    },
+    {
+      "id": "tobago-25",
+      "date": "1748-10-18",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Tobago declared neutral",
+      "detail": "Britain and France recognized neutrality in the Treaty of Aix-la-Chapelle.",
+      "controller": "contested",
+      "sovereign": "contested",
+      "sources": [
+        "tobago-study",
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-26",
+      "date": "1763-02-10",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "Britain receives Tobago",
+      "detail": "The Treaty of Paris assigned Tobago to Britain.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "paris1763"
+      ]
+    },
+    {
+      "id": "tobago-27",
+      "date": "1763-11",
+      "precision": "month",
+      "kind": "settlement",
+      "title": "Britain takes possession",
+      "detail": "British administration and plantation development followed the treaty.",
+      "controller": "britain",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tt",
+        "tobago-gov"
+      ]
+    },
+    {
+      "id": "tobago-28",
+      "date": "1781-06-02",
+      "precision": "day",
+      "kind": "capture",
+      "title": "France captures Tobago",
+      "detail": "French forces seized the island during the American Revolutionary War.",
+      "controller": "france",
+      "sovereign": "britain",
+      "sources": [
+        "ws-tt",
+        "tobago-study"
+      ]
+    },
+    {
+      "id": "tobago-29",
+      "date": "1783-09-03",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "France keeps Tobago at the peace",
+      "detail": "The peace settlement confirmed the French acquisition.",
+      "controller": null,
+      "sovereign": "france",
+      "sources": [
+        "tobago-study"
+      ]
+    },
+    {
+      "id": "tobago-30",
+      "date": "1793-04-15",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain captures Tobago again",
+      "detail": "War with revolutionary France brought a new invasion.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-tt",
+        "tobago-gov"
+      ]
+    },
+    {
+      "id": "tobago-31",
+      "date": "1802-10-07",
+      "precision": "day",
+      "kind": "restoration",
+      "title": "Amiens restores France",
+      "detail": "The peace settlement was implemented with a French handover.",
+      "controller": "france",
+      "sovereign": "france",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-32",
+      "date": "1803-06-30",
+      "precision": "day",
+      "kind": "capture",
+      "title": "Britain retakes Tobago",
+      "detail": "Renewed war ended the short French restoration.",
+      "controller": "britain",
+      "sovereign": "france",
+      "sources": [
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-33",
+      "date": "1814-05-30",
+      "precision": "day",
+      "kind": "treaty",
+      "title": "British sovereignty confirmed",
+      "detail": "The Treaty of Paris made the British possession permanent.",
+      "controller": null,
+      "sovereign": "britain",
+      "sources": [
+        "tobago-study"
+      ]
+    },
+    {
+      "id": "tobago-34",
+      "date": "1889-01-01",
+      "precision": "day",
+      "kind": "status",
+      "title": "United with Trinidad",
+      "detail": "Tobago was joined to the larger British colony.",
+      "controller": null,
+      "sovereign": null,
+      "sources": [
+        "tobago-gov",
+        "ws-tt"
+      ]
+    },
+    {
+      "id": "tobago-35",
+      "date": "1962-08-31",
+      "precision": "day",
+      "kind": "independence",
+      "title": "Independence with Trinidad",
+      "detail": "Both islands became one independent state.",
+      "controller": "independent",
+      "sovereign": "independent",
+      "sources": [
+        "ws-tt"
+      ]
+    }
+  ]
+}
