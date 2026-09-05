@@ -81,23 +81,23 @@ export function changes(i: Island, mode: Mode) {
 export function color(i: Island) {
   const value =
     i.id === 'saint-lucia'
-      ? '#a14a40'
+      ? '#285ce5'
       : palette[islands.indexOf(i) % palette.length];
   return `light-dark(${value}, color-mix(in srgb, ${value} 70%, white))`;
 }
 const palette = [
-  '#69846b',
-  '#a38540',
-  '#558194',
-  '#8d6d85',
-  '#a66646',
-  '#6d839b',
-  '#98795a',
-  '#688e88',
-  '#aa6965',
-  '#7b8070',
-  '#a08b60',
-  '#678ca1',
+  '#007b76',
+  '#a17200',
+  '#137eab',
+  '#9953a4',
+  '#c0521b',
+  '#3265a2',
+  '#965c46',
+  '#098880',
+  '#bd4169',
+  '#667735',
+  '#9d782b',
+  '#4275a2',
 ];
 export function historyPath(
   i: Island,

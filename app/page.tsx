@@ -52,28 +52,28 @@ const stories = [
   {
     id: 'saint-lucia',
     number: '01',
-    label: 'The island that kept changing sides',
+    label: 'Repeated Anglo-French transfers',
     range: 'empires',
     year: 1763,
   },
   {
     id: 'guadeloupe',
     number: '02',
-    label: 'An island traded on paper',
+    label: 'Swedish title, British government',
     range: 'empires',
     year: 1813,
   },
   {
     id: 'haiti',
     number: '03',
-    label: 'A revolution that changed the world',
+    label: 'Revolution and independence',
     range: 'independence',
     year: 1804,
   },
   {
     id: 'tobago',
     number: '04',
-    label: 'Even a duchy wanted a piece',
+    label: 'The Courland colony',
     range: 'empires',
     year: 1654,
   },
@@ -115,6 +115,26 @@ function Cite({ ids }: { ids: string[] }) {
 }
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
+}
+
+function StoryTrace({ id }: { id: string }) {
+  const island = islands.find((i) => i.id === id)!;
+  const path = historyPath(
+    island,
+    'administration',
+    [START, END],
+    (year) => 2 + ((year - START) / (END - START)) * 92,
+    (power) =>
+      3 +
+      (data.owners.findIndex((o) => o.id === power) /
+        (data.owners.length - 1)) *
+        26,
+  );
+  return (
+    <svg className="story-trace" viewBox="0 0 96 32" aria-hidden="true">
+      <path d={path} fill="none" stroke="currentColor" strokeWidth="1.2" />
+    </svg>
+  );
 }
 
 export default function Home() {
@@ -199,7 +219,7 @@ export default function Home() {
   );
   const ownerRows = data.owners;
   const W = 1160,
-    L = 154,
+    L = 188,
     R = 30,
     TOP = 67,
     STEP = 43,
@@ -250,17 +270,20 @@ export default function Home() {
             setQuery('');
           }}
         >
-          <span className="atlas-mark" aria-hidden="true">
-            ✳
-          </span>
+          <svg className="atlas-mark" viewBox="0 0 32 24" aria-hidden="true">
+            <path
+              d="M1 4h10v16h20M1 20h20V4h10M1 12h30"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            />
+          </svg>
           <span>
-            CARIBBEAN
-            <span className="wordmark-sub">AN ATLAS OF SHIFTING POWER</span>
+            Caribbean<span className="wordmark-sub">History atlas</span>
           </span>
         </button>
         <div className="masthead-right">
           <ThemeSwitcher />
-          <span>1450 — 2026</span>
           <button
             onClick={() => {
               setEvidence(!evidence);
@@ -274,20 +297,21 @@ export default function Home() {
         </div>
       </header>
       <section className="intro">
-        <div>
-          <p className="eyebrow">ISLANDS. EMPIRES. INDEPENDENCE.</p>
-          <h1>
-            A sea of empires<span>.</span>
-          </h1>
-        </div>
+        <h1>
+          A sea of <span>empires</span>
+        </h1>
         <div className="intro-copy">
+          <div className="period-range">
+            <span>{START}</span>
+            <i aria-hidden="true" />
+            <span>{END}</span>
+          </div>
           <p>
-            Small islands. Enormous stakes. Follow the Caribbean through
-            centuries of conquest, occupation, treaties and the struggle for
-            independence.
+            {islands.length} island histories through conquest, occupation,
+            treaties and independence.
           </p>
           <p className="quiet">
-            Each line is an island’s history. Each turn is a shift in power.
+            Select a line to follow who governed an island, when, and why.
           </p>
         </div>
       </section>
@@ -299,8 +323,14 @@ export default function Home() {
             onClick={() => preset(s)}
           >
             <span className="story-number">{s.number}</span>
-            <span>{s.label}</span>
-            <span aria-hidden="true">↗</span>
+            <span className="story-copy">
+              <strong>{islands.find((i) => i.id === s.id)?.name}</strong>
+              <span>{s.label}</span>
+            </span>
+            <StoryTrace id={s.id} />
+            <span className="story-arrow" aria-hidden="true">
+              ↗
+            </span>
           </button>
         ))}
       </nav>
@@ -312,11 +342,10 @@ export default function Home() {
         <div className="chart-side">
           <div className="chart-heading">
             <div>
-              <span className="eyebrow">THE CHANGING CARIBBEAN</span>
               <h2>
                 {mode === 'administration'
-                  ? 'Who held the reins?'
-                  : 'Who held the title?'}
+                  ? 'Political control'
+                  : 'Sovereign title'}
               </h2>
             </div>
             <span className="coverage">
@@ -503,7 +532,7 @@ export default function Home() {
                       </text>
                     </g>
                   ))}
-                  {ownerRows.map((o) => (
+                  {ownerRows.map((o, row) => (
                     <g key={o.id}>
                       <line
                         x1={L}
@@ -513,13 +542,16 @@ export default function Home() {
                         className="owner-grid"
                       />
                       <circle
-                        cx={13}
+                        cx={30}
                         cy={y(o.id) - 1}
                         r={3.3}
                         fill={`light-dark(${o.color}, color-mix(in srgb, ${o.color} 70%, white))`}
                       />
+                      <text x={0} y={y(o.id) + 4} className="owner-index">
+                        {String(row + 1).padStart(2, '0')}
+                      </text>
                       <text
-                        x={24}
+                        x={44}
                         y={y(o.id) + 4}
                         className={`owner-label ${focus && changes(focus, mode).some((e) => (mode === 'administration' ? e.resultingController : e.resultingSovereign) === o.id) ? 'owner-used' : ''}`}
                       >
@@ -540,11 +572,17 @@ export default function Home() {
                           <path
                             d={path}
                             fill="none"
-                            stroke={color(i)}
+                            stroke={
+                              active
+                                ? 'var(--focus-line)'
+                                : overview
+                                  ? color(i)
+                                  : 'var(--trace)'
+                            }
                             strokeWidth={active ? 2.8 : 1.15}
-                            opacity={active ? 1 : focus ? 0.28 : 0.72}
-                            strokeLinejoin="round"
-                            strokeLinecap="round"
+                            opacity={active ? 1 : focus ? 0.35 : 0.72}
+                            strokeLinejoin="miter"
+                            strokeLinecap="butt"
                           />
                           <path
                             d={path}
@@ -559,7 +597,13 @@ export default function Home() {
                             cx={x(range[1])}
                             cy={yy(stateAt(i, range[1], mode))}
                             r={active ? 3.5 : 1.6}
-                            fill={color(i)}
+                            fill={
+                              active
+                                ? 'var(--focus-line)'
+                                : overview
+                                  ? color(i)
+                                  : 'var(--trace)'
+                            }
                             opacity={active ? 1 : 0.25}
                           />
                         </g>
@@ -623,11 +667,11 @@ export default function Home() {
                                 fill={
                                   e.kind === 'claim'
                                     ? 'var(--paper)'
-                                    : color(focus)
+                                    : 'var(--focus-line)'
                                 }
                                 stroke={
                                   e.kind === 'claim'
-                                    ? color(focus)
+                                    ? 'var(--focus-line)'
                                     : 'var(--paper)'
                                 }
                                 strokeWidth={1.5}
@@ -638,7 +682,7 @@ export default function Home() {
                                   cy={yy}
                                   r={6.5}
                                   fill="none"
-                                  stroke={color(focus)}
+                                  stroke="var(--focus-line)"
                                   strokeWidth={0.8}
                                   strokeDasharray="1.5 2"
                                 />
@@ -694,7 +738,9 @@ export default function Home() {
                 <span>
                   <i
                     className="legend-line"
-                    style={{ background: focus ? color(focus) : undefined }}
+                    style={{
+                      background: focus ? 'var(--focus-line)' : 'var(--trace)',
+                    }}
                   />{' '}
                   {focus ? focus.name : 'All island histories'}
                 </span>
@@ -824,7 +870,16 @@ export default function Home() {
                   onBlur={() => setHovered(null)}
                   onClick={() => selectIsland(i.id)}
                 >
-                  <span style={{ background: color(i) }} />
+                  <span
+                    style={{
+                      background:
+                        selected === i.id || hovered === i.id
+                          ? 'var(--focus-line)'
+                          : overview
+                            ? color(i)
+                            : 'var(--trace)',
+                    }}
+                  />
                   {i.name}
                 </button>
               ))}
@@ -862,9 +917,9 @@ export default function Home() {
           </div>
         </div>
         <aside className="inspector" aria-label="Selected island details">
-          <div className="inspector-sticky">
-            <div className="island-eyebrow">
-              <span className="eyebrow">ISLAND IN FOCUS</span>
+          <div className="inspector-body">
+            <div className="island-identification">
+              <span>Selected island</span>
               <span className="island-index">
                 {String(islands.indexOf(current) + 1).padStart(2, '0')} /{' '}
                 {islands.length}
@@ -908,7 +963,7 @@ export default function Home() {
               </div>
             </div>
             <div className="map-slot" id="island-map">
-              <p className="eyebrow">{current.region}</p>
+              <p className="region-name">{current.region}</p>
               <IslandMap island={current} year={year} mode={mode} />
               <p className="coordinates">
                 {Math.abs(current.coordinates[1]).toFixed(2)}° N &nbsp;{' '}
@@ -951,7 +1006,7 @@ export default function Home() {
               )}
               {event.uncertainty && (
                 <p className="qualification">
-                  <span>Reading the evidence</span>
+                  <span>Evidence note</span>
                   {event.uncertainty}
                 </p>
               )}
@@ -996,7 +1051,7 @@ export default function Home() {
               <Cite ids={current.sources} />
             </details>
             <div className="event-list-heading">
-              <h3>Follow the chronology</h3>
+              <h3>Chronology</h3>
               <span>{selectedInRange.length} events in view</span>
             </div>
             <ol className="event-list">
@@ -1011,7 +1066,7 @@ export default function Home() {
                     {(mode === 'administration'
                       ? e.changesControl
                       : e.changesSovereignty) && (
-                      <i style={{ background: color(current) }} />
+                      <i style={{ background: 'var(--focus-line)' }} />
                     )}
                   </button>
                 </li>
@@ -1033,11 +1088,10 @@ export default function Home() {
         </aside>
       </section>
       <section className="context-strip">
-        <span className="eyebrow">BEHIND THE BORDERS</span>
         <h2>
-          Power changed hands.
+          People under
           <br />
-          People made history.
+          imperial rule
         </h2>
         <div>
           <p>
@@ -1056,8 +1110,7 @@ export default function Home() {
       <section className="evidence" id="sources-method">
         <div className="evidence-top">
           <div>
-            <span className="eyebrow">A NOTE ON THE RECORD</span>
-            <h2>The evidence behind every turn.</h2>
+            <h2>Sources and editorial method</h2>
           </div>
           <div className="downloads">
             <a href="/data/caribbean.json" download>
@@ -1085,11 +1138,11 @@ export default function Home() {
             concurrent or interrupted administrations; it is not another empire.
           </p>
           <p>
-            <strong>Precision without pretence.</strong> {activeEventCount}{' '}
-            records cite {data.sources.length} sources. Circa dates and
-            disagreements are flagged. This is a curated chronology of major
-            transitions, not every raid or outpost. Detailed colonial dates
-            often rely on secondary compilations.
+            <strong>Dates and uncertainty.</strong> {activeEventCount} records
+            cite {data.sources.length} sources. Circa dates and disagreements
+            are flagged. This is a curated chronology of major transitions, not
+            every raid or outpost. Detailed colonial dates often rely on
+            secondary compilations.
           </p>
         </div>
         <details
@@ -1127,8 +1180,7 @@ export default function Home() {
         </details>
       </section>
       <footer>
-        <span>A SEA OF EMPIRES</span>
-        <p>Historical facts. Human consequences.</p>
+        <span>A sea of empires</span>
         <span>Research edition · 2026</span>
       </footer>
     </main>

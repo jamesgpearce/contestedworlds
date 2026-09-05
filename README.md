@@ -34,6 +34,8 @@ The plot is native SVG on a linear time axis. Individual lines occupy fixed offs
 
 The interface offers keyboard-operated controls, a year slider, island selection, a complete semantic chronology table, persistent event explanations, visible focus, a skip link and reduced-motion support. Small screens scroll the wide graph horizontally. A small Natural Earth map provides geographic context. Hover is supplementary; the text chronology provides the full history without needing colour perception or precise pointing.
 
+The sticky appearance control offers Auto, Light and Dark. Auto follows the operating system, including changes while the page is open. An explicit choice is saved in local storage and applied before the first paint; the control still works when storage is unavailable. The visual identity uses a numbered power grid, a cobalt selected route, system sans-serif type and small histories generated from the same timeline data.
+
 The site is statically exported, with system fonts and no database, analytics, remote font request, map SDK or WebGPU requirement. JSON, CSV, bibliography and editorial notes are downloadable from the page. `dist/client/` can be served by a static host.
 
 ## Research and assets
