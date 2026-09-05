@@ -105,15 +105,45 @@ export function historyPath(
   range: [number, number],
   x: (n: number) => number,
   y: (s: string) => number,
+  cornerRadius = 0,
 ) {
   let owner = stateAt(i, range[0], mode);
   let p = `M${x(range[0])},${y(owner)}`;
-  for (const e of changes(i, mode)) {
+  const transitions = changes(i, mode).filter((e) => {
     const t = dateValue(e.date);
-    if (t <= range[0] || t > range[1]) continue;
+    return t > range[0] && t <= range[1];
+  });
+  for (const [index, e] of transitions.entries()) {
+    const xx = x(dateValue(e.date));
+    const previousY = y(owner);
     owner =
       mode === 'administration' ? e.resultingController : e.resultingSovereign;
-    p += `H${x(t)}V${y(owner)}`;
+    const nextY = y(owner);
+    const previousX = index
+      ? x(dateValue(transitions[index - 1].date))
+      : x(range[0]);
+    const nextX =
+      index + 1 < transitions.length
+        ? x(dateValue(transitions[index + 1].date))
+        : x(range[1]);
+    // Only soften the elbows. The vertical transition stays on the exact date.
+    // Half-interval caps prevent adjacent bends from overlapping or reversing time.
+    const radius = Math.max(
+      0,
+      Math.min(
+        cornerRadius,
+        (xx - previousX) / 2,
+        (nextX - xx) / 2,
+        Math.abs(nextY - previousY) / 2,
+      ),
+    );
+    if (radius) {
+      const direction = Math.sign(nextY - previousY);
+      p += `H${xx - radius}Q${xx},${previousY} ${xx},${previousY + direction * radius}`;
+      p += `V${nextY - direction * radius}Q${xx},${nextY} ${xx + radius},${nextY}`;
+    } else {
+      p += `H${xx}V${nextY}`;
+    }
   }
   return p + `H${x(range[1])}`;
 }

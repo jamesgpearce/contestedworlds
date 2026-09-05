@@ -16,6 +16,7 @@ import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { IslandMap } from '@/components/island-map';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { chartLayout } from '@/lib/chart-layout';
 import {
   Table,
   TableCaption,
@@ -129,6 +130,7 @@ function StoryTrace({ id }: { id: string }) {
       (data.owners.findIndex((o) => o.id === power) /
         (data.owners.length - 1)) *
         26,
+    1,
   );
   return (
     <svg className="story-trace" viewBox="0 0 96 32" aria-hidden="true">
@@ -157,6 +159,16 @@ export default function Home() {
     y: number;
   } | null>(null);
   const chartRef = useRef<HTMLDivElement>(null);
+  const [chartSize, setChartSize] = useState({ width: 1160, height: 580 });
+  useEffect(() => {
+    if (!chartRef.current) return;
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) setChartSize({ width, height });
+    });
+    observer.observe(chartRef.current);
+    return () => observer.disconnect();
+  }, [view]);
   const current = islands.find((i) => i.id === selected) || islands[0];
   const focus = islands.find(
     (i) => i.id === (hovered || (overview ? null : selected)),
@@ -218,23 +230,17 @@ export default function Home() {
     [],
   );
   const ownerRows = data.owners;
-  const W = 1160,
-    L = 188,
-    R = 30,
-    TOP = 67,
-    STEP = 43,
-    H = TOP + ownerRows.length * STEP + 23;
-  const x = (n: number) =>
-    L + ((n - range[0]) / (range[1] - range[0])) * (W - L - R);
+  const layout = chartLayout(
+    chartSize.width,
+    chartSize.height,
+    range,
+    ownerRows.length,
+  );
+  const { width: W, height: H, left: L, right: R, top: TOP, x, ticks } = layout;
   const y = (owner: string) =>
-    TOP + ownerRows.findIndex((o) => o.id === owner) * STEP;
+    layout.y(ownerRows.findIndex((o) => o.id === owner));
   const offset = (i: Island) =>
-    (islands.indexOf(i) - (islands.length - 1) / 2) * 0.63;
-  const tickStep = period === 'all' ? 50 : 25;
-  const ticks = Array.from(
-    { length: Math.ceil((range[1] - range[0]) / tickStep) + 1 },
-    (_, k) => Math.ceil(range[0] / tickStep) * tickStep + k * tickStep,
-  ).filter((t) => t >= range[0] && t <= range[1]);
+    (islands.indexOf(i) - (islands.length - 1) / 2) * layout.laneStep;
   const ordered = [
     ...visible.filter((i) => i.id !== focus?.id),
     ...visible.filter((i) => i.id === focus?.id),
@@ -292,7 +298,8 @@ export default function Home() {
                 ?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
-            Sources & method <Arrow />
+            <span className="sources-label-long">Sources & method</span>
+            <span className="sources-label-short">Sources</span> <Arrow />
           </button>
         </div>
       </header>
@@ -300,40 +307,13 @@ export default function Home() {
         <h1>
           A sea of <span>empires</span>
         </h1>
-        <div className="intro-copy">
-          <div className="period-range">
-            <span>{START}</span>
-            <i aria-hidden="true" />
-            <span>{END}</span>
-          </div>
-          <p>
-            {islands.length} island histories through conquest, occupation,
-            treaties and independence.
-          </p>
-          <p className="quiet">
-            Select a line to follow who governed an island, when, and why.
-          </p>
-        </div>
+        <p className="intro-copy">
+          <span>
+            {START}–{END}
+          </span>{' '}
+          · {islands.length} island histories
+        </p>
       </section>
-      <nav className="stories" aria-label="Stories to explore">
-        {stories.map((s) => (
-          <button
-            key={s.id}
-            className={selected === s.id ? 'story active' : 'story'}
-            onClick={() => preset(s)}
-          >
-            <span className="story-number">{s.number}</span>
-            <span className="story-copy">
-              <strong>{islands.find((i) => i.id === s.id)?.name}</strong>
-              <span>{s.label}</span>
-            </span>
-            <StoryTrace id={s.id} />
-            <span className="story-arrow" aria-hidden="true">
-              ↗
-            </span>
-          </button>
-        ))}
-      </nav>
       <section
         className="explorer"
         id="explorer"
@@ -341,103 +321,52 @@ export default function Home() {
       >
         <div className="chart-side">
           <div className="chart-heading">
-            <div>
-              <h2>
+            <div className="chart-selection">
+              <h2 className="sr-only">
                 {mode === 'administration'
                   ? 'Political control'
                   : 'Sovereign title'}
               </h2>
-            </div>
-            <span className="coverage">
-              <strong>{islands.length}</strong> tracks <span> / </span>{' '}
-              <strong>{new Set(islands.map((i) => i.place)).size}</strong>{' '}
-              places
-            </span>
-          </div>
-          <div className="toolbar">
-            <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
-              <TabsList aria-label="What the lines represent">
-                <TabsTrigger value="administration">Administration</TabsTrigger>
-                <TabsTrigger value="sovereignty">Sovereign title</TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <div className="toolbar-right">
               <Select
-                value={period}
+                value={selected}
                 onValueChange={(v) => {
-                  if (v) {
-                    setPeriod(v);
-                    setYear((n) =>
-                      Math.max(ranges[v][0], Math.min(n, ranges[v][1])),
-                    );
-                  }
+                  if (v) selectIsland(v);
                 }}
-                items={{
-                  all: 'The whole story',
-                  empires: 'The imperial contest',
-                  independence: 'Toward independence',
-                }}
+                items={Object.fromEntries(islands.map((i) => [i.id, i.name]))}
               >
-                <SelectTrigger aria-label="Time period">
+                <SelectTrigger
+                  className="chart-island-select"
+                  aria-label="Select island"
+                >
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">
-                    The whole story · 1450–2026
-                  </SelectItem>
-                  <SelectItem value="empires">
-                    The imperial contest · 1600–1820
-                  </SelectItem>
-                  <SelectItem value="independence">
-                    Toward independence · 1790–2026
-                  </SelectItem>
+                <SelectContent className="chart-island-menu">
+                  {[...islands]
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((i) => (
+                      <SelectItem value={i.id} key={i.id}>
+                        {i.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
-              <Tabs value={view} onValueChange={(v) => setView(String(v))}>
-                <TabsList aria-label="Display">
-                  <TabsTrigger value="chart">Chart</TabsTrigger>
-                  <TabsTrigger value="ledger">Table</TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <span className="coverage">
+                {changes(current, mode).length} changes <span> / </span>{' '}
+                {islands.length} islands
+              </span>
             </div>
-          </div>
-          <div className="view-caption">
-            <p className="view-explanation">
-              {mode === 'administration'
-                ? 'Colonial governments and substantial military occupations. A claim alone does not move a line.'
-                : 'Recorded sovereign status. Occupation can change the government without changing the title.'}
-            </p>
-            <button
-              className="overview-toggle"
-              aria-pressed={overview}
+            <a
+              className="chart-options-link"
+              href="#chart-options"
               onClick={() => {
-                setOverview(!overview);
-                setHovered(null);
+                const options = document.getElementById(
+                  'chart-options',
+                ) as HTMLDetailsElement | null;
+                if (options) options.open = true;
               }}
             >
-              {overview ? 'Focus selected island' : 'Compare all lines'}
-            </button>
-          </div>
-          <div className="time-control">
-            <div>
-              <span id="time-label">Explore a year</span>
-              <output>{Math.floor(year)}</output>
-            </div>
-            <Slider
-              value={[Math.max(range[0], Math.min(Math.floor(year), range[1]))]}
-              min={range[0]}
-              max={range[1]}
-              step={1}
-              thumbLabel="Year to explore"
-              onValueChange={(v) => {
-                setYear(typeof v === 'number' ? v : v[0]);
-                setEventId('');
-                setTip(null);
-              }}
-            />
-            <span className="year-state">
-              {current.name} <strong>{owners[atYear].label}</strong>
-            </span>
+              Options ↓
+            </a>
           </div>
           {view === 'chart' ? (
             <>
@@ -445,7 +374,7 @@ export default function Home() {
                 className="chart-scroll"
                 ref={chartRef}
                 role="region"
-                aria-label="History chart. Scroll horizontally on smaller screens. Use the island selector or table for keyboard access."
+                aria-label="History chart fitted to your screen. Use the island selector or table for keyboard access."
                 tabIndex={0}
                 onPointerLeave={() => {
                   setHovered(null);
@@ -453,7 +382,7 @@ export default function Home() {
                 }}
               >
                 <svg
-                  className="history-chart"
+                  className={`history-chart ${layout.compact ? 'compact-chart' : ''}`}
                   viewBox={`0 0 ${W} ${H}`}
                   width={W}
                   height={H}
@@ -493,7 +422,7 @@ export default function Home() {
                             x(Math.min(c.end, range[1])) -
                               x(Math.max(c.start, range[0])),
                           )}
-                          height={H - TOP + 4}
+                          height={H - TOP + 16}
                           fill={
                             c.id === 'independence'
                               ? 'var(--era-free)'
@@ -501,16 +430,17 @@ export default function Home() {
                           }
                           opacity={c.id === 'independence' ? 0.045 : 0.035}
                         />
-                        {(period !== 'all' ||
-                          ['seven-years', 'independence'].includes(c.id)) && (
-                          <text
-                            x={x(Math.max(c.start, range[0])) + 3}
-                            y={k % 2 === 0 ? 17 : 31}
-                            className="era-label"
-                          >
-                            {c.title}
-                          </text>
-                        )}
+                        {layout.numbered &&
+                          (period !== 'all' ||
+                            ['seven-years', 'independence'].includes(c.id)) && (
+                            <text
+                              x={x(Math.max(c.start, range[0])) + 3}
+                              y={k % 2 === 0 ? 17 : 31}
+                              className="era-label"
+                            >
+                              {c.title}
+                            </text>
+                          )}
                       </g>
                     ))}
                   {ticks.map((t) => (
@@ -519,13 +449,19 @@ export default function Home() {
                         x1={x(t)}
                         x2={x(t)}
                         y1={TOP - 24}
-                        y2={H - 24}
+                        y2={H - 8}
                         className="year-grid"
                       />
                       <text
                         x={x(t)}
-                        y={TOP - 31}
-                        textAnchor="middle"
+                        y={TOP - 15}
+                        textAnchor={
+                          t === range[0]
+                            ? 'start'
+                            : t === range[1]
+                              ? 'end'
+                              : 'middle'
+                        }
                         className="year-label"
                       >
                         {t}
@@ -542,20 +478,30 @@ export default function Home() {
                         className="owner-grid"
                       />
                       <circle
-                        cx={30}
+                        cx={layout.numbered ? 30 : 4}
                         cy={y(o.id) - 1}
                         r={3.3}
                         fill={`light-dark(${o.color}, color-mix(in srgb, ${o.color} 70%, white))`}
                       />
-                      <text x={0} y={y(o.id) + 4} className="owner-index">
-                        {String(row + 1).padStart(2, '0')}
-                      </text>
+                      {layout.numbered && (
+                        <text x={0} y={y(o.id) + 4} className="owner-index">
+                          {String(row + 1).padStart(2, '0')}
+                        </text>
+                      )}
                       <text
-                        x={44}
+                        x={layout.numbered ? 44 : 14}
                         y={y(o.id) + 4}
                         className={`owner-label ${focus && changes(focus, mode).some((e) => (mode === 'administration' ? e.resultingController : e.resultingSovereign) === o.id) ? 'owner-used' : ''}`}
                       >
-                        {o.label}
+                        <title>{`${o.label}: ${o.description}`}</title>
+                        {layout.compact
+                          ? {
+                              indigenous: 'Indigenous',
+                              contested: 'Shared / unsettled',
+                              britain: 'England / Britain',
+                              malta: 'Knights of Malta',
+                            }[o.id] || o.label
+                          : o.label}
                       </text>
                     </g>
                   ))}
@@ -563,7 +509,14 @@ export default function Home() {
                     {ordered.map((i) => {
                       const active = i.id === focus?.id;
                       const yy = (o: string) => y(o) + offset(i);
-                      const path = historyPath(i, mode, range, x, yy);
+                      const path = historyPath(
+                        i,
+                        mode,
+                        range,
+                        x,
+                        yy,
+                        layout.compact ? 3 : 5,
+                      );
                       return (
                         <g
                           key={i.id}
@@ -579,17 +532,27 @@ export default function Home() {
                                   ? color(i)
                                   : 'var(--trace)'
                             }
-                            strokeWidth={active ? 2.8 : 1.15}
+                            strokeWidth={
+                              active
+                                ? layout.compact
+                                  ? 2
+                                  : 2.8
+                                : layout.compact
+                                  ? 0.8
+                                  : 1.15
+                            }
                             opacity={active ? 1 : focus ? 0.35 : 0.72}
-                            strokeLinejoin="miter"
-                            strokeLinecap="butt"
+                            strokeLinejoin="round"
+                            strokeLinecap="round"
                           />
                           <path
                             d={path}
                             fill="none"
                             stroke="transparent"
                             strokeWidth={8}
-                            onPointerEnter={() => setHovered(i.id)}
+                            onPointerEnter={(ev) => {
+                              if (ev.pointerType !== 'touch') setHovered(i.id);
+                            }}
                             onClick={() => selectIsland(i.id)}
                             style={{ cursor: 'pointer' }}
                           />
@@ -632,18 +595,22 @@ export default function Home() {
                             <g
                               key={e.id}
                               onPointerEnter={(ev) => {
+                                if (ev.pointerType === 'touch') return;
                                 const box =
                                   chartRef.current?.getBoundingClientRect();
                                 if (box)
                                   setTip({
                                     island: focus,
                                     event: e,
-                                    x: Math.min(
-                                      ev.clientX -
-                                        box.left +
-                                        chartRef.current!.scrollLeft +
-                                        12,
-                                      W - 300,
+                                    x: Math.max(
+                                      0,
+                                      Math.min(
+                                        ev.clientX -
+                                          box.left +
+                                          chartRef.current!.scrollLeft +
+                                          12,
+                                        box.width - 285,
+                                      ),
                                     ),
                                     y: ev.clientY - box.top + 14,
                                   });
@@ -663,7 +630,15 @@ export default function Home() {
                               <circle
                                 cx={xx}
                                 cy={yy}
-                                r={e.id === eventId ? 5 : 3.7}
+                                r={
+                                  layout.compact
+                                    ? e.id === eventId
+                                      ? 3.5
+                                      : 2.3
+                                    : e.id === eventId
+                                      ? 5
+                                      : 3.7
+                                }
                                 fill={
                                   e.kind === 'claim'
                                     ? 'var(--paper)'
@@ -696,7 +671,7 @@ export default function Home() {
                           x1={x(year)}
                           x2={x(year)}
                           y1={TOP - 23}
-                          y2={H - 24}
+                          y2={H - 8}
                           stroke="var(--ink)"
                           strokeWidth={1}
                           strokeDasharray="3 5"
@@ -705,19 +680,6 @@ export default function Home() {
                       </g>
                     )}
                   </g>
-                  <text x={L} y={H - 5} className="chart-footnote">
-                    {period === 'all'
-                      ? '← Indigenous histories extend millennia before this chart.'
-                      : 'Linear time scale. Treaty dates and handovers may differ.'}
-                  </text>
-                  <text
-                    x={W - R}
-                    y={H - 5}
-                    textAnchor="end"
-                    className="chart-footnote"
-                  >
-                    {range[1]} →
-                  </text>
                 </svg>
                 {tip && (
                   <div
@@ -734,6 +696,11 @@ export default function Home() {
                   </div>
                 )}
               </div>
+              <p className="chart-scale-note">
+                {period === 'all'
+                  ? 'Indigenous histories extend millennia before 1450.'
+                  : 'Linear time scale. Treaty dates and handovers may differ.'}
+              </p>
               <div className="chart-legend">
                 <span>
                   <i
@@ -805,6 +772,128 @@ export default function Home() {
               </Table>
             </div>
           )}
+          <div className="time-control">
+            <div>
+              <span id="time-label">Explore a year</span>
+              <output>{Math.floor(year)}</output>
+            </div>
+            <Slider
+              value={[Math.max(range[0], Math.min(Math.floor(year), range[1]))]}
+              min={range[0]}
+              max={range[1]}
+              step={1}
+              thumbLabel="Year to explore"
+              onValueChange={(v) => {
+                setYear(typeof v === 'number' ? v : v[0]);
+                setEventId('');
+                setTip(null);
+              }}
+            />
+            <span className="year-state">
+              {current.name} <strong>{owners[atYear].label}</strong>
+            </span>
+          </div>
+          <a className="event-peek" href="#selected-event">
+            <time>{eventDate(event)}</time>
+            <span>{event.title}</span>
+            <span className="event-peek-link">Read event ↓</span>
+          </a>
+          <details className="chart-options" id="chart-options">
+            <summary>
+              Chart options{' '}
+              <span>
+                {mode === 'administration'
+                  ? 'Administration'
+                  : 'Sovereign title'}{' '}
+                · {range[0]}–{range[1]}
+              </span>
+            </summary>
+            <div className="toolbar">
+              <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
+                <TabsList aria-label="What the lines represent">
+                  <TabsTrigger value="administration">
+                    Administration
+                  </TabsTrigger>
+                  <TabsTrigger value="sovereignty">Sovereign title</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <div className="toolbar-right">
+                <Select
+                  value={period}
+                  onValueChange={(v) => {
+                    if (v) {
+                      setPeriod(v);
+                      setYear((n) =>
+                        Math.max(ranges[v][0], Math.min(n, ranges[v][1])),
+                      );
+                    }
+                  }}
+                  items={{
+                    all: 'The whole story',
+                    empires: 'The imperial contest',
+                    independence: 'Toward independence',
+                  }}
+                >
+                  <SelectTrigger aria-label="Time period">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">
+                      The whole story · 1450–2026
+                    </SelectItem>
+                    <SelectItem value="empires">
+                      The imperial contest · 1600–1820
+                    </SelectItem>
+                    <SelectItem value="independence">
+                      Toward independence · 1790–2026
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <Tabs value={view} onValueChange={(v) => setView(String(v))}>
+                  <TabsList aria-label="Display">
+                    <TabsTrigger value="chart">Chart</TabsTrigger>
+                    <TabsTrigger value="ledger">Table</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+            </div>
+            <div className="view-caption">
+              <p className="view-explanation">
+                {mode === 'administration'
+                  ? 'Colonial governments and substantial military occupations. A claim alone does not move a line.'
+                  : 'Recorded sovereign status. Occupation can change the government without changing the title.'}
+              </p>
+              <button
+                className="overview-toggle"
+                aria-pressed={overview}
+                onClick={() => {
+                  setOverview(!overview);
+                  setHovered(null);
+                }}
+              >
+                {overview ? 'Focus selected island' : 'Compare all lines'}
+              </button>
+            </div>
+          </details>
+          <nav className="stories" aria-label="Stories to explore">
+            {stories.map((s) => (
+              <button
+                key={s.id}
+                className={selected === s.id ? 'story active' : 'story'}
+                onClick={() => preset(s)}
+              >
+                <span className="story-number">{s.number}</span>
+                <span className="story-copy">
+                  <strong>{islands.find((i) => i.id === s.id)?.name}</strong>
+                  <span>{s.label}</span>
+                </span>
+                <StoryTrace id={s.id} />
+                <span className="story-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </button>
+            ))}
+          </nav>
           <details className="war-context">
             <summary>The wars behind the crossings</summary>
             <div>
@@ -822,270 +911,262 @@ export default function Home() {
                 ))}
             </div>
           </details>
-          <div className="island-browser">
-            <div className="browse-top">
-              <h3>Follow an island</h3>
-              <label className="search" htmlFor="island-search">
-                <span className="sr-only">Search islands</span>
-                <Input
-                  id="island-search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Find an island…"
-                  type="search"
-                />
-              </label>
-              <Select
-                value={group}
-                onValueChange={(v) => {
-                  if (v) setGroup(v);
-                }}
-              >
-                <SelectTrigger aria-label="Island region">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {[
-                    'All islands',
-                    ...new Set(islands.map((i) => i.region)),
-                  ].map((g) => (
-                    <SelectItem value={g} key={g}>
-                      {g}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="island-list">
-              {visible.map((i) => (
-                <button
-                  key={i.id}
-                  aria-pressed={selected === i.id}
-                  className={
-                    selected === i.id ? 'island-chip selected' : 'island-chip'
-                  }
-                  onPointerEnter={() => setHovered(i.id)}
-                  onPointerLeave={() => setHovered(null)}
-                  onFocus={() => setHovered(i.id)}
-                  onBlur={() => setHovered(null)}
-                  onClick={() => selectIsland(i.id)}
-                >
-                  <span
-                    style={{
-                      background:
-                        selected === i.id || hovered === i.id
-                          ? 'var(--focus-line)'
-                          : overview
-                            ? color(i)
-                            : 'var(--trace)',
-                    }}
-                  />
-                  {i.name}
-                </button>
-              ))}
-            </div>
-            {visible.length === 0 && (
-              <p>
-                No islands match.{' '}
-                <button
-                  className="text-button"
-                  onClick={() => {
-                    setQuery('');
-                    setGroup('All islands');
-                  }}
-                >
-                  Clear filters
-                </button>
-              </p>
-            )}
-            {!visible.some((i) => i.id === selected) && visible.length > 0 && (
-              <p className="quiet">
-                The selected island is outside this filter. Choose a visible
-                island, or{' '}
-                <button
-                  className="text-button"
-                  onClick={() => {
-                    setQuery('');
-                    setGroup('All islands');
-                  }}
-                >
-                  show all islands
-                </button>
-                .
-              </p>
-            )}
-          </div>
         </div>
         <aside className="inspector" aria-label="Selected island details">
           <div className="inspector-body">
-            <div className="island-identification">
-              <span>Selected island</span>
-              <span className="island-index">
-                {String(islands.indexOf(current) + 1).padStart(2, '0')} /{' '}
-                {islands.length}
-              </span>
+            <div className="island-overview">
+              <div className="island-identification">
+                <span>Selected island</span>
+                <span className="island-index">
+                  {String(islands.indexOf(current) + 1).padStart(2, '0')} /{' '}
+                  {islands.length}
+                </span>
+              </div>
+              <h2 className="island-title">{current.name}</h2>
+              <p className="island-summary">{current.summary}</p>
+              <div className="island-stats">
+                <div>
+                  <strong>{changes(current, mode).length}</strong>
+                  <span>
+                    recorded {mode === 'administration' ? 'control' : 'title'}{' '}
+                    changes
+                  </span>
+                </div>
+                <div>
+                  <strong>{owners[current.currentSovereign].label}</strong>
+                  <span>sovereign status today</span>
+                </div>
+              </div>
+              <div className="map-slot" id="island-map">
+                <p className="region-name">{current.region}</p>
+                <IslandMap island={current} year={year} mode={mode} />
+                <p className="coordinates">
+                  {Math.abs(current.coordinates[1]).toFixed(2)}° N &nbsp;{' '}
+                  {Math.abs(current.coordinates[0]).toFixed(2)}° W
+                </p>
+                <p className="map-people">{current.peoples}</p>
+              </div>
             </div>
-            <Select
-              value={selected}
-              onValueChange={(v) => {
-                if (v) selectIsland(v);
-              }}
-              items={Object.fromEntries(islands.map((i) => [i.id, i.name]))}
-            >
-              <SelectTrigger
-                className="island-select"
-                aria-label="Select island"
+            <div className="event-detail">
+              <div
+                className="event-card"
+                id="selected-event"
+                aria-live="polite"
+                aria-atomic="true"
               >
+                <p className="event-position">
+                  {dateValue(event.date) > year
+                    ? 'Next recorded event'
+                    : 'Selected historical event'}
+                </p>
+                <div className="event-date">
+                  {eventDate(event)}{' '}
+                  <span>{kindLabel[event.kind] || event.kind}</span>
+                </div>
+                <h3>{event.title}</h3>
+                <p>{event.detail}</p>
+                {(mode === 'administration'
+                  ? event.changesControl
+                  : event.changesSovereignty) && (
+                  <p className="event-transition">
+                    {
+                      owners[
+                        mode === 'administration'
+                          ? event.previousController
+                          : event.previousSovereign
+                      ]?.label
+                    }
+                    <span aria-hidden="true"> → </span>
+                    {
+                      owners[
+                        mode === 'administration'
+                          ? event.resultingController
+                          : event.resultingSovereign
+                      ]?.label
+                    }
+                  </p>
+                )}
+                {event.uncertainty && (
+                  <p className="qualification">
+                    <span>Evidence note</span>
+                    {event.uncertainty}
+                  </p>
+                )}
+                {event.qualification && (
+                  <p className="qualification">{event.qualification}</p>
+                )}
+                <div className="event-sources">
+                  <span>Sources</span>
+                  <Cite ids={event.sources} />
+                </div>
+                <div className="event-nav">
+                  <button
+                    disabled={current.events.indexOf(event) === 0}
+                    onClick={() =>
+                      selectEvent(
+                        current.events[current.events.indexOf(event) - 1],
+                      )
+                    }
+                  >
+                    ← Previous
+                  </button>
+                  <span>
+                    {current.events.indexOf(event) + 1} /{' '}
+                    {current.events.length}
+                  </span>
+                  <button
+                    disabled={
+                      current.events.indexOf(event) ===
+                      current.events.length - 1
+                    }
+                    onClick={() =>
+                      selectEvent(
+                        current.events[current.events.indexOf(event) + 1],
+                      )
+                    }
+                  >
+                    Next →
+                  </button>
+                </div>
+              </div>
+              <details className="island-notes">
+                <summary>The history behind the line</summary>
+                <p>{current.notes}</p>
+                <Cite ids={current.sources} />
+              </details>
+            </div>
+            <div className="chronology">
+              <div className="event-list-heading">
+                <h3>Chronology</h3>
+                <span>{selectedInRange.length} events in view</span>
+              </div>
+              <ol className="event-list">
+                {selectedInRange.map((e) => (
+                  <li key={e.id}>
+                    <button
+                      className={e.id === event.id ? 'active' : ''}
+                      onClick={() => selectEvent(e)}
+                    >
+                      <time>{eventDate(e)}</time>
+                      <span>{e.title}</span>
+                      {(mode === 'administration'
+                        ? e.changesControl
+                        : e.changesSovereignty) && (
+                        <i style={{ background: 'var(--focus-line)' }} />
+                      )}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+              {!selectedInRange.length && (
+                <p className="quiet">
+                  No recorded events in this period.{' '}
+                  <button
+                    onClick={() => setPeriod('all')}
+                    className="text-button"
+                  >
+                    Show the whole story
+                  </button>
+                  .
+                </p>
+              )}
+            </div>
+          </div>
+        </aside>
+        <div className="island-browser">
+          <div className="browse-top">
+            <h3>Follow an island</h3>
+            <label className="search" htmlFor="island-search">
+              <span className="sr-only">Search islands</span>
+              <Input
+                id="island-search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Find an island…"
+                type="search"
+              />
+            </label>
+            <Select
+              value={group}
+              onValueChange={(v) => {
+                if (v) setGroup(v);
+              }}
+            >
+              <SelectTrigger aria-label="Island region">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {[...islands]
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((i) => (
-                    <SelectItem value={i.id} key={i.id}>
-                      {i.name}
+                {['All islands', ...new Set(islands.map((i) => i.region))].map(
+                  (g) => (
+                    <SelectItem value={g} key={g}>
+                      {g}
                     </SelectItem>
-                  ))}
+                  ),
+                )}
               </SelectContent>
             </Select>
-            <p className="island-summary">{current.summary}</p>
-            <div className="island-stats">
-              <div>
-                <strong>{changes(current, mode).length}</strong>
-                <span>
-                  recorded {mode === 'administration' ? 'control' : 'title'}{' '}
-                  changes
-                </span>
-              </div>
-              <div>
-                <strong>{owners[current.currentSovereign].label}</strong>
-                <span>sovereign status today</span>
-              </div>
-            </div>
-            <div className="map-slot" id="island-map">
-              <p className="region-name">{current.region}</p>
-              <IslandMap island={current} year={year} mode={mode} />
-              <p className="coordinates">
-                {Math.abs(current.coordinates[1]).toFixed(2)}° N &nbsp;{' '}
-                {Math.abs(current.coordinates[0]).toFixed(2)}° W
-              </p>
-              <p className="map-people">{current.peoples}</p>
-            </div>
-            <div className="event-card" aria-live="polite" aria-atomic="true">
-              <p className="event-position">
-                {dateValue(event.date) > year
-                  ? 'Next recorded event'
-                  : 'Selected historical event'}
-              </p>
-              <div className="event-date">
-                {eventDate(event)}{' '}
-                <span>{kindLabel[event.kind] || event.kind}</span>
-              </div>
-              <h3>{event.title}</h3>
-              <p>{event.detail}</p>
-              {(mode === 'administration'
-                ? event.changesControl
-                : event.changesSovereignty) && (
-                <p className="event-transition">
-                  {
-                    owners[
-                      mode === 'administration'
-                        ? event.previousController
-                        : event.previousSovereign
-                    ]?.label
-                  }
-                  <span aria-hidden="true"> → </span>
-                  {
-                    owners[
-                      mode === 'administration'
-                        ? event.resultingController
-                        : event.resultingSovereign
-                    ]?.label
-                  }
-                </p>
-              )}
-              {event.uncertainty && (
-                <p className="qualification">
-                  <span>Evidence note</span>
-                  {event.uncertainty}
-                </p>
-              )}
-              {event.qualification && (
-                <p className="qualification">{event.qualification}</p>
-              )}
-              <div className="event-sources">
-                <span>Sources</span>
-                <Cite ids={event.sources} />
-              </div>
-              <div className="event-nav">
-                <button
-                  disabled={current.events.indexOf(event) === 0}
-                  onClick={() =>
-                    selectEvent(
-                      current.events[current.events.indexOf(event) - 1],
-                    )
-                  }
-                >
-                  ← Previous
-                </button>
-                <span>
-                  {current.events.indexOf(event) + 1} / {current.events.length}
-                </span>
-                <button
-                  disabled={
-                    current.events.indexOf(event) === current.events.length - 1
-                  }
-                  onClick={() =>
-                    selectEvent(
-                      current.events[current.events.indexOf(event) + 1],
-                    )
-                  }
-                >
-                  Next →
-                </button>
-              </div>
-            </div>
-            <details className="island-notes">
-              <summary>The history behind the line</summary>
-              <p>{current.notes}</p>
-              <Cite ids={current.sources} />
-            </details>
-            <div className="event-list-heading">
-              <h3>Chronology</h3>
-              <span>{selectedInRange.length} events in view</span>
-            </div>
-            <ol className="event-list">
-              {selectedInRange.map((e) => (
-                <li key={e.id}>
-                  <button
-                    className={e.id === event.id ? 'active' : ''}
-                    onClick={() => selectEvent(e)}
-                  >
-                    <time>{eventDate(e)}</time>
-                    <span>{e.title}</span>
-                    {(mode === 'administration'
-                      ? e.changesControl
-                      : e.changesSovereignty) && (
-                      <i style={{ background: 'var(--focus-line)' }} />
-                    )}
-                  </button>
-                </li>
-              ))}
-            </ol>
-            {!selectedInRange.length && (
-              <p className="quiet">
-                No recorded events in this period.{' '}
-                <button
-                  onClick={() => setPeriod('all')}
-                  className="text-button"
-                >
-                  Show the whole story
-                </button>
-                .
-              </p>
-            )}
           </div>
-        </aside>
+          <div className="island-list">
+            {visible.map((i) => (
+              <button
+                key={i.id}
+                aria-pressed={selected === i.id}
+                className={
+                  selected === i.id ? 'island-chip selected' : 'island-chip'
+                }
+                onPointerEnter={(ev) => {
+                  if (ev.pointerType !== 'touch') setHovered(i.id);
+                }}
+                onPointerLeave={() => setHovered(null)}
+                onFocus={() => setHovered(i.id)}
+                onBlur={() => setHovered(null)}
+                onClick={() => selectIsland(i.id)}
+              >
+                <span
+                  style={{
+                    background:
+                      selected === i.id || hovered === i.id
+                        ? 'var(--focus-line)'
+                        : overview
+                          ? color(i)
+                          : 'var(--trace)',
+                  }}
+                />
+                {i.name}
+              </button>
+            ))}
+          </div>
+          {visible.length === 0 && (
+            <p>
+              No islands match.{' '}
+              <button
+                className="text-button"
+                onClick={() => {
+                  setQuery('');
+                  setGroup('All islands');
+                }}
+              >
+                Clear filters
+              </button>
+            </p>
+          )}
+          {!visible.some((i) => i.id === selected) && visible.length > 0 && (
+            <p className="quiet">
+              The selected island is outside this filter. Choose a visible
+              island, or{' '}
+              <button
+                className="text-button"
+                onClick={() => {
+                  setQuery('');
+                  setGroup('All islands');
+                }}
+              >
+                show all islands
+              </button>
+              .
+            </p>
+          )}
+        </div>
       </section>
       <section className="context-strip">
         <h2>
