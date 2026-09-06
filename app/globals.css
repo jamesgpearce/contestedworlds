@@ -1900,3 +1900,40 @@ footer > span:first-child {
     opacity: 0.7;
   }
 }
+
+.axis-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.axis-toggle [data-slot='tabs-list'] {
+  border-radius: 2px;
+  padding: 2px;
+  height: 32px;
+  background: var(--secondary);
+}
+.axis-toggle [data-slot='tabs-trigger'] {
+  font-size: 0.8125rem;
+  padding: 4px 10px;
+  border-radius: 1px;
+  box-shadow: none;
+  color: var(--faint);
+}
+.axis-toggle [data-slot='tabs-trigger'][data-active] {
+  background: var(--paper);
+  color: var(--focus-line);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+@media (max-width: 600px) {
+  .chart-options-link {
+    display: none;
+  }
+  .axis-toggle [data-slot='tabs-trigger'] {
+    padding: 4px 8px;
+  }
+  .chart-selection {
+    min-width: 0;
+  }
+  .chart-scale-note {
+    max-width: 55ch;
+  }
+}

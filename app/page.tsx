@@ -24,6 +24,7 @@ import { Input } from '@/components/ui/input';
 import { IslandMap } from '@/components/island-map';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { chartLayout } from '@/lib/chart-layout';
+import { eventAxis } from '@/lib/event-axis';
 import { PowerSymbol, powerAbbreviations } from '@/components/power-symbol';
 import {
   Table,
@@ -162,6 +163,7 @@ export default function Home() {
   const [year, setYear] = useState(dateValue('1763-02-10'));
   const [overview, setOverview] = useState(false);
   const [showAllPowers, setShowAllPowers] = useState(false);
+  const [axisSpacing, setAxisSpacing] = useState('time');
   const [evidence, setEvidence] = useState(false);
   const [tip, setTip] = useState<{
     island: Island;
@@ -251,7 +253,28 @@ export default function Home() {
     range,
     ownerRows.length,
   );
-  const { width: W, height: H, left: L, right: R, top: TOP, x, ticks } = layout;
+  const { width: W, height: H, left: L, right: R, top: TOP } = layout;
+  const eventScale = eventAxis(
+    range,
+    (overview ? visible : [current]).flatMap((i) =>
+      i.events.map((e) => dateValue(e.date)),
+    ),
+  );
+  const eventSpacing = axisSpacing === 'events';
+  const x = eventSpacing
+    ? (date: number) => L + eventScale.position(date) * (W - L - R)
+    : layout.x;
+  const ticks = eventSpacing ? eventScale.domain : layout.ticks;
+  const labelledTicks = new Set(
+    eventSpacing ? eventScale.labels(W - L - R) : ticks,
+  );
+  const axisSubject = overview ? 'the visible islands' : current.name;
+  const dateUnderCursor = current.events.find(
+    (e) => dateValue(e.date) === year,
+  );
+  const cursorLabel = dateUnderCursor
+    ? eventDate(dateUnderCursor)
+    : String(Math.floor(year));
   const y = (owner: string) => {
     const index = ownerRows.findIndex((o) => o.id === owner);
     return layout.y(
@@ -374,6 +397,20 @@ export default function Home() {
                 {islands.length} islands
               </span>
             </div>
+            <Tabs
+              className="axis-toggle"
+              value={axisSpacing}
+              onValueChange={(v) => {
+                setAxisSpacing(String(v));
+                setTip(null);
+                setHovered(null);
+              }}
+            >
+              <TabsList aria-label="Horizontal spacing">
+                <TabsTrigger value="time">Time</TabsTrigger>
+                <TabsTrigger value="events">Events</TabsTrigger>
+              </TabsList>
+            </Tabs>
             <a
               className="chart-options-link"
               href="#chart-options"
@@ -412,8 +449,10 @@ export default function Home() {
                   <desc id="chart-desc">
                     {islands.length} island histories move between rows for
                     political powers. Vertical turns mark dated changes on a
-                    linear time axis. Parallel lines within a row have no ranked
-                    meaning.{' '}
+                    {eventSpacing
+                      ? `sequence of equally spaced event dates for ${axisSubject}; distances do not measure elapsed time`
+                      : 'linear time axis'}
+                    . Parallel lines within a row have no ranked meaning.{' '}
                     {collapsePowers
                       ? `${groupedCount} less relevant powers are grouped in the Other row; expand them using the control below.`
                       : 'All power rows are shown.'}{' '}
@@ -433,62 +472,71 @@ export default function Home() {
                       />
                     </clipPath>
                   </defs>
-                  {data.contexts
-                    .filter((c) => c.end >= range[0] && c.start <= range[1])
-                    .map((c, k) => (
-                      <g key={c.id}>
-                        <rect
-                          x={x(Math.max(c.start, range[0]))}
-                          y={TOP - 25}
-                          width={Math.max(
-                            1,
-                            x(Math.min(c.end, range[1])) -
-                              x(Math.max(c.start, range[0])),
-                          )}
-                          height={H - TOP + 16}
-                          fill={
-                            c.id === 'independence'
-                              ? 'var(--era-free)'
-                              : 'var(--era-fill)'
-                          }
-                          opacity={c.id === 'independence' ? 0.045 : 0.035}
-                        />
-                        {layout.numbered &&
-                          (period !== 'all' ||
-                            ['seven-years', 'independence'].includes(c.id)) && (
-                            <text
-                              x={x(Math.max(c.start, range[0])) + 3}
-                              y={k % 2 === 0 ? 17 : 31}
-                              className="era-label"
-                            >
-                              {c.title}
-                            </text>
-                          )}
-                      </g>
-                    ))}
+                  {!eventSpacing &&
+                    data.contexts
+                      .filter((c) => c.end >= range[0] && c.start <= range[1])
+                      .map((c, k) => (
+                        <g key={c.id}>
+                          <rect
+                            x={x(Math.max(c.start, range[0]))}
+                            y={TOP - 25}
+                            width={Math.max(
+                              1,
+                              x(Math.min(c.end, range[1])) -
+                                x(Math.max(c.start, range[0])),
+                            )}
+                            height={H - TOP + 16}
+                            fill={
+                              c.id === 'independence'
+                                ? 'var(--era-free)'
+                                : 'var(--era-fill)'
+                            }
+                            opacity={c.id === 'independence' ? 0.045 : 0.035}
+                          />
+                          {layout.numbered &&
+                            (period !== 'all' ||
+                              ['seven-years', 'independence'].includes(
+                                c.id,
+                              )) && (
+                              <text
+                                x={x(Math.max(c.start, range[0])) + 3}
+                                y={k % 2 === 0 ? 17 : 31}
+                                className="era-label"
+                              >
+                                {c.title}
+                              </text>
+                            )}
+                        </g>
+                      ))}
                   {ticks.map((t) => (
                     <g key={t}>
                       <line
                         x1={x(t)}
                         x2={x(t)}
-                        y1={TOP - 24}
-                        y2={H - 8}
+                        y1={TOP - 10}
+                        y2={
+                          eventSpacing && !labelledTicks.has(t)
+                            ? TOP - 4
+                            : H - 8
+                        }
                         className="year-grid"
                       />
-                      <text
-                        x={x(t)}
-                        y={TOP - 15}
-                        textAnchor={
-                          t === range[0]
-                            ? 'start'
-                            : t === range[1]
-                              ? 'end'
-                              : 'middle'
-                        }
-                        className="year-label"
-                      >
-                        {t}
-                      </text>
+                      {labelledTicks.has(t) && (
+                        <text
+                          x={x(t)}
+                          y={TOP - 15}
+                          textAnchor={
+                            t === range[0]
+                              ? 'start'
+                              : t === range[1]
+                                ? 'end'
+                                : 'middle'
+                          }
+                          className="year-label"
+                        >
+                          {Math.floor(t)}
+                        </text>
+                      )}
                     </g>
                   ))}
                   {ownerRows.map((o, row) => (
@@ -712,9 +760,11 @@ export default function Home() {
                 )}
               </div>
               <p className="chart-scale-note">
-                {period === 'all'
-                  ? 'Indigenous histories extend millennia before 1450.'
-                  : 'Linear time scale. Treaty dates and handovers may differ.'}
+                {eventSpacing
+                  ? `Event spacing · ${axisSubject}. Equal gaps represent successive dated records, not equal years. Shared dates share a tick.`
+                  : period === 'all'
+                    ? 'Linear time · Indigenous histories extend millennia before 1450.'
+                    : 'Linear time · Treaty dates and handovers may differ.'}
               </p>
               <div className="chart-legend">
                 <span>
@@ -850,13 +900,21 @@ export default function Home() {
               <output>{Math.floor(year)}</output>
             </div>
             <Slider
-              value={[Math.max(range[0], Math.min(Math.floor(year), range[1]))]}
-              min={range[0]}
-              max={range[1]}
+              value={[
+                eventSpacing
+                  ? eventScale.position(year) * (eventScale.domain.length - 1)
+                  : Math.max(range[0], Math.min(Math.floor(year), range[1])),
+              ]}
+              min={eventSpacing ? 0 : range[0]}
+              max={eventSpacing ? eventScale.domain.length - 1 : range[1]}
               step={1}
-              thumbLabel="Year to explore"
+              thumbLabel={eventSpacing ? 'Event to explore' : 'Year to explore'}
+              thumbValueText={cursorLabel}
               onValueChange={(v) => {
-                setYear(typeof v === 'number' ? v : v[0]);
+                const value = typeof v === 'number' ? v : v[0];
+                setYear(
+                  eventSpacing ? eventScale.domain[Math.round(value)] : value,
+                );
                 setEventId('');
                 setTip(null);
               }}
