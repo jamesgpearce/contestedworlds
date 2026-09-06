@@ -2373,3 +2373,47 @@ footer > span:first-child {
 .selection-list > summary {
   padding: 2px 0;
 }
+.chart-preview {
+  position: sticky;
+  top: 61px;
+  z-index: 4;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+}
+.period-row-labels {
+  transition: opacity 150ms ease;
+}
+.period-row-label.above-row > span,
+.period-row-label.above-row > svg {
+  background: var(--paper);
+}
+.period-row-label.above-row > span {
+  padding: 2px 4px;
+}
+@media (max-width: 600px) {
+  .chart-preview {
+    top: 49px;
+    min-height: 48px;
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .chart-preview > * {
+    flex-basis: auto;
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .period-row-labels {
+    transition: none;
+  }
+}
+/* Contain the server's provisional plot width until the first measured layout. */
+.period-canvas {
+  overflow-x: clip;
+}

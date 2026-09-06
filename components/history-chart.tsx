@@ -28,10 +28,11 @@ type Frame = {
   height: number;
   connectors: number;
 };
-function useMovingPeriods(target: Frame) {
+function useMovingPeriods(target: Frame, arrangement: Arrangement) {
   const [frame, setFrame] = useState(target);
   const displayed = useRef(target);
   const first = useRef(true);
+  const previousArrangement = useRef(arrangement);
   useLayoutEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     let request = 0;
@@ -40,7 +41,9 @@ function useMovingPeriods(target: Frame) {
       displayed.current = target;
       setFrame(target);
     };
-    if (first.current || reduce.matches) {
+    const regrouping = previousArrangement.current !== arrangement;
+    previousArrangement.current = arrangement;
+    if (first.current || reduce.matches || !regrouping) {
       first.current = false;
       stop();
       return;
@@ -74,7 +77,7 @@ function useMovingPeriods(target: Frame) {
       cancelAnimationFrame(request);
       reduce.removeEventListener('change', stop);
     };
-  }, [target]);
+  }, [target, arrangement]);
   return frame;
 }
 
@@ -153,7 +156,7 @@ export function HistoryChart({
     }),
     [layout, arrangement],
   );
-  const frame = useMovingPeriods(target);
+  const frame = useMovingPeriods(target, arrangement);
   const changing = Math.abs(frame.connectors - target.connectors) > 0.001;
   const plotWidth = Math.max(1, width - layout.left - layout.right);
   const x = (date: number) =>
@@ -224,7 +227,21 @@ export function HistoryChart({
     else if (e.key === 'ArrowLeft') next = route[Math.max(0, n - 1)];
     else if (e.key === 'Home') next = route[0];
     else if (e.key === 'End') next = route.at(-1);
-    else if (e.key === 'Enter' || e.key === ' ') {
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      const index = tracks.findIndex((i) => i.id === p.islandId);
+      const island =
+        tracks[
+          Math.max(
+            0,
+            Math.min(tracks.length - 1, index + (e.key === 'ArrowUp' ? -1 : 1)),
+          )
+        ];
+      next =
+        periods.find(
+          (q) =>
+            q.islandId === island.id && q.start <= p.start && q.end > p.start,
+        ) || periods.find((q) => q.islandId === island.id);
+    } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       select(p);
       return;
@@ -241,24 +258,38 @@ export function HistoryChart({
         ?.focus();
     }
   };
+  const claimSpots: { x: number; y: number }[] = [];
   return (
     <div className="period-atlas" ref={ref}>
       <div className="chart-preview" aria-hidden="true">
         {preview ? (
           <>
             <strong>
-              {tracks.find((i) => i.id === preview.islandId)?.name}
+              Preview · {tracks.find((i) => i.id === preview.islandId)?.name}
             </strong>
             <span>
               {owners[preview.power].label} · {periodDates(preview, range)}
             </span>
           </>
         ) : (
-          <span>
-            {arrangement === 'islands'
-              ? 'Each row follows an island.'
-              : 'Each band gathers a power’s holdings. Parallel lanes keep islands distinct.'}
-          </span>
+          <>
+            <strong>
+              {selectedClaim
+                ? 'Selected claim'
+                : standaloneEvent
+                  ? 'Selected event'
+                  : 'Selected period'}{' '}
+              · {current.name}
+            </strong>
+            <span>
+              {displayPower ? owners[displayPower].label : ''} ·{' '}
+              {standaloneEvent
+                ? eventDate(standaloneEvent)
+                : inspected
+                  ? periodDates(inspected, range)
+                  : ''}
+            </span>
+          </>
         )}
       </div>
       <div
@@ -280,8 +311,9 @@ export function HistoryChart({
             Rectangles represent periods of{' '}
             {mode === 'administration' ? 'administration' : 'sovereign status'}.
             Color identifies the power. Use left and right arrow keys on a
-            period, or the previous and next buttons below. Vertical distance
-            and rectangle height do not measure population, area, or importance.
+            period, up and down to change islands, or the previous and next
+            buttons below. Vertical distance and rectangle height do not measure
+            population, area, or importance.
           </desc>
           {ticks.map((t) => (
             <g key={t} aria-hidden="true">
@@ -455,14 +487,28 @@ export function HistoryChart({
               );
             if (!p) return null;
             const pos = frame.positions[p.id] || layout.positions[p.id];
-            const yy = pos.y - 6,
-              xx = x(t);
+            const xx = x(t);
+            let yy = pos.y - 7,
+              slot = 0;
+            // Nearby claims remain independently selectable even on a compressed time axis.
+            while (
+              claimSpots.some(
+                (s) => Math.abs(s.x - xx) < 12 && Math.abs(s.y - yy) < 12,
+              )
+            ) {
+              slot++;
+              yy =
+                slot % 2
+                  ? pos.y + pos.height + 7 + Math.floor(slot / 2) * 12
+                  : pos.y - 7 - Math.floor(slot / 2) * 12;
+            }
+            claimSpots.push({ x: xx, y: yy });
             return (
               <g
                 key={event.id}
                 className="claim-mark"
                 role="button"
-                tabIndex={eventId === event.id ? 0 : -1}
+                tabIndex={0}
                 aria-label={`${island.name}. Claim only. ${eventDate(event)}. ${event.title}`}
                 onClick={() => onClaim(island, event)}
                 onKeyDown={(e) => {
@@ -477,7 +523,7 @@ export function HistoryChart({
                   fill="var(--paper)"
                   stroke={powerColor(event.claimant || p.power)}
                 />
-                <circle cx={xx} cy={yy} r="7" fill="transparent" />
+                <circle cx={xx} cy={yy} r="5" fill="transparent" />
               </g>
             );
           })}
@@ -496,7 +542,11 @@ export function HistoryChart({
             />
           )}
         </svg>
-        <div className="period-row-labels" aria-hidden="true">
+        <div
+          className="period-row-labels"
+          aria-hidden="true"
+          style={{ opacity: changing ? 0 : 1 }}
+        >
           {layout.rows.map((row) => (
             <div
               key={`${arrangement}:${row.id}`}

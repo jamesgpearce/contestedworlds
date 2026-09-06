@@ -200,6 +200,8 @@ export default function Home() {
   const selectEvent = (e: HistoryEvent) => {
     setEventId(e.id);
     setYear(dateValue(e.date));
+    if (dateValue(e.date) < range[0] || dateValue(e.date) > range[1])
+      setPeriod('all');
   };
   const changeSelection = (ids: string[]) => {
     if (!ids.length) return;

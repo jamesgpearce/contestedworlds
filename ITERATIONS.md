@@ -15,3 +15,12 @@ Event spacing reveals sequences rather than elapsed duration. The selected islan
 Width is an optional experiment with the existing evidence. Present-day population would not describe historical population, while land-area comparisons would require definitions consistent with island groups, split islands and proxy tracks. Neither is silently inferred from the locator map. Counts remain qualified by source coverage.
 
 The final validation pass adds label clearance on larger charts and explicit truncation for long island names. See VALIDATION.md for the verification boundary.
+
+## Shared period rectangles · 7 September 2026
+
+- `1883431`: derive stable administration/sovereignty periods and deterministic interval packing, with coverage and non-overlap tests.
+- `a09cf1a`: checkbox multiselection and animated Islands/Powers arrangements, a shared event domain, explicit period selection and supplementary hover.
+- `3b2dde1`: muted site surfaces in both appearances and consistent power colors in chart, map and story strips.
+- The following validation commit improves the sticky selected-period strip, precision of interval end labels, nearby claim targets and keyboard access. README.md describes the current interaction. Earlier grouping and line-width experiments remain reversible in the commits above.
+
+The canonical historical JSON and bibliography remain unchanged. Rectangles are a derived view; contributors still edit the same per-island text files.
