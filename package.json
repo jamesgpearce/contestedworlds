@@ -9,7 +9,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
-    "lint": "oxlint app lib components/island-map.tsx components/theme-switcher.tsx components/ui/slider.tsx components/ui/select.tsx components/ui/tabs.tsx components/ui/table.tsx components/ui/input.tsx components/ui/dropdown-menu.tsx",
+    "lint": "oxlint app lib components/island-map.tsx components/theme-switcher.tsx components/power-symbol.tsx components/ui/slider.tsx components/ui/select.tsx components/ui/tabs.tsx components/ui/table.tsx components/ui/input.tsx components/ui/dropdown-menu.tsx",
     "format": "oxfmt",
     "data:check": "python3 scripts/build-data.py --check",
     "data:build": "python3 scripts/build-data.py",

@@ -147,3 +147,44 @@ export function historyPath(
   }
   return p + `H${x(range[1])}`;
 }
+
+export function powersInRange(i: Island, mode: Mode, range: [number, number]) {
+  return new Set([
+    stateAt(i, range[0], mode),
+    ...changes(i, mode)
+      .filter(
+        (e) => dateValue(e.date) > range[0] && dateValue(e.date) <= range[1],
+      )
+      .map((e) =>
+        mode === 'administration'
+          ? e.resultingController
+          : e.resultingSovereign,
+      ),
+  ]);
+}
+export function chartPowerRows(
+  i: Island,
+  mode: Mode,
+  range: [number, number],
+  collapse: boolean,
+) {
+  const relevant = powersInRange(i, mode, range);
+  if (!collapse || relevant.size === data.owners.length) return data.owners;
+  const kept = data.owners.filter((o) => relevant.has(o.id));
+  const other = {
+    id: 'other',
+    label: 'Other powers',
+    color: '#8394ae',
+    description: `${data.owners
+      .filter((o) => !relevant.has(o.id))
+      .map((o) => o.label)
+      .join(
+        ', ',
+      )}. Grouped only in this chart; the underlying histories remain distinct.`,
+  };
+  return [
+    ...kept.filter((o) => o.id !== 'independent'),
+    other,
+    ...kept.filter((o) => o.id === 'independent'),
+  ];
+}

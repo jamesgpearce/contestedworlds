@@ -7,7 +7,7 @@ export function chartLayout(
 ) {
   const compact = width < 600;
   const numbered = width >= 960;
-  const left = compact ? 124 : numbered ? 188 : 154;
+  const left = compact ? 76 : numbered ? 188 : 154;
   const right = compact ? 17 : 25;
   const top = compact ? 30 : numbered ? 68 : 34;
   const bottom = 21;

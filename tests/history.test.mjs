@@ -24,10 +24,18 @@ const javascript = ts.transpileModule(
     },
   },
 ).outputText;
-const { islands, data, stateAt, historyPath, dateValue, eventDate } =
-  await import(
-    `data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`
-  );
+const {
+  islands,
+  data,
+  stateAt,
+  historyPath,
+  dateValue,
+  eventDate,
+  powersInRange,
+  chartPowerRows,
+} = await import(
+  `data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`
+);
 const island = (id) => islands.find((i) => i.id === id);
 
 test('Guadeloupe in 1813: British administration, Swedish title', () => {
@@ -204,4 +212,42 @@ test('Rounded bends stay on dated transitions and shrink around close events', (
     path.endsWith('H1800V40H1800'),
     'A transfer at the right endpoint cannot curve beyond the range',
   );
+});
+
+test('Grouped rows preserve every power in the selected island history', () => {
+  for (const island of islands)
+    for (const mode of ['administration', 'sovereignty'])
+      for (const range of [
+        [1450, 2026],
+        [1600, 1820],
+        [1790, 2026],
+      ]) {
+        const relevant = powersInRange(island, mode, range);
+        const rows = chartPowerRows(island, mode, range, true);
+        for (const id of relevant)
+          assert.ok(
+            rows.some((r) => r.id === id),
+            `${island.id}: ${id} must have its own row`,
+          );
+        assert.equal(
+          rows.filter((r) => r.id !== 'other').length,
+          relevant.size,
+        );
+        assert.equal(
+          rows.some((r) => r.id === 'other'),
+          relevant.size < data.owners.length,
+        );
+        assert.equal(
+          chartPowerRows(island, mode, range, false).length,
+          data.owners.length,
+        );
+        for (const other of islands)
+          for (const date of [range[0], range[1]]) {
+            const power = stateAt(other, date, mode);
+            assert.ok(
+              rows.some((r) => r.id === power || r.id === 'other'),
+              'Every background history retains a plotted row',
+            );
+          }
+      }
 });

@@ -24,6 +24,7 @@ import { Input } from '@/components/ui/input';
 import { IslandMap } from '@/components/island-map';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { chartLayout } from '@/lib/chart-layout';
+import { PowerSymbol, powerAbbreviations } from '@/components/power-symbol';
 import {
   Table,
   TableCaption,
@@ -46,6 +47,8 @@ import {
   dateValue,
   eventDate,
   historyPath,
+  powersInRange,
+  chartPowerRows,
   color,
   START,
   END,
@@ -158,6 +161,7 @@ export default function Home() {
   const [showClaims, setShowClaims] = useState(false);
   const [year, setYear] = useState(dateValue('1763-02-10'));
   const [overview, setOverview] = useState(false);
+  const [showAllPowers, setShowAllPowers] = useState(false);
   const [evidence, setEvidence] = useState(false);
   const [tip, setTip] = useState<{
     island: Island;
@@ -236,7 +240,11 @@ export default function Home() {
       }),
     [],
   );
-  const ownerRows = data.owners;
+  const collapsePowers = chartSize.width < 600 && !showAllPowers && !overview;
+  const ownerRows = chartPowerRows(current, mode, range, collapsePowers);
+  const relevantPowers = powersInRange(focus || current, mode, range);
+  const groupedCount =
+    data.owners.length - ownerRows.filter((o) => o.id !== 'other').length;
   const layout = chartLayout(
     chartSize.width,
     chartSize.height,
@@ -244,8 +252,12 @@ export default function Home() {
     ownerRows.length,
   );
   const { width: W, height: H, left: L, right: R, top: TOP, x, ticks } = layout;
-  const y = (owner: string) =>
-    layout.y(ownerRows.findIndex((o) => o.id === owner));
+  const y = (owner: string) => {
+    const index = ownerRows.findIndex((o) => o.id === owner);
+    return layout.y(
+      index < 0 ? ownerRows.findIndex((o) => o.id === 'other') : index,
+    );
+  };
   const offset = (i: Island) =>
     (islands.indexOf(i) - (islands.length - 1) / 2) * layout.laneStep;
   const ordered = [
@@ -401,8 +413,12 @@ export default function Home() {
                     {islands.length} island histories move between rows for
                     political powers. Vertical turns mark dated changes on a
                     linear time axis. Parallel lines within a row have no ranked
-                    meaning. Select an island in the list or use the Table view
-                    for its dated and cited chronology.{' '}
+                    meaning.{' '}
+                    {collapsePowers
+                      ? `${groupedCount} less relevant powers are grouped in the Other row; expand them using the control below.`
+                      : 'All power rows are shown.'}{' '}
+                    Select an island in the list or use the Table view for its
+                    dated and cited chronology.{' '}
                     {focus
                       ? `The line for ${focus.name} is highlighted.`
                       : 'All histories are visible with equal emphasis.'}
@@ -476,7 +492,7 @@ export default function Home() {
                     </g>
                   ))}
                   {ownerRows.map((o, row) => (
-                    <g key={o.id}>
+                    <g key={o.id} className="power-row" data-power={o.id}>
                       <line
                         x1={L}
                         x2={W - R}
@@ -484,11 +500,10 @@ export default function Home() {
                         y2={y(o.id)}
                         className="owner-grid"
                       />
-                      <circle
-                        cx={layout.numbered ? 30 : 4}
-                        cy={y(o.id) - 1}
-                        r={3.3}
-                        fill={`light-dark(${o.color}, color-mix(in srgb, ${o.color} 70%, white))`}
+                      <PowerSymbol
+                        id={o.id}
+                        x={layout.numbered ? 24 : 0}
+                        y={y(o.id) - 8}
                       />
                       {layout.numbered && (
                         <text x={0} y={y(o.id) + 4} className="owner-index">
@@ -496,19 +511,12 @@ export default function Home() {
                         </text>
                       )}
                       <text
-                        x={layout.numbered ? 44 : 14}
+                        x={layout.numbered ? 54 : layout.compact ? 29 : 30}
                         y={y(o.id) + 4}
-                        className={`owner-label ${focus && changes(focus, mode).some((e) => (mode === 'administration' ? e.resultingController : e.resultingSovereign) === o.id) ? 'owner-used' : ''}`}
+                        className={`owner-label ${relevantPowers.has(o.id) ? 'owner-used' : 'owner-muted'}`}
                       >
                         <title>{`${o.label}: ${o.description}`}</title>
-                        {layout.compact
-                          ? {
-                              indigenous: 'Indigenous',
-                              contested: 'Shared / unsettled',
-                              britain: 'England / Britain',
-                              malta: 'Knights of Malta',
-                            }[o.id] || o.label
-                          : o.label}
+                        {layout.compact ? powerAbbreviations[o.id] : o.label}
                       </text>
                     </g>
                   ))}
@@ -779,6 +787,63 @@ export default function Home() {
               </Table>
             </div>
           )}
+          <div className="power-legend-row">
+            <details className="power-key">
+              <summary>Powers &amp; flags</summary>
+              <p>
+                Flags identify powers using modern designs; they do not change
+                with historical dates. UK includes earlier English rule.
+                Lettermarks identify Courland and Gran Colombia. Indigenous
+                societies and independent states have no single national flag.
+              </p>
+              <ul>
+                {data.owners.map((o) => (
+                  <li key={o.id}>
+                    <svg viewBox="0 0 22 17" aria-hidden="true">
+                      <PowerSymbol id={o.id} />
+                    </svg>
+                    <div>
+                      <strong>{o.label}</strong>
+                      <p>{o.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <p>
+                SVG flags:{' '}
+                <a
+                  href="https://github.com/lipis/flag-icons"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  flag-icons (MIT)
+                </a>
+                . Order flag:{' '}
+                <a
+                  href="https://www.orderofmalta.int/government/flags-emblems/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Order of Malta
+                </a>
+                .
+              </p>
+            </details>
+            {layout.compact && !overview && (
+              <button
+                className="power-toggle"
+                onClick={() => {
+                  setShowAllPowers(!showAllPowers);
+                  setHovered(null);
+                }}
+                aria-pressed={showAllPowers}
+              >
+                {showAllPowers
+                  ? 'Group other powers'
+                  : `Expand ${groupedCount} other powers`}
+              </button>
+            )}
+          </div>
           <div className="time-control">
             <div>
               <span id="time-label">Explore a year</span>
