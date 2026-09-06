@@ -42,6 +42,10 @@ export const data = raw as unknown as Omit<typeof raw, 'islands'> & {
   islands: Island[];
 };
 export const owners = Object.fromEntries(data.owners.map((o) => [o.id, o]));
+export function powerColor(id: string) {
+  const color = owners[id]?.color || '#7b897a';
+  return `light-dark(${color}, color-mix(in srgb, ${color} 70%, white))`;
+}
 export const sources = Object.fromEntries(data.sources.map((s) => [s.id, s]));
 export const islands = data.islands;
 export const START = data.meta.startYear,
