@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import {
   ArrowUpRight,
-  ArrowDown,
+  ChevronDown,
   ArrowRight,
   ArrowLeft,
   Download,
@@ -19,6 +19,12 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverTitle,
+} from '@/components/ui/popover';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { IslandMap } from '@/components/island-map';
@@ -366,18 +372,96 @@ export default function Home() {
                   <TabsTrigger value="events">Events</TabsTrigger>
                 </TabsList>
               </Tabs>
-              <a
-                className="chart-options-link"
-                href="#chart-options"
-                onClick={() => {
-                  const options = document.getElementById(
-                    'chart-options',
-                  ) as HTMLDetailsElement | null;
-                  if (options) options.open = true;
-                }}
-              >
-                Options <ArrowDown className="inline-icon" aria-hidden="true" />
-              </a>
+              <Popover>
+                <PopoverTrigger
+                  className="chart-options-trigger"
+                  id="chart-options"
+                >
+                  Options{' '}
+                  <ChevronDown className="inline-icon" aria-hidden="true" />
+                </PopoverTrigger>
+                <PopoverContent
+                  className="chart-options-panel"
+                  align="end"
+                  sideOffset={8}
+                >
+                  <PopoverTitle className="sr-only">Chart options</PopoverTitle>
+                  <div className="chart-option-field">
+                    <p className="chart-option-label">Periods represent</p>
+                    <Tabs
+                      value={mode}
+                      onValueChange={(v) => setMode(v as Mode)}
+                    >
+                      <TabsList aria-label="What the periods represent">
+                        <TabsTrigger value="administration">
+                          Administration
+                        </TabsTrigger>
+                        <TabsTrigger value="sovereignty">
+                          Sovereign title
+                        </TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                    <p className="chart-option-help">
+                      {mode === 'administration'
+                        ? 'Colonial governments and substantial military occupations.'
+                        : 'Recorded sovereign status. Occupation can change the government without changing the title.'}
+                    </p>
+                  </div>
+                  <div className="chart-option-field">
+                    <p className="chart-option-label">Display</p>
+                    <Tabs
+                      value={view}
+                      onValueChange={(v) => setView(String(v))}
+                    >
+                      <TabsList aria-label="Display">
+                        <TabsTrigger value="chart">Chart</TabsTrigger>
+                        <TabsTrigger value="ledger">Table</TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  </div>
+                  <div className="chart-option-field">
+                    <p className="chart-option-label">Time period</p>
+                    <Select
+                      value={period}
+                      onValueChange={(v) => {
+                        if (v) {
+                          setPeriod(v);
+                          setYear((n) =>
+                            Math.max(ranges[v][0], Math.min(n, ranges[v][1])),
+                          );
+                        }
+                      }}
+                      items={{
+                        all: 'The whole story',
+                        empires: 'The imperial contest',
+                        independence: 'Toward independence',
+                      }}
+                    >
+                      <SelectTrigger aria-label="Time period">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">
+                          The whole story · 1450–2026
+                        </SelectItem>
+                        <SelectItem value="empires">
+                          The imperial contest · 1600–1820
+                        </SelectItem>
+                        <SelectItem value="independence">
+                          Toward independence · 1790–2026
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <button
+                    className="overview-toggle"
+                    aria-pressed={showClaims}
+                    onClick={() => setShowClaims(!showClaims)}
+                  >
+                    {showClaims ? 'Hide' : 'Show'} claim markers
+                  </button>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
           {!tracks.length ? (
@@ -538,83 +622,6 @@ export default function Home() {
               </span>
             </div>
           )}
-          <details className="chart-options" id="chart-options">
-            <summary>
-              Chart options{' '}
-              <span>
-                {mode === 'administration'
-                  ? 'Administration'
-                  : 'Sovereign title'}{' '}
-                · {range[0]}–{range[1]}
-              </span>
-            </summary>
-            <div className="toolbar">
-              <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
-                <TabsList aria-label="What the periods represent">
-                  <TabsTrigger value="administration">
-                    Administration
-                  </TabsTrigger>
-                  <TabsTrigger value="sovereignty">Sovereign title</TabsTrigger>
-                </TabsList>
-              </Tabs>
-              <div className="toolbar-right">
-                <Select
-                  value={period}
-                  onValueChange={(v) => {
-                    if (v) {
-                      setPeriod(v);
-                      setYear((n) =>
-                        Math.max(ranges[v][0], Math.min(n, ranges[v][1])),
-                      );
-                    }
-                  }}
-                  items={{
-                    all: 'The whole story',
-                    empires: 'The imperial contest',
-                    independence: 'Toward independence',
-                  }}
-                >
-                  <SelectTrigger aria-label="Time period">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">
-                      The whole story · 1450–2026
-                    </SelectItem>
-                    <SelectItem value="empires">
-                      The imperial contest · 1600–1820
-                    </SelectItem>
-                    <SelectItem value="independence">
-                      Toward independence · 1790–2026
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                <Tabs value={view} onValueChange={(v) => setView(String(v))}>
-                  <TabsList aria-label="Display">
-                    <TabsTrigger value="chart">Chart</TabsTrigger>
-                    <TabsTrigger value="ledger">Table</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              </div>
-            </div>
-            <div className="view-caption">
-              <p className="view-explanation">
-                {mode === 'administration'
-                  ? 'Colonial governments and substantial military occupations. Claims appear as separate markers.'
-                  : 'Recorded sovereign status. Occupation can change the government without changing the title.'}
-              </p>
-            </div>
-            <div className="claim-option">
-              {' '}
-              <button
-                className="overview-toggle"
-                aria-pressed={showClaims}
-                onClick={() => setShowClaims(!showClaims)}
-              >
-                {showClaims ? 'Hide' : 'Show'} claim markers
-              </button>
-            </div>
-          </details>
           <nav className="stories" aria-label="Stories to explore">
             {stories.map((s) => (
               <button

@@ -36,3 +36,9 @@ Validation: TypeScript, lint and production build pass. Browser checks covered p
 Removed the duplicate selected-period strip above the plot. A compact, right-aligned preview now floats over the upper-right chart area only while hovering, with the power color on its edge. Its zero-height sticky anchor leaves no empty row and never moves the plot. Selected-period metadata remains below.
 
 Validation: TypeScript, lint and production build pass. Browser checks confirmed an unchanged plot position and selected readout during hover, dismissal on selection and pointer exit, and a 390 px layout with no horizontal overflow. No browser errors were recorded.
+
+## Options in the top bar · 7 September 2026
+
+Replaced the jump to the lower options section with a compact top-bar popover. Administration / Sovereign title, Chart / Table, time period and claim markers remain together and can be changed without closing the panel. The former lower section is removed. The existing Base UI popover handles focus, outside dismissal and Escape; there are no new dependencies.
+
+Validation: TypeScript, lint and production build pass. Browser checks covered both political-power modes, Chart / Table, the nested period selector, claim markers, and Escape returning focus to Options. The panel fits at 390 px and stays within the 320 × 568 viewport with internal scrolling. No browser errors were recorded.
