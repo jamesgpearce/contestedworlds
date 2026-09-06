@@ -188,3 +188,12 @@ export function chartPowerRows(
     ...kept.filter((o) => o.id === 'independent'),
   ];
 }
+
+export function changeCount(i: Island, mode: Mode, range: [number, number]) {
+  return changes(i, mode).filter(
+    (e) => dateValue(e.date) >= range[0] && dateValue(e.date) <= range[1],
+  ).length;
+}
+export function changeWidth(count: number) {
+  return 0.9 + 0.45 * Math.sqrt(Math.max(0, count));
+}

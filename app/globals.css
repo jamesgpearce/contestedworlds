@@ -1957,3 +1957,37 @@ footer > span:first-child {
 .power-key summary::marker {
   font-size: 0.75em;
 }
+
+.line-weight-option {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-top: 16px;
+  font-size: 0.875rem;
+}
+.line-weight-option p {
+  color: var(--faint);
+  font-size: 0.8125rem;
+  max-width: 550px;
+}
+.width-legend {
+  display: inline-flex;
+  gap: 10px;
+  color: var(--faint);
+  font-weight: 400;
+}
+.width-legend > span {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  font-family: var(--mono);
+}
+@media (max-width: 600px) {
+  .line-weight-option p {
+    flex-basis: 100%;
+  }
+  .chart-legend .width-legend {
+    flex-basis: 100%;
+  }
+}

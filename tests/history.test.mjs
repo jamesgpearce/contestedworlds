@@ -33,6 +33,8 @@ const {
   eventDate,
   powersInRange,
   chartPowerRows,
+  changeCount,
+  changeWidth,
 } = await import(
   `data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`
 );
@@ -250,4 +252,26 @@ test('Grouped rows preserve every power in the selected island history', () => {
             );
           }
       }
+});
+
+test('Change widths use dated control or title records within the chosen period', () => {
+  const guadeloupe = island('guadeloupe');
+  assert.equal(changeCount(guadeloupe, 'administration', [1813, 1813.999]), 0);
+  assert.equal(changeCount(guadeloupe, 'sovereignty', [1813, 1813.999]), 1);
+  for (const i of islands) {
+    assert.equal(
+      changeCount(i, 'administration', [1450, 2026]),
+      i.controlChanges,
+    );
+    assert.equal(changeCount(i, 'administration', [2027, 2030]), 0);
+  }
+  assert.ok(changeWidth(0) > 0, 'Unchanged histories remain visible');
+  assert.ok(
+    changeWidth(20) > changeWidth(5),
+    'More changes receive greater weight',
+  );
+  assert.ok(
+    changeWidth(20) < 4,
+    'Weight remains restrained across dense comparisons',
+  );
 });

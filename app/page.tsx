@@ -50,6 +50,8 @@ import {
   historyPath,
   powersInRange,
   chartPowerRows,
+  changeCount,
+  changeWidth,
   color,
   START,
   END,
@@ -164,6 +166,7 @@ export default function Home() {
   const [overview, setOverview] = useState(false);
   const [showAllPowers, setShowAllPowers] = useState(false);
   const [axisSpacing, setAxisSpacing] = useState('time');
+  const [lineWeight, setLineWeight] = useState('even');
   const [evidence, setEvidence] = useState(false);
   const [tip, setTip] = useState<{
     island: Island;
@@ -291,6 +294,10 @@ export default function Home() {
     (e) => dateValue(e.date) >= range[0] && dateValue(e.date) <= range[1],
   );
   const atYear = stateAt(current, year, mode);
+  const counts = visible.map((i) => changeCount(i, mode, range));
+  const widthExamples = counts.length
+    ? [Math.min(...counts), Math.max(...counts)]
+    : [0, 0];
   function preset(s: (typeof stories)[number]) {
     setOverview(false);
     setHovered(null);
@@ -393,8 +400,8 @@ export default function Home() {
                 </SelectContent>
               </Select>
               <span className="coverage">
-                {changes(current, mode).length} changes <span> / </span>{' '}
-                {islands.length} islands
+                {changeCount(current, mode, range)} changes in view{' '}
+                <span> / </span> {islands.length} islands
               </span>
             </div>
             <Tabs
@@ -597,13 +604,15 @@ export default function Home() {
                                   : 'var(--trace)'
                             }
                             strokeWidth={
-                              active
-                                ? layout.compact
-                                  ? 2
-                                  : 2.8
-                                : layout.compact
-                                  ? 0.8
-                                  : 1.15
+                              lineWeight === 'changes'
+                                ? changeWidth(changeCount(i, mode, range))
+                                : active
+                                  ? layout.compact
+                                    ? 2
+                                    : 2.8
+                                  : layout.compact
+                                    ? 0.8
+                                    : 1.15
                             }
                             opacity={active ? 1 : focus ? 0.16 : 0.72}
                             strokeLinejoin="round"
@@ -789,6 +798,24 @@ export default function Home() {
                 <span>
                   <i className="legend-uncertain" /> Qualified date or extent
                 </span>
+                {lineWeight === 'changes' && (
+                  <span className="width-legend">
+                    Width: recorded changes
+                    {[...new Set(widthExamples)].map((n) => (
+                      <span key={n}>
+                        <svg width="28" height="14" aria-hidden="true">
+                          <path
+                            d="M2 7h24"
+                            stroke="var(--focus-line)"
+                            strokeWidth={changeWidth(n)}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        {n}
+                      </span>
+                    ))}
+                  </span>
+                )}
               </div>
             </>
           ) : (
@@ -1007,6 +1034,34 @@ export default function Home() {
               >
                 {overview ? 'Focus selected island' : 'Compare all lines'}
               </button>
+            </div>
+            <div className="line-weight-option">
+              <label id="line-weight-label" htmlFor="line-width-choice">
+                Line width
+              </label>
+              <Select
+                value={lineWeight}
+                onValueChange={(v) => {
+                  if (v) setLineWeight(v);
+                }}
+                items={{ even: 'Even lines', changes: 'Recorded changes' }}
+              >
+                <SelectTrigger
+                  id="line-width-choice"
+                  aria-labelledby="line-weight-label"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="even">Even lines</SelectItem>
+                  <SelectItem value="changes">Recorded changes</SelectItem>
+                </SelectContent>
+              </Select>
+              <p>
+                {lineWeight === 'changes'
+                  ? 'Thicker lines have more recorded changes in this period. Hover and selection do not change their width.'
+                  : 'Selection highlights one history; other lines use the same weight.'}
+              </p>
             </div>
             <div className="claim-option">
               {' '}
