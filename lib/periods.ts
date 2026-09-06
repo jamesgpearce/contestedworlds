@@ -14,6 +14,7 @@ export type Period = {
   end: number;
   originalStart: number;
   event: HistoryEvent | null;
+  endEvent: HistoryEvent | null;
 };
 export function plottedEvent(e: HistoryEvent, mode: Mode, claims = false) {
   return (
@@ -33,7 +34,7 @@ export function periodsFor(
   let start = -Infinity;
   let event: HistoryEvent | null = null;
   const result: Period[] = [];
-  const append = (end: number) => {
+  const append = (end: number, endEvent: HistoryEvent | null = null) => {
     // Retain zero-duration changes as marks, without inventing a duration.
     if (
       end >= range[0] &&
@@ -48,12 +49,13 @@ export function periodsFor(
         end: Math.min(end, range[1]),
         originalStart: start,
         event,
+        endEvent,
       });
   };
   for (const e of island.events.filter((e) => plottedEvent(e, mode))) {
     const t = dateValue(e.date);
     if (t > range[1]) break;
-    append(t);
+    append(t, e);
     start = t;
     power =
       mode === 'administration' ? e.resultingController : e.resultingSovereign;

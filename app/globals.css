@@ -7,6 +7,8 @@
 @source '../components/ui/input.tsx';
 @source '../components/ui/table.tsx';
 @source '../components/ui/dropdown-menu.tsx';
+@source '../components/history-chart.tsx';
+@source '../components/island-picker.tsx';
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -1993,4 +1995,381 @@ footer > span:first-child {
   .chart-legend .width-legend {
     flex-basis: 100%;
   }
+}
+
+/* One set of historical periods, arranged by island or by political power. */
+.chart-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px 24px;
+}
+.chart-selection {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) auto;
+  align-items: center;
+  gap: 8px 18px;
+}
+.islands-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 100%;
+  min-width: 0;
+  border: 0;
+  padding: 3px 0;
+  background: none;
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  text-align: left;
+}
+.islands-trigger > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.islands-trigger > svg {
+  flex: none;
+}
+.chart-view-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.chart-view-controls [data-slot='tabs-list'] {
+  height: 36px;
+}
+.chart-view-controls [data-slot='tabs-trigger'] {
+  min-width: 56px;
+}
+.selection-list {
+  grid-column: 1/-1;
+  min-width: 0;
+}
+.selection-list > summary {
+  font-size: 0.8125rem;
+  color: var(--faint);
+  cursor: pointer;
+}
+.selected-islands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 4px 0;
+}
+.selection-chip {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: stretch;
+  background: var(--secondary);
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.selection-chip[data-inspected='true'] {
+  border-color: var(--border-strong);
+}
+.selection-chip button {
+  min-width: 0;
+  border: 0;
+  background: none;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  padding: 5px 7px;
+  text-align: left;
+}
+.selection-chip .remove-island {
+  display: flex;
+  align-items: center;
+  padding: 5px 6px;
+  color: var(--faint);
+  border-left: 1px solid var(--border);
+}
+.selection-chip button:hover {
+  background: var(--accent);
+}
+.islands-menu[data-slot='dropdown-menu-content'] {
+  width: 380px;
+  max-width: calc(100vw - 28px);
+  max-height: min(65svh, 540px);
+}
+.islands-menu [data-slot='dropdown-menu-checkbox-item'],
+.islands-menu [data-slot='dropdown-menu-item'] {
+  min-height: 38px;
+  cursor: pointer;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+.islands-menu [data-slot='dropdown-menu-label'] {
+  color: var(--faint);
+  padding: 12px 6px 4px;
+}
+.islands-menu [data-slot='dropdown-menu-checkbox-item'][data-checked] {
+  background: var(--secondary);
+}
+.period-atlas {
+  width: 100%;
+  min-width: 0;
+}
+.chart-preview {
+  min-height: 38px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-content: center;
+  padding: 6px 0;
+  color: var(--faint);
+  font-size: 0.8125rem;
+}
+.chart-preview strong {
+  color: var(--ink);
+  font-weight: 550;
+}
+.period-canvas {
+  position: relative;
+  width: 100%;
+}
+.period-chart {
+  display: block;
+  overflow: visible;
+  max-width: none;
+}
+.period-chart text {
+  fill: var(--faint);
+  font: 400 0.75rem var(--mono);
+}
+.period-row-labels {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+.period-row-label {
+  position: absolute;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-right: 12px;
+}
+.period-row-label > svg {
+  flex: none;
+  filter: saturate(0.65);
+}
+.period-row-label.above-row {
+  left: 8px;
+  font-size: 0.875rem;
+}
+.period-mark,
+.claim-mark {
+  cursor: pointer;
+  outline: none;
+}
+.period-mark:focus-visible > rect:last-child {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.period-connectors {
+  pointer-events: none;
+}
+.period-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 18px;
+  padding: 14px 0;
+  color: var(--faint);
+  font-size: 0.75rem;
+}
+.period-key > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.period-key i {
+  display: inline-block;
+  width: 14px;
+  height: 8px;
+}
+.period-key .marker-key {
+  margin-left: auto;
+}
+.period-key .uncertain-key {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+}
+.period-readout {
+  margin-top: 4px;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+.readout-heading {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  color: var(--faint);
+  font-size: 0.8125rem;
+}
+.readout-heading strong {
+  color: var(--ink);
+  font-weight: 550;
+}
+.readout-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 9px;
+  font-size: 0.9375rem;
+}
+.readout-body strong {
+  font-weight: 600;
+}
+.readout-body p {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: var(--faint);
+  max-width: 85ch;
+}
+.readout-swatch {
+  flex: none;
+  width: 6px;
+  height: 42px;
+  margin-top: 3px;
+}
+.period-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 10px;
+  font-size: 0.8125rem;
+}
+.period-navigation > a {
+  margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.period-navigation > span {
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.period-navigation button {
+  border: 1px solid var(--border);
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+}
+.period-navigation button:hover:enabled {
+  background: var(--secondary);
+}
+.period-atlas + .chart-scale-note {
+  font-size: 0.75rem;
+  padding-top: 8px;
+}
+.power-legend-row {
+  border: 0;
+}
+.time-control {
+  margin-top: 14px;
+}
+@media (max-width: 1100px) {
+  .chart-heading {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .chart-view-controls {
+    justify-content: flex-start;
+  }
+  .chart-options-link {
+    margin-left: auto;
+  }
+}
+@media (max-width: 600px) {
+  .chart-selection {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 10px;
+  }
+  .islands-trigger {
+    font-size: 1.2rem;
+  }
+  .coverage {
+    display: block;
+    font-size: 0.6875rem;
+    white-space: normal;
+    text-align: right;
+    max-width: 90px;
+  }
+  .chart-view-controls {
+    gap: 8px;
+  }
+  .chart-view-controls [data-slot='tabs-list'] {
+    height: 38px;
+  }
+  .chart-preview {
+    min-height: 52px;
+    gap: 2px;
+    padding-top: 5px;
+    font-size: 0.75rem;
+  }
+  .chart-preview > * {
+    flex-basis: 100%;
+  }
+  .period-navigation > a {
+    flex-basis: 100%;
+    margin-bottom: 2px;
+  }
+  .period-navigation {
+    gap: 8px;
+  }
+  .period-navigation > span {
+    margin-right: auto;
+  }
+  .period-key {
+    gap: 7px 12px;
+  }
+  .period-key .marker-key {
+    margin-left: 0;
+  }
+  .selected-islands {
+    gap: 4px;
+  }
+}
+@media (pointer: coarse) {
+  .islands-trigger,
+  .selection-chip button,
+  .period-navigation button {
+    min-height: 44px;
+  }
+  .selection-chip .remove-island {
+    min-width: 32px;
+    justify-content: center;
+  }
+  .islands-menu [data-slot='dropdown-menu-checkbox-item'] {
+    min-height: 44px;
+  }
+}
+
+.chart-selection > .coverage {
+  grid-row: 1;
+  grid-column: 2;
+  text-align: right;
+}
+.chart-view-controls .axis-toggle {
+  margin-left: 0;
+}
+.selection-list > summary {
+  padding: 2px 0;
 }
