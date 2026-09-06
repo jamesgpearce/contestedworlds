@@ -133,10 +133,10 @@ export function IslandPicker({
       {ids.length > 0 && (
         <details className="selection-list">
           <summary>
-            {ids.length} islands in chart · inspecting{' '}
+            {ids.length} islands selected · inspecting{' '}
             {islands.find((i) => i.id === inspected)?.name}
           </summary>
-          <div className="selected-islands" aria-label="Islands in the chart">
+          <div className="selected-islands" aria-label="Selected islands">
             {selected.map((i) => (
               <span
                 className="selection-chip"

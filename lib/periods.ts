@@ -1,5 +1,6 @@
 import {
   dateValue,
+  eventDate,
   type HistoryEvent,
   type Island,
   type Mode,
@@ -16,6 +17,11 @@ export type Period = {
   event: HistoryEvent | null;
   endEvent: HistoryEvent | null;
 };
+export function periodDates(p: Period, range: [number, number]) {
+  const start = p.event ? eventDate(p.event) : `Before ${range[0]}`;
+  return `${start} – ${p.endEvent ? eventDate(p.endEvent) : Math.floor(p.end)}`;
+}
+
 export function plottedEvent(e: HistoryEvent, mode: Mode, claims = false) {
   return (
     (mode === 'administration' ? e.changesControl : e.changesSovereignty) ||

@@ -14,6 +14,7 @@ import {
 } from '@/lib/history';
 import {
   periodsFor,
+  periodDates,
   arrangePeriods,
   plottedEvent,
   type Period,
@@ -79,11 +80,6 @@ function useMovingPeriods(target: Frame, arrangement: Arrangement) {
     };
   }, [target, arrangement]);
   return frame;
-}
-
-function periodDates(p: Period, range: [number, number]) {
-  const start = p.event ? eventDate(p.event) : `Before ${range[0]}`;
-  return `${start} – ${p.endEvent ? eventDate(p.endEvent) : Math.floor(p.end)}`;
 }
 
 export function HistoryChart({

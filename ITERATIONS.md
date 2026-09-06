@@ -42,3 +42,9 @@ Validation: TypeScript, lint and production build pass. Browser checks confirmed
 Replaced the jump to the lower options section with a compact top-bar popover. Administration / Sovereign title, Chart / Table, time period and claim markers remain together and can be changed without closing the panel. The former lower section is removed. The existing Base UI popover handles focus, outside dismissal and Escape; there are no new dependencies.
 
 Validation: TypeScript, lint and production build pass. Browser checks covered both political-power modes, Chart / Table, the nested period selector, claim markers, and Escape returning focus to Options. The panel fits at 390 px and stays within the 320 × 568 viewport with internal scrolling. No browser errors were recorded.
+
+## Four display modes · 7 September 2026
+
+The top-bar switch offers Chart by Island, Chart by Power, Table by Island and Table by Power. Both tables use the same derived periods and selected islands as the charts, regrouped by island or power. Dated rows carry power colors, initiating events, qualifications and sources, and select the island inspector. The previous single-island chronology table is replaced; the inspector retains contextual chronology and background. Time / Events, claim markers and the year slider are chart-only controls. Chart spacing is preserved when returning from a table.
+
+Validation: TypeScript, lint, the five period-model tests and the production build pass. Browser checks verified identical IDs for all 66 default periods in both table arrangements and the chart, 338 unique periods with all islands selected, and 107 matching sovereign-title periods in the 1600–1820 window. Table selection updates the inspector; returning to a chart restores Events spacing. The four-way switch and table fit at 390 and 320 px, with wrapping citations and no horizontal overflow. No browser errors were recorded. Canonical historical data and dependencies are unchanged.

@@ -29,6 +29,7 @@ import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { IslandMap } from '@/components/island-map';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { PeriodTable } from '@/components/period-table';
 import { HistoryChart } from '@/components/history-chart';
 import { IslandPicker } from '@/components/island-picker';
 import {
@@ -39,15 +40,6 @@ import {
 } from '@/lib/periods';
 import { eventAxis } from '@/lib/event-axis';
 import { PowerSymbol } from '@/components/power-symbol';
-import {
-  Table,
-  TableCaption,
-  TableHeader,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-} from '@/components/ui/table';
 import {
   data,
   islands,
@@ -64,6 +56,33 @@ import {
   START,
   END,
 } from '@/lib/history';
+
+const displays = [
+  {
+    id: 'chart-islands',
+    view: 'chart',
+    arrangement: 'islands',
+    label: 'Chart by Island',
+  },
+  {
+    id: 'chart-powers',
+    view: 'chart',
+    arrangement: 'powers',
+    label: 'Chart by Power',
+  },
+  {
+    id: 'table-islands',
+    view: 'table',
+    arrangement: 'islands',
+    label: 'Table by Island',
+  },
+  {
+    id: 'table-powers',
+    view: 'table',
+    arrangement: 'powers',
+    label: 'Table by Power',
+  },
+] as const;
 
 const ranges: Record<string, [number, number]> = {
   all: [START, END],
@@ -169,7 +188,7 @@ export default function Home() {
   const [arrangement, setArrangement] = useState<Arrangement>('islands');
   const [mode, setMode] = useState<Mode>('administration');
   const [period, setPeriod] = useState('all');
-  const [view, setView] = useState('chart');
+  const [view, setView] = useState<'chart' | 'table'>('chart');
   const [eventId, setEventId] = useState('saint-lucia-12');
   const [query, setQuery] = useState('');
   const [group, setGroup] = useState('All islands');
@@ -352,26 +371,36 @@ export default function Home() {
             </div>
             <div className="chart-view-controls">
               <Tabs
-                value={arrangement}
-                onValueChange={(v) => setArrangement(v as Arrangement)}
-              >
-                <TabsList aria-label="Group periods by">
-                  <TabsTrigger value="islands">Islands</TabsTrigger>
-                  <TabsTrigger value="powers">Powers</TabsTrigger>
-                </TabsList>
-              </Tabs>
-              <Tabs
-                className="axis-toggle"
-                value={axisSpacing}
-                onValueChange={(v) => {
-                  setAxisSpacing(String(v));
+                className="display-toggle"
+                value={`${view}-${arrangement}`}
+                onValueChange={(value) => {
+                  const choice = displays.find((d) => d.id === value);
+                  if (choice) {
+                    setView(choice.view);
+                    setArrangement(choice.arrangement);
+                  }
                 }}
               >
-                <TabsList aria-label="Horizontal spacing">
-                  <TabsTrigger value="time">Time</TabsTrigger>
-                  <TabsTrigger value="events">Events</TabsTrigger>
+                <TabsList aria-label="Display and grouping">
+                  {displays.map((d) => (
+                    <TabsTrigger key={d.id} value={d.id}>
+                      {d.label}
+                    </TabsTrigger>
+                  ))}
                 </TabsList>
               </Tabs>
+              {view === 'chart' && (
+                <Tabs
+                  className="axis-toggle"
+                  value={axisSpacing}
+                  onValueChange={(v) => setAxisSpacing(String(v))}
+                >
+                  <TabsList aria-label="Horizontal spacing">
+                    <TabsTrigger value="time">Time</TabsTrigger>
+                    <TabsTrigger value="events">Events</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              )}
               <Popover>
                 <PopoverTrigger
                   className="chart-options-trigger"
@@ -408,18 +437,6 @@ export default function Home() {
                     </p>
                   </div>
                   <div className="chart-option-field">
-                    <p className="chart-option-label">Display</p>
-                    <Tabs
-                      value={view}
-                      onValueChange={(v) => setView(String(v))}
-                    >
-                      <TabsList aria-label="Display">
-                        <TabsTrigger value="chart">Chart</TabsTrigger>
-                        <TabsTrigger value="ledger">Table</TabsTrigger>
-                      </TabsList>
-                    </Tabs>
-                  </div>
-                  <div className="chart-option-field">
                     <p className="chart-option-label">Time period</p>
                     <Select
                       value={period}
@@ -453,13 +470,15 @@ export default function Home() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <button
-                    className="overview-toggle"
-                    aria-pressed={showClaims}
-                    onClick={() => setShowClaims(!showClaims)}
-                  >
-                    {showClaims ? 'Hide' : 'Show'} claim markers
-                  </button>
+                  {view === 'chart' && (
+                    <button
+                      className="overview-toggle"
+                      aria-pressed={showClaims}
+                      onClick={() => setShowClaims(!showClaims)}
+                    >
+                      {showClaims ? 'Hide' : 'Show'} claim markers
+                    </button>
+                  )}
                 </PopoverContent>
               </Popover>
             </div>
@@ -501,51 +520,17 @@ export default function Home() {
               </p>
             </>
           ) : (
-            <div className="ledger-wrap">
-              <Table>
-                <TableCaption>
-                  {current.name}: complete dated chronology. The period filter
-                  affects the chart, not this table.
-                </TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead scope="col">Date</TableHead>
-                    <TableHead scope="col">Event</TableHead>
-                    <TableHead scope="col">Administration after</TableHead>
-                    <TableHead scope="col">Sovereign title after</TableHead>
-                    <TableHead scope="col">Evidence</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {current.events.map((e) => (
-                    <TableRow key={e.id}>
-                      <TableCell>{eventDate(e)}</TableCell>
-                      <TableCell>
-                        <button
-                          className="table-event"
-                          onClick={() => selectEvent(e)}
-                        >
-                          {e.title}
-                        </button>
-                        <p>{e.detail}</p>
-                        {e.uncertainty && (
-                          <p className="qualification">{e.uncertainty}</p>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {owners[e.resultingController].label}
-                      </TableCell>
-                      <TableCell>
-                        {owners[e.resultingSovereign].label}
-                      </TableCell>
-                      <TableCell>
-                        <Cite ids={e.sources} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+            <PeriodTable
+              tracks={tracks}
+              mode={mode}
+              range={range}
+              arrangement={arrangement}
+              inspectedId={selected}
+              eventId={eventId}
+              year={year}
+              onSelect={selectPeriod}
+              renderSources={(ids) => <Cite ids={ids} />}
+            />
           )}
           <div className="power-legend-row">
             <details className="power-key">
@@ -590,7 +575,7 @@ export default function Home() {
               </p>
             </details>
           </div>
-          {tracks.length > 0 && (
+          {tracks.length > 0 && view === 'chart' && (
             <div className="time-control">
               <div>
                 <span id="time-label">Explore a year</span>
