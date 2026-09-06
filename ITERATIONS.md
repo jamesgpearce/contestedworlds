@@ -30,3 +30,9 @@ The canonical historical JSON and bibliography remain unchanged. Rectangles are 
 Region headings are now bulk checkboxes with selected counts and mixed-state indicators. Completing or clearing a region preserves selections elsewhere. Clear selection and an empty state allow the last region or island to be removed; restoring a selection restores the chart and inspector.
 
 Validation: TypeScript, lint and production build pass. Browser checks covered partial-to-full selection (9 to 14), keyboard clearing of that region (14 to 8), unchanged neighboring regions, clearing all islands, restoring a region, and clearing the final region. At 390 px, the picker fits inside the viewport without horizontal overflow. Browser error log was empty. No canonical data or dependencies changed.
+
+## Hover-only preview · 7 September 2026
+
+Removed the duplicate selected-period strip above the plot. A compact, right-aligned preview now floats over the upper-right chart area only while hovering, with the power color on its edge. Its zero-height sticky anchor leaves no empty row and never moves the plot. Selected-period metadata remains below.
+
+Validation: TypeScript, lint and production build pass. Browser checks confirmed an unchanged plot position and selected readout during hover, dismissal on selection and pointer exit, and a 390 px layout with no horizontal overflow. No browser errors were recorded.

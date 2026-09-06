@@ -2144,15 +2144,29 @@ footer > span:first-child {
   width: 100%;
   min-width: 0;
 }
+.chart-preview-anchor {
+  position: sticky;
+  top: 61px;
+  z-index: 4;
+  height: 0;
+  pointer-events: none;
+}
 .chart-preview {
-  min-height: 38px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-content: center;
-  padding: 6px 0;
+  position: absolute;
+  top: 6px;
+  right: 0;
+  display: grid;
+  gap: 3px;
+  width: max-content;
+  max-width: min(440px, 100%);
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-inline-end-width: 3px;
+  background: var(--popover);
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--ink) 10%, transparent);
   color: var(--faint);
   font-size: 0.8125rem;
+  text-align: right;
 }
 .chart-preview strong {
   color: var(--ink);
@@ -2349,15 +2363,6 @@ footer > span:first-child {
   .chart-view-controls [data-slot='tabs-list'] {
     height: 38px;
   }
-  .chart-preview {
-    min-height: 52px;
-    gap: 2px;
-    padding-top: 5px;
-    font-size: 0.75rem;
-  }
-  .chart-preview > * {
-    flex-basis: 100%;
-  }
   .period-navigation > a {
     flex-basis: 100%;
     margin-bottom: 2px;
@@ -2404,13 +2409,6 @@ footer > span:first-child {
 .selection-list > summary {
   padding: 2px 0;
 }
-.chart-preview {
-  position: sticky;
-  top: 61px;
-  z-index: 4;
-  background: var(--paper);
-  border-bottom: 1px solid var(--border);
-}
 .period-row-labels {
   transition: opacity 150ms ease;
 }
@@ -2422,23 +2420,15 @@ footer > span:first-child {
   padding: 2px 4px;
 }
 @media (max-width: 600px) {
-  .chart-preview {
+  .chart-preview-anchor {
     top: 49px;
-    min-height: 48px;
-    flex-wrap: nowrap;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
-  .chart-preview > * {
-    flex-basis: auto;
-    display: block;
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  .chart-preview {
+    padding: 8px 10px;
+    font-size: 0.75rem;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .period-row-labels {
     transition: none;

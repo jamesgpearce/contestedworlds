@@ -261,35 +261,20 @@ export function HistoryChart({
   const claimSpots: { x: number; y: number }[] = [];
   return (
     <div className="period-atlas" ref={ref}>
-      <div className="chart-preview" aria-hidden="true">
-        {preview ? (
-          <>
+      <div className="chart-preview-anchor" aria-hidden="true">
+        {preview && (
+          <div
+            className="chart-preview"
+            style={{ borderInlineEndColor: powerColor(preview.power) }}
+          >
             <strong>
-              Preview · {tracks.find((i) => i.id === preview.islandId)?.name}
+              Preview period ·{' '}
+              {tracks.find((i) => i.id === preview.islandId)?.name}
             </strong>
             <span>
               {owners[preview.power].label} · {periodDates(preview, range)}
             </span>
-          </>
-        ) : (
-          <>
-            <strong>
-              {selectedClaim
-                ? 'Selected claim'
-                : standaloneEvent
-                  ? 'Selected event'
-                  : 'Selected period'}{' '}
-              · {current.name}
-            </strong>
-            <span>
-              {displayPower ? owners[displayPower].label : ''} ·{' '}
-              {standaloneEvent
-                ? eventDate(standaloneEvent)
-                : inspected
-                  ? periodDates(inspected, range)
-                  : ''}
-            </span>
-          </>
+          </div>
         )}
       </div>
       <div
