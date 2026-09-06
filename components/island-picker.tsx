@@ -133,8 +133,8 @@ export function IslandPicker({
       {ids.length > 0 && (
         <details className="selection-list">
           <summary>
-            {ids.length} islands selected · inspecting{' '}
-            {islands.find((i) => i.id === inspected)?.name}
+            {ids.length} {ids.length === 1 ? 'island' : 'islands'} selected ·
+            inspecting {islands.find((i) => i.id === inspected)?.name}
           </summary>
           <div className="selected-islands" aria-label="Selected islands">
             {selected.map((i) => (

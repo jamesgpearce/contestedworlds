@@ -201,6 +201,7 @@ export default function Home() {
     () => islands.filter((i) => selectedIds.includes(i.id)),
     [selectedIds],
   );
+  const activeArrangement = tracks.length > 1 ? arrangement : 'powers';
   const event =
     current.events.find((e) => e.id === eventId) ||
     [...current.events].reverse().find((e) => dateValue(e.date) <= year) ||
@@ -372,7 +373,7 @@ export default function Home() {
             <div className="chart-view-controls">
               <Tabs
                 className="display-toggle"
-                value={`${view}-${arrangement}`}
+                value={`${view}-${activeArrangement}`}
                 onValueChange={(value) => {
                   const choice = displays.find((d) => d.id === value);
                   if (choice) {
@@ -382,11 +383,15 @@ export default function Home() {
                 }}
               >
                 <TabsList aria-label="Display and grouping">
-                  {displays.map((d) => (
-                    <TabsTrigger key={d.id} value={d.id}>
-                      {d.label}
-                    </TabsTrigger>
-                  ))}
+                  {displays
+                    .filter(
+                      (d) => tracks.length > 1 || d.arrangement === 'powers',
+                    )
+                    .map((d) => (
+                      <TabsTrigger key={d.id} value={d.id}>
+                        {d.label}
+                      </TabsTrigger>
+                    ))}
                 </TabsList>
               </Tabs>
               {view === 'chart' && (
@@ -500,7 +505,7 @@ export default function Home() {
                 tracks={tracks}
                 mode={mode}
                 range={range}
-                arrangement={arrangement}
+                arrangement={activeArrangement}
                 spacing={axisSpacing}
                 scale={eventScale}
                 showClaims={showClaims}
@@ -524,7 +529,7 @@ export default function Home() {
               tracks={tracks}
               mode={mode}
               range={range}
-              arrangement={arrangement}
+              arrangement={activeArrangement}
               inspectedId={selected}
               eventId={eventId}
               year={year}

@@ -48,3 +48,9 @@ Validation: TypeScript, lint and production build pass. Browser checks covered b
 The top-bar switch offers Chart by Island, Chart by Power, Table by Island and Table by Power. Both tables use the same derived periods and selected islands as the charts, regrouped by island or power. Dated rows carry power colors, initiating events, qualifications and sources, and select the island inspector. The previous single-island chronology table is replaced; the inspector retains contextual chronology and background. Time / Events, claim markers and the year slider are chart-only controls. Chart spacing is preserved when returning from a table.
 
 Validation: TypeScript, lint, the five period-model tests and the production build pass. Browser checks verified identical IDs for all 66 default periods in both table arrangements and the chart, 338 unique periods with all islands selected, and 107 matching sovereign-title periods in the 1600–1820 window. Table selection updates the inspector; returning to a chart restores Events spacing. The four-way switch and table fit at 390 and 320 px, with wrapping citations and no horizontal overflow. No browser errors were recorded. Canonical historical data and dependencies are unchanged.
+
+## Single-island choices · 7 September 2026
+
+Island-grouped views are offered only when more than one island is selected. With one island (or an empty selection), the control offers Chart by Power and Table by Power. Reducing the selection preserves the display format and uses power grouping; adding another island restores all four choices. The previous grouping preference is retained unless the user explicitly changes views.
+
+Validation: TypeScript, lint and production build pass. Browser checks covered chart and table fallbacks after keeping one island, restoring all four choices by adding Cuba, and absence of spacing controls in the single-island table. No browser errors were recorded.
