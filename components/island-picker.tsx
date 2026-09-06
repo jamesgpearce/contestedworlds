@@ -1,5 +1,5 @@
 'use client';
-import { ChevronDown, X } from 'lucide-react';
+import { ChevronDown, Minus, X } from 'lucide-react';
 import { islands } from '@/lib/history';
 import {
   DropdownMenu,
@@ -32,7 +32,11 @@ export function IslandPicker({
           aria-label={`Choose islands, ${ids.length} selected`}
         >
           <span>
-            {ids.length === 1 ? selected[0].name : `${ids.length} islands`}
+            {ids.length === 0
+              ? 'Choose islands'
+              : ids.length === 1
+                ? selected[0].name
+                : `${ids.length} islands`}
           </span>
           <ChevronDown size={18} aria-hidden="true" />
         </DropdownMenuTrigger>
@@ -45,23 +49,71 @@ export function IslandPicker({
           </DropdownMenuItem>
           <DropdownMenuItem
             closeOnClick={false}
-            onClick={() => onChange([inspected])}
+            disabled={!ids.length}
+            onClick={() => onChange([])}
           >
-            Keep only {islands.find((i) => i.id === inspected)?.name}
+            Clear selection
           </DropdownMenuItem>
+          {ids.length > 0 && (
+            <DropdownMenuItem
+              closeOnClick={false}
+              onClick={() => onChange([inspected])}
+            >
+              Keep only {islands.find((i) => i.id === inspected)?.name}
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
-          {[...new Set(islands.map((i) => i.region))].map((region) => (
-            <DropdownMenuGroup key={region}>
-              <DropdownMenuLabel>{region}</DropdownMenuLabel>
-              {islands
-                .filter((i) => i.region === region)
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((i) => (
+          {[...new Set(islands.map((i) => i.region))].map((region) => {
+            const members = islands
+              .filter((i) => i.region === region)
+              .sort((a, b) => a.name.localeCompare(b.name));
+            const memberIds = new Set(members.map((i) => i.id));
+            const count = members.filter((i) => ids.includes(i.id)).length;
+            const allSelected = count === members.length;
+            const partial = count > 0 && !allSelected;
+            return (
+              <DropdownMenuGroup key={region}>
+                <DropdownMenuLabel className="sr-only">
+                  {region}
+                </DropdownMenuLabel>
+                <DropdownMenuCheckboxItem
+                  className="island-group-toggle"
+                  checked={allSelected}
+                  aria-checked={partial ? 'mixed' : allSelected}
+                  aria-label={`${region}, ${count} of ${members.length} selected`}
+                  label={region}
+                  closeOnClick={false}
+                  onCheckedChange={(checked) =>
+                    onChange(
+                      checked
+                        ? [
+                            ...ids,
+                            ...members
+                              .filter((i) => !ids.includes(i.id))
+                              .map((i) => i.id),
+                          ]
+                        : ids.filter((id) => !memberIds.has(id)),
+                    )
+                  }
+                >
+                  <span>{region}</span>
+                  <span className="island-group-count" aria-hidden="true">
+                    {count}/{members.length}
+                  </span>
+                  {partial && (
+                    <Minus
+                      className="island-group-mixed"
+                      size={16}
+                      aria-hidden="true"
+                    />
+                  )}
+                </DropdownMenuCheckboxItem>
+                {members.map((i) => (
                   <DropdownMenuCheckboxItem
+                    className="island-group-member"
                     key={i.id}
                     checked={ids.includes(i.id)}
                     closeOnClick={false}
-                    disabled={ids.length === 1 && ids[0] === i.id}
                     onCheckedChange={(checked) =>
                       onChange(
                         checked
@@ -73,29 +125,30 @@ export function IslandPicker({
                     {i.name}
                   </DropdownMenuCheckboxItem>
                 ))}
-            </DropdownMenuGroup>
-          ))}
+              </DropdownMenuGroup>
+            );
+          })}
         </DropdownMenuContent>
       </DropdownMenu>
-      <details className="selection-list">
-        <summary>
-          {ids.length} islands in chart · inspecting{' '}
-          {islands.find((i) => i.id === inspected)?.name}
-        </summary>
-        <div className="selected-islands" aria-label="Islands in the chart">
-          {selected.map((i) => (
-            <span
-              className="selection-chip"
-              key={i.id}
-              data-inspected={i.id === inspected}
-            >
-              <button
-                onClick={() => onInspect(i.id)}
-                aria-pressed={i.id === inspected}
+      {ids.length > 0 && (
+        <details className="selection-list">
+          <summary>
+            {ids.length} islands in chart · inspecting{' '}
+            {islands.find((i) => i.id === inspected)?.name}
+          </summary>
+          <div className="selected-islands" aria-label="Islands in the chart">
+            {selected.map((i) => (
+              <span
+                className="selection-chip"
+                key={i.id}
+                data-inspected={i.id === inspected}
               >
-                {i.name}
-              </button>
-              {ids.length > 1 && (
+                <button
+                  onClick={() => onInspect(i.id)}
+                  aria-pressed={i.id === inspected}
+                >
+                  {i.name}
+                </button>
                 <button
                   className="remove-island"
                   aria-label={`Remove ${i.name}`}
@@ -103,11 +156,11 @@ export function IslandPicker({
                 >
                   <X size={12} aria-hidden="true" />
                 </button>
-              )}
-            </span>
-          ))}
-        </div>
-      </details>
+              </span>
+            ))}
+          </div>
+        </details>
+      )}
     </>
   );
 }

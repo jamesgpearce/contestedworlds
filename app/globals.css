@@ -2102,12 +2102,43 @@ footer > span:first-child {
   padding-top: 7px;
   padding-bottom: 7px;
 }
-.islands-menu [data-slot='dropdown-menu-label'] {
-  color: var(--faint);
-  padding: 12px 6px 4px;
-}
 .islands-menu [data-slot='dropdown-menu-checkbox-item'][data-checked] {
   background: var(--secondary);
+}
+.islands-menu .island-group-toggle {
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  font-weight: 650;
+}
+.island-group-count {
+  margin-left: auto;
+  color: var(--faint);
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.island-group-mixed {
+  position: absolute;
+  right: 8px;
+}
+.islands-menu .island-group-member {
+  padding-left: 18px;
+}
+.chart-empty {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 10px;
+  min-height: 280px;
+  padding: 32px 16px;
+  border-block: 1px solid var(--border);
+}
+.chart-empty h3 {
+  font-size: 1.25rem;
+}
+.chart-empty p {
+  color: var(--faint);
 }
 .period-atlas {
   width: 100%;

@@ -204,9 +204,8 @@ export default function Home() {
       setPeriod('all');
   };
   const changeSelection = (ids: string[]) => {
-    if (!ids.length) return;
     setSelectedIds(ids);
-    if (!ids.includes(selected)) {
+    if (ids.length && !ids.includes(selected)) {
       setSelected(ids[0]);
       setEventId('');
     }
@@ -381,7 +380,18 @@ export default function Home() {
               </a>
             </div>
           </div>
-          {view === 'chart' ? (
+          {!tracks.length ? (
+            <div className="chart-empty" role="status">
+              <h3>No islands selected</h3>
+              <p>Choose islands or a whole region from the menu above.</p>
+              <button
+                className="text-button"
+                onClick={() => changeSelection(islands.map((i) => i.id))}
+              >
+                Show all {islands.length} islands
+              </button>
+            </div>
+          ) : view === 'chart' ? (
             <>
               <HistoryChart
                 tracks={tracks}
@@ -496,34 +506,38 @@ export default function Home() {
               </p>
             </details>
           </div>
-          <div className="time-control">
-            <div>
-              <span id="time-label">Explore a year</span>
-              <output>{Math.floor(year)}</output>
+          {tracks.length > 0 && (
+            <div className="time-control">
+              <div>
+                <span id="time-label">Explore a year</span>
+                <output>{Math.floor(year)}</output>
+              </div>
+              <Slider
+                value={[
+                  eventSpacing
+                    ? eventScale.position(year) * (eventScale.domain.length - 1)
+                    : Math.max(range[0], Math.min(Math.floor(year), range[1])),
+                ]}
+                min={eventSpacing ? 0 : range[0]}
+                max={eventSpacing ? eventScale.domain.length - 1 : range[1]}
+                step={1}
+                thumbLabel={
+                  eventSpacing ? 'Event to explore' : 'Year to explore'
+                }
+                thumbValueText={cursorLabel}
+                onValueChange={(v) => {
+                  const value = typeof v === 'number' ? v : v[0];
+                  setYear(
+                    eventSpacing ? eventScale.domain[Math.round(value)] : value,
+                  );
+                  setEventId('');
+                }}
+              />
+              <span className="year-state">
+                {current.name} <strong>{owners[atYear].label}</strong>
+              </span>
             </div>
-            <Slider
-              value={[
-                eventSpacing
-                  ? eventScale.position(year) * (eventScale.domain.length - 1)
-                  : Math.max(range[0], Math.min(Math.floor(year), range[1])),
-              ]}
-              min={eventSpacing ? 0 : range[0]}
-              max={eventSpacing ? eventScale.domain.length - 1 : range[1]}
-              step={1}
-              thumbLabel={eventSpacing ? 'Event to explore' : 'Year to explore'}
-              thumbValueText={cursorLabel}
-              onValueChange={(v) => {
-                const value = typeof v === 'number' ? v : v[0];
-                setYear(
-                  eventSpacing ? eventScale.domain[Math.round(value)] : value,
-                );
-                setEventId('');
-              }}
-            />
-            <span className="year-state">
-              {current.name} <strong>{owners[atYear].label}</strong>
-            </span>
-          </div>
+          )}
           <details className="chart-options" id="chart-options">
             <summary>
               Chart options{' '}
@@ -605,7 +619,11 @@ export default function Home() {
             {stories.map((s) => (
               <button
                 key={s.id}
-                className={selected === s.id ? 'story active' : 'story'}
+                className={
+                  tracks.length > 0 && selected === s.id
+                    ? 'story active'
+                    : 'story'
+                }
                 onClick={() => preset(s)}
               >
                 <span className="story-number">{s.number}</span>
@@ -638,178 +656,180 @@ export default function Home() {
             </div>
           </details>
         </div>
-        <aside className="inspector" aria-label="Selected island details">
-          <div className="inspector-body">
-            <div className="island-overview">
-              <div className="island-identification">
-                <span>Selected island</span>
-                <span className="island-index">
-                  {String(islands.indexOf(current) + 1).padStart(2, '0')} /{' '}
-                  {islands.length}
-                </span>
-              </div>
-              <h2 className="island-title">{current.name}</h2>
-              <p className="island-summary">{current.summary}</p>
-              <div className="island-stats">
-                <div>
-                  <strong>{changes(current, mode).length}</strong>
-                  <span>
-                    recorded {mode === 'administration' ? 'control' : 'title'}{' '}
-                    changes
+        {tracks.length > 0 && (
+          <aside className="inspector" aria-label="Selected island details">
+            <div className="inspector-body">
+              <div className="island-overview">
+                <div className="island-identification">
+                  <span>Selected island</span>
+                  <span className="island-index">
+                    {String(islands.indexOf(current) + 1).padStart(2, '0')} /{' '}
+                    {islands.length}
                   </span>
                 </div>
-                <div>
-                  <strong>{owners[current.currentSovereign].label}</strong>
-                  <span>sovereign status today</span>
+                <h2 className="island-title">{current.name}</h2>
+                <p className="island-summary">{current.summary}</p>
+                <div className="island-stats">
+                  <div>
+                    <strong>{changes(current, mode).length}</strong>
+                    <span>
+                      recorded {mode === 'administration' ? 'control' : 'title'}{' '}
+                      changes
+                    </span>
+                  </div>
+                  <div>
+                    <strong>{owners[current.currentSovereign].label}</strong>
+                    <span>sovereign status today</span>
+                  </div>
                 </div>
-              </div>
-              <div className="map-slot" id="island-map">
-                <p className="region-name">{current.region}</p>
-                <IslandMap island={current} year={year} mode={mode} />
-                <p className="coordinates">
-                  {Math.abs(current.coordinates[1]).toFixed(2)}° N &nbsp;{' '}
-                  {Math.abs(current.coordinates[0]).toFixed(2)}° W
-                </p>
-                <p className="map-people">{current.peoples}</p>
-              </div>
-            </div>
-            <div className="event-detail">
-              <div
-                className="event-card"
-                id="selected-event"
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                <p className="event-position">
-                  {current.name} ·{' '}
-                  {dateValue(event.date) > year
-                    ? 'Next recorded event'
-                    : 'Selected historical event'}
-                </p>
-                <div className="event-date">
-                  {eventDate(event)}{' '}
-                  <span>{kindLabel[event.kind] || event.kind}</span>
-                </div>
-                <h3>{event.title}</h3>
-                <p>{event.detail}</p>
-                {(mode === 'administration'
-                  ? event.changesControl
-                  : event.changesSovereignty) && (
-                  <p className="event-transition">
-                    {
-                      owners[
-                        mode === 'administration'
-                          ? event.previousController
-                          : event.previousSovereign
-                      ]?.label
-                    }
-                    <ArrowRight className="inline-icon" aria-hidden="true" />
-                    {
-                      owners[
-                        mode === 'administration'
-                          ? event.resultingController
-                          : event.resultingSovereign
-                      ]?.label
-                    }
+                <div className="map-slot" id="island-map">
+                  <p className="region-name">{current.region}</p>
+                  <IslandMap island={current} year={year} mode={mode} />
+                  <p className="coordinates">
+                    {Math.abs(current.coordinates[1]).toFixed(2)}° N &nbsp;{' '}
+                    {Math.abs(current.coordinates[0]).toFixed(2)}° W
                   </p>
-                )}
-                {event.uncertainty && (
-                  <p className="qualification">
-                    <span>Evidence note</span>
-                    {event.uncertainty}
+                  <p className="map-people">{current.peoples}</p>
+                </div>
+              </div>
+              <div className="event-detail">
+                <div
+                  className="event-card"
+                  id="selected-event"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  <p className="event-position">
+                    {current.name} ·{' '}
+                    {dateValue(event.date) > year
+                      ? 'Next recorded event'
+                      : 'Selected historical event'}
                   </p>
-                )}
-                {event.qualification && (
-                  <p className="qualification">{event.qualification}</p>
-                )}
-                <div className="event-sources">
-                  <span>Sources</span>
-                  <Cite ids={event.sources} />
-                </div>
-                <div className="event-nav">
-                  <button
-                    disabled={current.events.indexOf(event) === 0}
-                    onClick={() =>
-                      selectEvent(
-                        current.events[current.events.indexOf(event) - 1],
-                      )
-                    }
-                  >
-                    <ArrowLeft className="inline-icon" aria-hidden="true" />{' '}
-                    Previous
-                  </button>
-                  <span>
-                    {current.events.indexOf(event) + 1} /{' '}
-                    {current.events.length}
-                  </span>
-                  <button
-                    disabled={
-                      current.events.indexOf(event) ===
-                      current.events.length - 1
-                    }
-                    onClick={() =>
-                      selectEvent(
-                        current.events[current.events.indexOf(event) + 1],
-                      )
-                    }
-                  >
-                    Next{' '}
-                    <ArrowRight className="inline-icon" aria-hidden="true" />
-                  </button>
-                </div>
-              </div>
-              <details className="island-notes" id="island-background">
-                <summary>The history behind the periods</summary>
-                <p>{current.notes}</p>
-                <Cite ids={current.sources} />
-              </details>
-            </div>
-            <div className="chronology">
-              <div className="event-list-heading">
-                <h3>Chronology</h3>
-                <span>{selectedInRange.length} events in view</span>
-              </div>
-              <ol className="event-list">
-                {selectedInRange.map((e) => (
-                  <li key={e.id}>
+                  <div className="event-date">
+                    {eventDate(event)}{' '}
+                    <span>{kindLabel[event.kind] || event.kind}</span>
+                  </div>
+                  <h3>{event.title}</h3>
+                  <p>{event.detail}</p>
+                  {(mode === 'administration'
+                    ? event.changesControl
+                    : event.changesSovereignty) && (
+                    <p className="event-transition">
+                      {
+                        owners[
+                          mode === 'administration'
+                            ? event.previousController
+                            : event.previousSovereign
+                        ]?.label
+                      }
+                      <ArrowRight className="inline-icon" aria-hidden="true" />
+                      {
+                        owners[
+                          mode === 'administration'
+                            ? event.resultingController
+                            : event.resultingSovereign
+                        ]?.label
+                      }
+                    </p>
+                  )}
+                  {event.uncertainty && (
+                    <p className="qualification">
+                      <span>Evidence note</span>
+                      {event.uncertainty}
+                    </p>
+                  )}
+                  {event.qualification && (
+                    <p className="qualification">{event.qualification}</p>
+                  )}
+                  <div className="event-sources">
+                    <span>Sources</span>
+                    <Cite ids={event.sources} />
+                  </div>
+                  <div className="event-nav">
                     <button
-                      className={e.id === event.id ? 'active' : ''}
-                      onClick={() => selectEvent(e)}
+                      disabled={current.events.indexOf(event) === 0}
+                      onClick={() =>
+                        selectEvent(
+                          current.events[current.events.indexOf(event) - 1],
+                        )
+                      }
                     >
-                      <time>{eventDate(e)}</time>
-                      <span>{e.title}</span>
-                      {(mode === 'administration'
-                        ? e.changesControl
-                        : e.changesSovereignty) && (
-                        <i
-                          style={{
-                            background: powerColor(
-                              mode === 'administration'
-                                ? e.resultingController
-                                : e.resultingSovereign,
-                            ),
-                          }}
-                        />
-                      )}
+                      <ArrowLeft className="inline-icon" aria-hidden="true" />{' '}
+                      Previous
                     </button>
-                  </li>
-                ))}
-              </ol>
-              {!selectedInRange.length && (
-                <p className="quiet">
-                  No recorded events in this period.{' '}
-                  <button
-                    onClick={() => setPeriod('all')}
-                    className="text-button"
-                  >
-                    Show the whole story
-                  </button>
-                  .
-                </p>
-              )}
+                    <span>
+                      {current.events.indexOf(event) + 1} /{' '}
+                      {current.events.length}
+                    </span>
+                    <button
+                      disabled={
+                        current.events.indexOf(event) ===
+                        current.events.length - 1
+                      }
+                      onClick={() =>
+                        selectEvent(
+                          current.events[current.events.indexOf(event) + 1],
+                        )
+                      }
+                    >
+                      Next{' '}
+                      <ArrowRight className="inline-icon" aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+                <details className="island-notes" id="island-background">
+                  <summary>The history behind the periods</summary>
+                  <p>{current.notes}</p>
+                  <Cite ids={current.sources} />
+                </details>
+              </div>
+              <div className="chronology">
+                <div className="event-list-heading">
+                  <h3>Chronology</h3>
+                  <span>{selectedInRange.length} events in view</span>
+                </div>
+                <ol className="event-list">
+                  {selectedInRange.map((e) => (
+                    <li key={e.id}>
+                      <button
+                        className={e.id === event.id ? 'active' : ''}
+                        onClick={() => selectEvent(e)}
+                      >
+                        <time>{eventDate(e)}</time>
+                        <span>{e.title}</span>
+                        {(mode === 'administration'
+                          ? e.changesControl
+                          : e.changesSovereignty) && (
+                          <i
+                            style={{
+                              background: powerColor(
+                                mode === 'administration'
+                                  ? e.resultingController
+                                  : e.resultingSovereign,
+                              ),
+                            }}
+                          />
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+                {!selectedInRange.length && (
+                  <p className="quiet">
+                    No recorded events in this period.{' '}
+                    <button
+                      onClick={() => setPeriod('all')}
+                      className="text-button"
+                    >
+                      Show the whole story
+                    </button>
+                    .
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        )}
         <div className="island-browser">
           <div className="browse-top">
             <h3>Add or remove islands</h3>
@@ -853,7 +873,6 @@ export default function Home() {
                     ? 'island-chip selected'
                     : 'island-chip'
                 }
-                disabled={selectedIds.length === 1 && selectedIds[0] === i.id}
                 onClick={() =>
                   changeSelection(
                     selectedIds.includes(i.id)
