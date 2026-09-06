@@ -14,3 +14,11 @@
 - Three geometry checks cover every historical path at phone and desktop widths, legible endpoint/date-tick spacing, and restrained Bézier bends that keep exact transition dates, preserve same-day order and never overshoot their power rows or the date range.
 
 Historical validation is distinct from structural validation. Many fine-grained colonial dates rely on a secondary chronology. Qualified early sequences should receive specialist review and correction through the documented contribution process.
+
+## Chart experiments
+
+- 28 automated checks pass: nine contributor checks, twelve history/geometry checks, three event-axis checks and four appearance checks.
+- Grouped power rows retain every administration or sovereign in the selected island’s period. Other histories retain an explicit Other destination; expansion and comparison restore all fifteen rows.
+- Event-axis tests cover duplicate dates, empty periods, equal event spacing, monotonic interpolation, inverse navigation and label spacing. Width tests distinguish Guadeloupe’s 1813 title transfer from its unchanged administration and verify the selected date window.
+- Browser checks covered 320×568, 390×844, 768×1024 and 1440×900, including dark mode, the appearance radio menu, long island names, grouped/expanded power rows, event spacing, keyboard stepping through dates, and the recorded-change width legend. The narrow phone chart fits without horizontal page overflow. A fresh tablet reload reported no new browser errors. Wider label clearance was measured and corrected.
+- Existing chronology tests and all canonical historical JSON files remain unchanged in substance. No historical population or area data was introduced. These are browser viewport checks, not physical-device or screen-reader testing.

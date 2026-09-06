@@ -569,7 +569,7 @@ export default function Home() {
                       <text
                         x={layout.numbered ? 54 : layout.compact ? 29 : 30}
                         y={y(o.id) + 4}
-                        className={`owner-label ${relevantPowers.has(o.id) ? 'owner-used' : 'owner-muted'}`}
+                        className={`owner-label ${focus ? (relevantPowers.has(o.id) ? 'owner-used' : 'owner-muted') : ''}`}
                       >
                         <title>{`${o.label}: ${o.description}`}</title>
                         {layout.compact ? powerAbbreviations[o.id] : o.label}
@@ -1059,7 +1059,7 @@ export default function Home() {
               </Select>
               <p>
                 {lineWeight === 'changes'
-                  ? 'Thicker lines have more recorded changes in this period. Hover and selection do not change their width.'
+                  ? 'Thicker lines have more recorded changes in this period. Counts reflect source coverage; hover and selection do not change their width.'
                   : 'Selection highlights one history; other lines use the same weight.'}
               </p>
             </div>
