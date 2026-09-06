@@ -38,7 +38,7 @@
   --faint: #566273;
   --popover: #fff;
   --focus-line: #2457e8;
-  --trace: #657587;
+  --trace: #536783;
   --secondary: #f0f3f7;
   --accent: #e8efff;
   --border: #ccd3dd;
@@ -637,6 +637,7 @@ h3 {
   margin: 5px 0 10px;
 }
 .year-grid {
+  opacity: 0.55;
   stroke: var(--border);
   stroke-width: 0.6;
   stroke-dasharray: 1 4;
@@ -1936,4 +1937,23 @@ footer > span:first-child {
   .chart-scale-note {
     max-width: 55ch;
   }
+}
+
+.claim-option {
+  margin-top: 14px;
+}
+.axis-toggle [data-slot='tabs-list'] {
+  background: transparent;
+  border: 1px solid var(--border);
+}
+.axis-toggle [data-slot='tabs-trigger'][data-active] {
+  background: var(--accent);
+  box-shadow: none;
+}
+.chart-legend {
+  border-top: 0;
+  padding-top: 5px;
+}
+.power-key summary::marker {
+  font-size: 0.75em;
 }

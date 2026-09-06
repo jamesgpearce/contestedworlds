@@ -141,7 +141,7 @@ function StoryTrace({ id }: { id: string }) {
       (data.owners.findIndex((o) => o.id === power) /
         (data.owners.length - 1)) *
         26,
-    1,
+    1.6,
   );
   return (
     <svg className="story-trace" viewBox="0 0 96 32" aria-hidden="true">
@@ -473,6 +473,7 @@ export default function Home() {
                     </clipPath>
                   </defs>
                   {!eventSpacing &&
+                    !layout.compact &&
                     data.contexts
                       .filter((c) => c.end >= range[0] && c.start <= range[1])
                       .map((c, k) => (
@@ -578,7 +579,7 @@ export default function Home() {
                         range,
                         x,
                         yy,
-                        layout.compact ? 3 : 5,
+                        layout.compact ? 4 : 8,
                       );
                       return (
                         <g
@@ -604,7 +605,7 @@ export default function Home() {
                                   ? 0.8
                                   : 1.15
                             }
-                            opacity={active ? 1 : focus ? 0.35 : 0.72}
+                            opacity={active ? 1 : focus ? 0.16 : 0.72}
                             strokeLinejoin="round"
                             strokeLinecap="round"
                           />
@@ -654,6 +655,8 @@ export default function Home() {
                               : e.resultingSovereign;
                           const xx = x(dateValue(e.date)),
                             yy = y(owner) + offset(focus);
+                          const picked =
+                            e.id === event.id && focus.id === current.id;
                           return (
                             <g
                               key={e.id}
@@ -690,41 +693,45 @@ export default function Home() {
                                 r={9}
                                 fill="transparent"
                               />
+                              {picked && (
+                                <circle
+                                  cx={xx}
+                                  cy={yy}
+                                  r={6}
+                                  fill="var(--paper)"
+                                  stroke="var(--focus-line)"
+                                  strokeWidth={0.8}
+                                />
+                              )}
                               <circle
                                 cx={xx}
                                 cy={yy}
                                 r={
-                                  layout.compact
-                                    ? e.id === eventId
-                                      ? 3.5
-                                      : 2.3
-                                    : e.id === eventId
-                                      ? 5
-                                      : 3.7
+                                  picked
+                                    ? 3
+                                    : e.uncertainty
+                                      ? 2.7
+                                      : layout.compact
+                                        ? 1.8
+                                        : 2.3
                                 }
                                 fill={
-                                  e.kind === 'claim'
+                                  e.kind === 'claim' || e.uncertainty
                                     ? 'var(--paper)'
                                     : 'var(--focus-line)'
                                 }
                                 stroke={
-                                  e.kind === 'claim'
+                                  e.kind === 'claim' || e.uncertainty
                                     ? 'var(--focus-line)'
                                     : 'var(--paper)'
                                 }
-                                strokeWidth={1.5}
+                                strokeWidth={
+                                  e.kind === 'claim' || e.uncertainty ? 1 : 0.6
+                                }
+                                strokeDasharray={
+                                  e.uncertainty ? '1.3 1.3' : undefined
+                                }
                               />
-                              {e.uncertainty && (
-                                <circle
-                                  cx={xx}
-                                  cy={yy}
-                                  r={6.5}
-                                  fill="none"
-                                  stroke="var(--focus-line)"
-                                  strokeWidth={0.8}
-                                  strokeDasharray="1.5 2"
-                                />
-                              )}
                             </g>
                           );
                         })}
@@ -738,7 +745,7 @@ export default function Home() {
                           stroke="var(--ink)"
                           strokeWidth={1}
                           strokeDasharray="3 5"
-                          opacity={0.5}
+                          opacity={0.3}
                         />
                       </g>
                     )}
@@ -782,12 +789,6 @@ export default function Home() {
                 <span>
                   <i className="legend-uncertain" /> Qualified date or extent
                 </span>
-                <button
-                  aria-pressed={showClaims}
-                  onClick={() => setShowClaims(!showClaims)}
-                >
-                  {showClaims ? 'Hide' : 'Show'} claim markers
-                </button>
               </div>
             </>
           ) : (
@@ -1005,6 +1006,16 @@ export default function Home() {
                 }}
               >
                 {overview ? 'Focus selected island' : 'Compare all lines'}
+              </button>
+            </div>
+            <div className="claim-option">
+              {' '}
+              <button
+                className="overview-toggle"
+                aria-pressed={showClaims}
+                onClick={() => setShowClaims(!showClaims)}
+              >
+                {showClaims ? 'Hide' : 'Show'} claim markers
               </button>
             </div>
           </details>
