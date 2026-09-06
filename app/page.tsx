@@ -25,7 +25,12 @@ import { IslandMap } from '@/components/island-map';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { HistoryChart } from '@/components/history-chart';
 import { IslandPicker } from '@/components/island-picker';
-import { plottedEvent, type Arrangement, type Period } from '@/lib/periods';
+import {
+  plottedEvent,
+  periodsFor,
+  type Arrangement,
+  type Period,
+} from '@/lib/periods';
 import { eventAxis } from '@/lib/event-axis';
 import { PowerSymbol } from '@/components/power-symbol';
 import {
@@ -48,7 +53,6 @@ import {
   stateAt,
   dateValue,
   eventDate,
-  historyPath,
   changeCount,
   powerColor,
   START,
@@ -131,21 +135,19 @@ function Arrow() {
 
 function StoryTrace({ id }: { id: string }) {
   const island = islands.find((i) => i.id === id)!;
-  const path = historyPath(
-    island,
-    'administration',
-    [START, END],
-    (year) => 2 + ((year - START) / (END - START)) * 92,
-    (power) =>
-      3 +
-      (data.owners.findIndex((o) => o.id === power) /
-        (data.owners.length - 1)) *
-        26,
-    1.6,
-  );
+  const periods = periodsFor(island, 'administration', [START, END]);
   return (
     <svg className="story-trace" viewBox="0 0 96 32" aria-hidden="true">
-      <path d={path} fill="none" stroke="currentColor" strokeWidth="1.2" />
+      {periods.map((p) => (
+        <rect
+          key={p.id}
+          x={2 + ((p.start - START) / (END - START)) * 92}
+          y={12}
+          width={((p.end - p.start) / (END - START)) * 92}
+          height={8}
+          fill={powerColor(p.power)}
+        />
+      ))}
     </svg>
   );
 }

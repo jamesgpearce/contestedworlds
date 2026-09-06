@@ -3,7 +3,7 @@ import land from '@/lib/coastlines.json';
 import { ArrowUpRight } from 'lucide-react';
 import {
   islands,
-  owners,
+  powerColor,
   stateAt,
   type Island,
   type Mode,
@@ -73,7 +73,7 @@ export function IslandMap({
               cx={cx}
               cy={cy}
               r={i.id === island.id ? 3 : 1.9}
-              fill={`light-dark(${owners[stateAt(i, year, mode)].color}, color-mix(in srgb, ${owners[stateAt(i, year, mode)].color} 70%, white))`}
+              fill={powerColor(stateAt(i, year, mode))}
               stroke="var(--paper)"
               strokeWidth=".6"
             />
