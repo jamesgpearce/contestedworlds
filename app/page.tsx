@@ -3,6 +3,13 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
+import {
+  ArrowUpRight,
+  ArrowDown,
+  ArrowRight,
+  ArrowLeft,
+  Download,
+} from 'lucide-react';
 import { registerAtlasTools } from '@/lib/atlas-tools';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -115,7 +122,7 @@ function Cite({ ids }: { ids: string[] }) {
   );
 }
 function Arrow() {
-  return <span aria-hidden="true">↗</span>;
+  return <ArrowUpRight className="inline-icon" aria-hidden="true" />;
 }
 
 function StoryTrace({ id }: { id: string }) {
@@ -365,7 +372,7 @@ export default function Home() {
                 if (options) options.open = true;
               }}
             >
-              Options ↓
+              Options <ArrowDown className="inline-icon" aria-hidden="true" />
             </a>
           </div>
           {view === 'chart' ? (
@@ -796,7 +803,10 @@ export default function Home() {
           <a className="event-peek" href="#selected-event">
             <time>{eventDate(event)}</time>
             <span>{event.title}</span>
-            <span className="event-peek-link">Read event ↓</span>
+            <span className="event-peek-link">
+              Read event{' '}
+              <ArrowDown className="inline-icon" aria-hidden="true" />
+            </span>
           </a>
           <details className="chart-options" id="chart-options">
             <summary>
@@ -889,7 +899,7 @@ export default function Home() {
                 </span>
                 <StoryTrace id={s.id} />
                 <span className="story-arrow" aria-hidden="true">
-                  ↗
+                  <Arrow />
                 </span>
               </button>
             ))}
@@ -976,7 +986,7 @@ export default function Home() {
                           : event.previousSovereign
                       ]?.label
                     }
-                    <span aria-hidden="true"> → </span>
+                    <ArrowRight className="inline-icon" aria-hidden="true" />
                     {
                       owners[
                         mode === 'administration'
@@ -1008,7 +1018,8 @@ export default function Home() {
                       )
                     }
                   >
-                    ← Previous
+                    <ArrowLeft className="inline-icon" aria-hidden="true" />{' '}
+                    Previous
                   </button>
                   <span>
                     {current.events.indexOf(event) + 1} /{' '}
@@ -1025,7 +1036,8 @@ export default function Home() {
                       )
                     }
                   >
-                    Next →
+                    Next{' '}
+                    <ArrowRight className="inline-icon" aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -1195,10 +1207,12 @@ export default function Home() {
           </div>
           <div className="downloads">
             <a href="/data/caribbean.json" download>
-              Dataset · JSON ↓
+              Dataset · JSON{' '}
+              <Download className="inline-icon" aria-hidden="true" />
             </a>
             <a href="/data/events.csv" download>
-              Chronology · CSV ↓
+              Chronology · CSV{' '}
+              <Download className="inline-icon" aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -1232,7 +1246,9 @@ export default function Home() {
         >
           <summary>
             Bibliography & editorial notes{' '}
-            <span>{data.sources.length} sources ↗</span>
+            <span>
+              {data.sources.length} sources <Arrow />
+            </span>
           </summary>
           <p className="bibliography-intro">
             Compiled 6 September 2026. Treaty editions, local museums,

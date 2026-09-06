@@ -1,5 +1,6 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- An inline SVG image requires role=img for consistent screen-reader support. */
 import land from '@/lib/coastlines.json';
+import { ArrowUpRight } from 'lucide-react';
 import {
   islands,
   owners,
@@ -101,7 +102,8 @@ export function IslandMap({
           rel="noreferrer"
           title="Natural Earth public-domain coastlines"
         >
-          Natural Earth ↗
+          Natural Earth{' '}
+          <ArrowUpRight className="inline-icon" aria-hidden="true" />
         </a>
       </figcaption>
     </figure>

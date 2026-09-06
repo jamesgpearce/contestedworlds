@@ -6,6 +6,7 @@
 @source '../components/ui/slider.tsx';
 @source '../components/ui/input.tsx';
 @source '../components/ui/table.tsx';
+@source '../components/ui/dropdown-menu.tsx';
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -234,30 +235,41 @@ h3 {
   margin-left: 5px;
   color: var(--focus-line);
 }
-.theme-switcher {
-  display: flex;
-  gap: 0;
-  margin: 0;
-  padding: 2px;
-  border: 1px solid var(--border-strong);
-  min-width: 0;
-}
-.theme-switcher button {
+.theme-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
   border: 0;
-  padding: 6px 9px;
-  min-height: 30px;
   background: none;
-  font-size: 0.8125rem;
-  line-height: 1.25;
+  color: var(--faint);
 }
-.theme-switcher button[aria-pressed='true'] {
-  background: var(--ink);
-  color: var(--paper);
-}
-.theme-switcher button:hover:not([aria-pressed='true']) {
+.theme-trigger:hover,
+.theme-trigger[data-popup-open] {
   background: var(--secondary);
+  color: var(--ink);
 }
-
+.theme-menu[data-slot='dropdown-menu-content'] {
+  width: 180px;
+  border-radius: 2px;
+  padding: 5px;
+}
+.theme-menu [data-slot='dropdown-menu-radio-item'] {
+  min-height: 38px;
+  font-size: 0.875rem;
+  gap: 10px;
+  border-radius: 1px;
+}
+.inline-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.13em;
+  flex-shrink: 0;
+  stroke-width: 1.6;
+}
 /* A compact title keeps the timeline in the opening viewport. */
 .intro {
   display: flex;
@@ -1499,11 +1511,6 @@ footer > span:first-child {
     gap: 10px;
   }
   .masthead-right > button {
-    font-size: 0.75rem;
-  }
-  .theme-switcher button {
-    padding: 6px;
-    min-height: 30px;
     font-size: 0.75rem;
   }
   .intro {
