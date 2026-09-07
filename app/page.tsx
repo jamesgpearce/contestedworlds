@@ -87,7 +87,7 @@ export default function Home() {
         ranges[key][0] === yearRange[0] && ranges[key][1] === yearRange[1],
     ) || 'custom';
   const changeRange = (next: [number, number]) => {
-    setYearRange(next);
+    setYearRange([...next]);
     const bounds = calendarRange(next);
     setYear((value) => Math.max(bounds[0], Math.min(value, bounds[1])));
     setEventId('');
