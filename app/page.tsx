@@ -454,50 +454,11 @@ export default function Home() {
           </details>
         )}
       </section>
-      <section className="evidence" id="sources-method">
-        <div className="evidence-top">
-          <div>
-            <h2>Sources and editorial method</h2>
-          </div>
-          <div className="downloads">
-            <a href="/data/caribbean.json" download>
-              Dataset · JSON{' '}
-              <Download className="inline-icon" aria-hidden="true" />
-            </a>
-            <a href="/data/events.csv" download>
-              Chronology · CSV{' '}
-              <Download className="inline-icon" aria-hidden="true" />
-            </a>
-          </div>
-        </div>
-        <div className="method-grid">
-          <p>
-            <strong>
-              {new Set(islands.map((i) => i.place)).size} places.{' '}
-              {islands.length} histories.
-            </strong>{' '}
-            The places in the original scope include sovereign states and
-            dependencies. Islands with divergent histories get separate tracks.
-            Groups and principal-island proxies are identified in their notes.
-          </p>
-          <p>
-            <strong>Claims are not control.</strong> A European claim does not
-            erase Indigenous sovereignty. Occupation, legal title and
-            independence are different events. The shared row includes disputed,
-            concurrent or interrupted administrations; it is not another empire.
-          </p>
-          <p>
-            <strong>Dates and uncertainty.</strong> {activeEventCount} records
-            cite {data.sources.length} sources. Circa dates and disagreements
-            are flagged. This is a curated chronology of major transitions, not
-            every raid or outpost. Detailed colonial dates often rely on
-            secondary compilations.
-          </p>
-        </div>
+      <section className="evidence" aria-label="Atlas references">
         <details className="war-context" id="regional-history">
           <summary>
             <DisclosureIcon />
-            Regional history
+            <h2>Context</h2>
           </summary>
           <p className="regional-intro">
             Sugar, strategic harbours and Atlantic trade made these islands
@@ -519,50 +480,6 @@ export default function Home() {
             ))}
           </div>
         </details>
-        <details className="power-key reference-key">
-          <summary>
-            <DisclosureIcon />
-            Powers &amp; flags
-          </summary>
-          <p>
-            Flags identify powers using modern designs; they do not change with
-            historical dates. UK includes earlier English rule. Lettermarks
-            identify Courland and Gran Colombia. Indigenous societies and
-            independent states have no single national flag.
-          </p>
-          <ul>
-            {data.owners.map((o) => (
-              <li key={o.id}>
-                <svg viewBox="0 0 22 17" aria-hidden="true">
-                  <PowerSymbol id={o.id} />
-                </svg>
-                <div>
-                  <strong>{o.label}</strong>
-                  <p>{o.description}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p>
-            SVG flags:{' '}
-            <a
-              href="https://github.com/lipis/flag-icons"
-              target="_blank"
-              rel="noreferrer"
-            >
-              flag-icons (MIT)
-            </a>
-            . Order flag:{' '}
-            <a
-              href="https://www.orderofmalta.int/government/flags-emblems/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Order of Malta
-            </a>
-            .
-          </p>
-        </details>
         <details
           id="bibliography"
           open={evidence}
@@ -570,9 +487,19 @@ export default function Home() {
         >
           <summary>
             <DisclosureIcon />
-            Bibliography & editorial notes{' '}
+            <h2>Sources</h2>
             <span>{data.sources.length} sources</span>
           </summary>
+          <div className="downloads">
+            <a href="/data/caribbean.json" download>
+              Dataset · JSON{' '}
+              <Download className="inline-icon" aria-hidden="true" />
+            </a>
+            <a href="/data/events.csv" download>
+              Chronology · CSV{' '}
+              <Download className="inline-icon" aria-hidden="true" />
+            </a>
+          </div>
           <p className="bibliography-intro">
             Compiled 6 September 2026. Treaty editions, local museums,
             government histories and scholarship are supplemented by specialist
@@ -597,6 +524,82 @@ export default function Home() {
           </ol>
           <p className="quiet">{data.meta.completeness}</p>
           <p className="quiet">{data.meta.baseline}</p>
+        </details>
+        <details id="sources-method" className="editorial-method" open>
+          <summary>
+            <DisclosureIcon />
+            <h2>Method</h2>
+          </summary>
+          <div className="method-grid">
+            <p>
+              <strong>
+                {new Set(islands.map((i) => i.place)).size} places.{' '}
+                {islands.length} histories.
+              </strong>{' '}
+              The places in the original scope include sovereign states and
+              dependencies. Islands with divergent histories get separate
+              tracks. Groups and principal-island proxies are identified in
+              their notes.
+            </p>
+            <p>
+              <strong>Claims are not control.</strong> A European claim does not
+              erase Indigenous sovereignty. Occupation, legal title and
+              independence are different events. The shared row includes
+              disputed, concurrent or interrupted administrations; it is not
+              another empire.
+            </p>
+            <p>
+              <strong>Dates and uncertainty.</strong> {activeEventCount} records
+              cite {data.sources.length} sources. Circa dates and disagreements
+              are flagged. This is a curated chronology of major transitions,
+              not every raid or outpost. Detailed colonial dates often rely on
+              secondary compilations.
+            </p>
+          </div>
+          <details className="power-key reference-key">
+            <summary>
+              <DisclosureIcon />
+              Powers &amp; flags
+            </summary>
+            <p>
+              Flags identify powers using modern designs; they do not change
+              with historical dates. UK includes earlier English rule.
+              Lettermarks identify Courland and Gran Colombia. Indigenous
+              societies and independent states have no single national flag.
+            </p>
+            <ul>
+              {data.owners.map((o) => (
+                <li key={o.id}>
+                  <svg viewBox="0 0 22 17" aria-hidden="true">
+                    <PowerSymbol id={o.id} />
+                  </svg>
+                  <div>
+                    <strong>{o.label}</strong>
+                    <p>{o.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <p>
+              SVG flags:{' '}
+              <a
+                href="https://github.com/lipis/flag-icons"
+                target="_blank"
+                rel="noreferrer"
+              >
+                flag-icons (MIT)
+              </a>
+              . Order flag:{' '}
+              <a
+                href="https://www.orderofmalta.int/government/flags-emblems/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Order of Malta
+              </a>
+              .
+            </p>
+          </details>
         </details>
       </section>
       <footer>

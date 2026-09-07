@@ -142,3 +142,7 @@ Measured the claim diamonds and their hit circles: their centers agree. The appa
 ## The whole region on arrival · 8 September 2026
 
 All 36 island tracks are selected initially, derived from the dataset so future additions are included automatically. Grouping by power, event spacing and visible claims remain the defaults; individual and regional selection controls are unchanged.
+
+## Matching reference blocks · 8 September 2026
+
+The lower blocks are now titled Context, Sources and Method, in that order, matching the subtitle links. Context holds the regional history; Sources holds the bibliography and downloads; Method holds the editorial scope and flag conventions. Existing section anchors remain valid.

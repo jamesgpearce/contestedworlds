@@ -2580,3 +2580,18 @@ details[open] > summary > .disclosure-chevron {
 .brand-name {
   white-space: nowrap;
 }
+
+/* Reference blocks follow the introductory links in the same order. */
+.evidence > details > summary h2 {
+  display: inline;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.evidence > details > .downloads,
+.editorial-method > .method-grid {
+  margin-top: 20px;
+}
+.evidence > details[open] {
+  padding-bottom: 24px;
+}
