@@ -3,7 +3,8 @@
 @source '../app';
 @source '../components/ui/tabs.tsx';
 @source '../components/ui/select.tsx';
-@source '../components/ui/slider.tsx';
+@source '../components/ui/input.tsx';
+@source '../components/ui/checkbox.tsx';
 @source '../components/ui/dropdown-menu.tsx';
 @source '../components/ui/popover.tsx';
 @source '../components/history-chart.tsx';
@@ -583,23 +584,6 @@ h3 {
   font: 500 1.6rem/1 var(--mono);
   letter-spacing: -0.05em;
   min-width: 62px;
-}
-.year-option [data-slot='slider-track'] {
-  height: 2px;
-  background: var(--border);
-  border-radius: 0;
-}
-.year-option [data-slot='slider-range'] {
-  height: 100%;
-  background: var(--focus-line);
-}
-.year-option [data-slot='slider-thumb'] {
-  width: 11px;
-  height: 21px;
-  border: 2px solid var(--paper);
-  border-radius: 0;
-  background: var(--focus-line);
-  box-shadow: 0 0 0 1px var(--focus-line);
 }
 .year-state {
   font-size: 0.75rem;
@@ -2427,12 +2411,6 @@ footer > span:first-child {
 .chart-options-panel [data-slot='select-trigger'] {
   width: 100%;
 }
-.chart-options-panel > .overview-toggle {
-  justify-self: start;
-  align-self: start;
-  padding: 0;
-  font-size: 0.8125rem;
-}
 @media (max-width: 1100px) {
   .chart-options-trigger {
     margin-left: auto;
@@ -2442,7 +2420,7 @@ footer > span:first-child {
   .chart-options-trigger,
   .chart-options-panel [data-slot='tabs-list'],
   .chart-options-panel [data-slot='select-trigger'],
-  .chart-options-panel > .overview-toggle {
+  .marker-option {
     min-height: 44px;
   }
 }
@@ -2466,17 +2444,6 @@ footer > span:first-child {
 }
 .readout-body .qualification {
   margin-top: 12px;
-}
-.year-option .chart-option-label {
-  display: flex;
-  justify-content: space-between;
-}
-.year-option output {
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-.year-option [data-slot='slider'] {
-  padding: 12px 2px;
 }
 .island-reference {
   margin-top: 20px;
@@ -2579,4 +2546,67 @@ footer > span:first-child {
   .reference-chronology .event-list {
     max-height: 360px;
   }
+}
+
+/* Explicit date bounds and independent marker visibility. */
+.year-range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px 12px;
+  margin-top: 5px;
+}
+.year-range label {
+  display: grid;
+  gap: 5px;
+  font-size: 0.8125rem;
+  color: var(--faint);
+}
+.year-range [data-slot='input'] {
+  min-height: 40px;
+  border-radius: 1px;
+  color: var(--ink);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.range-presets [data-slot='select-item'] {
+  min-height: 36px;
+  padding-block: 6px;
+}
+.range-presets [data-slot='select-item'] > :first-child {
+  min-width: 0;
+  flex-shrink: 1;
+  white-space: normal;
+  line-height: 1.4;
+}
+.range-error {
+  grid-column: 1 / -1;
+  font-size: 0.8125rem;
+  color: var(--caution);
+}
+.marker-options {
+  display: grid;
+  gap: 2px;
+}
+.marker-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+.marker-option > svg {
+  margin-left: auto;
+  color: var(--faint);
+}
+.marker-option [data-slot='checkbox'] {
+  width: 16px;
+  height: 16px;
+  border-radius: 1px;
+  border-color: var(--border-strong);
+}
+.marker-option [data-slot='checkbox'][data-checked] {
+  background: var(--focus-line);
+  border-color: var(--focus-line);
+  color: var(--paper);
 }

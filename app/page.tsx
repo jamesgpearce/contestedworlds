@@ -3,7 +3,13 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
 import { flushSync } from 'react-dom';
-import { ArrowUpRight, ChevronDown, Download } from 'lucide-react';
+import {
+  ArrowUpRight,
+  ChevronDown,
+  Circle,
+  Diamond,
+  Download,
+} from 'lucide-react';
 import { registerAtlasTools } from '@/lib/atlas-tools';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -19,7 +25,8 @@ import {
   PopoverContent,
   PopoverTitle,
 } from '@/components/ui/popover';
-import { Slider } from '@/components/ui/slider';
+import { Checkbox } from '@/components/ui/checkbox';
+import { YearRange } from '@/components/year-range';
 import { IslandMap } from '@/components/island-map';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Cite } from '@/components/citations';
@@ -27,6 +34,7 @@ import { HistoryChart } from '@/components/history-chart';
 import { IslandPicker } from '@/components/island-picker';
 import { plottedEvent, type Arrangement, type Period } from '@/lib/periods';
 import { eventAxis } from '@/lib/event-axis';
+import { calendarRange, yearPresets } from '@/lib/year-range';
 import { PowerSymbol } from '@/components/power-symbol';
 import {
   data,
@@ -42,11 +50,9 @@ import {
   END,
 } from '@/lib/history';
 
-const ranges: Record<string, [number, number]> = {
-  all: [START, END],
-  empires: [1600, 1820],
-  independence: [1790, END],
-};
+const ranges: Record<string, [number, number]> = Object.fromEntries(
+  yearPresets.map((preset) => [preset.id, [preset.start, preset.end]]),
+);
 function Arrow() {
   return <ArrowUpRight className="inline-icon" aria-hidden="true" />;
 }
@@ -61,9 +67,11 @@ export default function Home() {
   ]);
   const [arrangement, setArrangement] = useState<Arrangement>('powers');
   const [mode, setMode] = useState<Mode>('administration');
-  const [period, setPeriod] = useState('all');
+  const [yearRange, setYearRange] = useState<[number, number]>(ranges.all);
+  const range = useMemo(() => calendarRange(yearRange), [yearRange]);
   const [eventId, setEventId] = useState('saint-lucia-12');
   const [showClaims, setShowClaims] = useState(false);
+  const [showQualified, setShowQualified] = useState(true);
   const [year, setYear] = useState(dateValue('1763-02-10'));
   const [axisSpacing, setAxisSpacing] = useState('events');
   const [evidence, setEvidence] = useState(false);
@@ -73,7 +81,17 @@ export default function Home() {
     [selectedIds],
   );
   const activeArrangement = tracks.length > 1 ? arrangement : 'powers';
-  const range = ranges[period];
+  const period =
+    Object.keys(ranges).find(
+      (key) =>
+        ranges[key][0] === yearRange[0] && ranges[key][1] === yearRange[1],
+    ) || 'custom';
+  const changeRange = (next: [number, number]) => {
+    setYearRange(next);
+    const bounds = calendarRange(next);
+    setYear((value) => Math.max(bounds[0], Math.min(value, bounds[1])));
+    setEventId('');
+  };
   const activeEventCount = data.islands.reduce(
     (n, i) => n + i.events.length,
     0,
@@ -82,7 +100,7 @@ export default function Home() {
     setEventId(e.id);
     setYear(dateValue(e.date));
     if (dateValue(e.date) < range[0] || dateValue(e.date) > range[1])
-      setPeriod('all');
+      setYearRange(ranges.all);
   };
   const changeSelection = (ids: string[]) => {
     setSelectedIds(ids);
@@ -104,7 +122,7 @@ export default function Home() {
           setSelectedIds([islandId]);
           setYear(year);
           setMode(mode);
-          setPeriod('all');
+          setYearRange(ranges.all);
           setEventId('');
         });
       }),
@@ -122,13 +140,6 @@ export default function Home() {
       ),
     [range, tracks, mode, showClaims],
   );
-  const eventSpacing = axisSpacing === 'events';
-  const dateUnderCursor = tracks
-    .flatMap((i) => i.events)
-    .find((e) => dateValue(e.date) === year);
-  const cursorLabel = dateUnderCursor
-    ? eventDate(dateUnderCursor)
-    : String(Math.floor(year));
   return (
     <main>
       <a className="skip-link" href="#explorer">
@@ -138,7 +149,7 @@ export default function Home() {
         <button
           className="wordmark"
           onClick={() => {
-            setPeriod('all');
+            setYearRange(ranges.all);
           }}
         >
           <svg className="atlas-mark" viewBox="0 0 32 24" aria-hidden="true">
@@ -266,78 +277,56 @@ export default function Home() {
                     <Select
                       value={period}
                       onValueChange={(v) => {
-                        if (v) {
-                          setPeriod(v);
-                          setYear((n) =>
-                            Math.max(ranges[v][0], Math.min(n, ranges[v][1])),
-                          );
-                        }
+                        if (v && ranges[v]) changeRange(ranges[v]);
                       }}
                       items={{
-                        all: 'The whole story',
-                        empires: 'The imperial contest',
-                        independence: 'Toward independence',
+                        ...Object.fromEntries(
+                          yearPresets.map((preset) => [
+                            preset.id,
+                            preset.title,
+                          ]),
+                        ),
+                        custom: 'Custom range',
                       }}
                     >
                       <SelectTrigger aria-label="Time period">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">
-                          The whole story · 1450–2026
-                        </SelectItem>
-                        <SelectItem value="empires">
-                          The imperial contest · 1600–1820
-                        </SelectItem>
-                        <SelectItem value="independence">
-                          Toward independence · 1790–2026
-                        </SelectItem>
+                      <SelectContent className="range-presets">
+                        {period === 'custom' && (
+                          <SelectItem value="custom" disabled>
+                            Custom range
+                          </SelectItem>
+                        )}
+                        {yearPresets.map((preset) => (
+                          <SelectItem key={preset.id} value={preset.id}>
+                            {preset.title} · {preset.start}–{preset.end}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
+                    <YearRange range={yearRange} onChange={changeRange} />
                   </div>
-                  {tracks.length > 0 && (
-                    <div className="chart-option-field year-option">
-                      <p className="chart-option-label">
-                        Explore a year <output>{Math.floor(year)}</output>
-                      </p>
-                      <Slider
-                        value={[
-                          eventSpacing
-                            ? eventScale.position(year) *
-                              (eventScale.domain.length - 1)
-                            : Math.max(
-                                range[0],
-                                Math.min(Math.floor(year), range[1]),
-                              ),
-                        ]}
-                        min={eventSpacing ? 0 : range[0]}
-                        max={
-                          eventSpacing ? eventScale.domain.length - 1 : range[1]
-                        }
-                        step={1}
-                        thumbLabel={
-                          eventSpacing ? 'Event to explore' : 'Year to explore'
-                        }
-                        thumbValueText={cursorLabel}
-                        onValueChange={(v) => {
-                          const value = typeof v === 'number' ? v : v[0];
-                          setYear(
-                            eventSpacing
-                              ? eventScale.domain[Math.round(value)]
-                              : value,
-                          );
-                          setEventId('');
-                        }}
+                  <div className="marker-options">
+                    <label className="marker-option" htmlFor="show-claims">
+                      <Checkbox
+                        id="show-claims"
+                        checked={showClaims}
+                        onCheckedChange={setShowClaims}
                       />
-                    </div>
-                  )}
-                  <button
-                    className="overview-toggle"
-                    aria-pressed={showClaims}
-                    onClick={() => setShowClaims(!showClaims)}
-                  >
-                    {showClaims ? 'Hide' : 'Show'} claim markers
-                  </button>
+                      <span>Claim markers</span>
+                      <Diamond size={12} aria-hidden="true" />
+                    </label>
+                    <label className="marker-option" htmlFor="show-qualified">
+                      <Checkbox
+                        id="show-qualified"
+                        checked={showQualified}
+                        onCheckedChange={setShowQualified}
+                      />
+                      <span>Qualified changes</span>
+                      <Circle size={10} aria-hidden="true" />
+                    </label>
+                  </div>
                 </PopoverContent>
               </Popover>
             </div>
@@ -363,6 +352,7 @@ export default function Home() {
                 spacing={axisSpacing}
                 scale={eventScale}
                 showClaims={showClaims}
+                showQualified={showQualified}
                 inspectedId={selected}
                 eventId={eventId}
                 year={year}

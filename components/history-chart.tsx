@@ -91,6 +91,7 @@ export function HistoryChart({
   spacing,
   scale,
   showClaims,
+  showQualified,
   inspectedId,
   eventId,
   year,
@@ -104,6 +105,7 @@ export function HistoryChart({
   spacing: string;
   scale: ReturnType<typeof eventAxis>;
   showClaims: boolean;
+  showQualified: boolean;
   inspectedId: string;
   eventId: string;
   year: number;
@@ -426,7 +428,7 @@ export function HistoryChart({
                     strokeWidth="1.5"
                   />
                 )}
-                {p.event && (
+                {p.event && p.originalStart >= range[0] && (
                   <line
                     x1={x(p.start)}
                     x2={x(p.start)}
@@ -436,16 +438,19 @@ export function HistoryChart({
                     strokeWidth=".8"
                   />
                 )}
-                {p.event?.uncertainty && (
-                  <circle
-                    cx={x(p.start)}
-                    cy={pos.height / 2}
-                    r="2.7"
-                    fill="var(--paper)"
-                    stroke="var(--ink)"
-                    strokeWidth="1"
-                  />
-                )}
+                {showQualified &&
+                  p.event?.uncertainty &&
+                  p.originalStart >= range[0] && (
+                    <circle
+                      className="qualified-mark"
+                      cx={x(p.start)}
+                      cy={pos.height / 2}
+                      r="2.7"
+                      fill="var(--paper)"
+                      stroke="var(--ink)"
+                      strokeWidth="1"
+                    />
+                  )}
                 {selected && (
                   <path
                     d={`M${x(p.start) - 3},${pos.height + 7} l3,-4 l3,4`}
@@ -561,10 +566,12 @@ export function HistoryChart({
               {o.label}
             </span>
           ))}
+        {showQualified && (
         <span className="marker-key">
           <i className="uncertain-key" />
           Qualified change
         </span>
+        )}
         {showClaims && (
           <span>
             <Diamond size={10} aria-hidden="true" /> Claim only

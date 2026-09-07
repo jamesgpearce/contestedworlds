@@ -27,7 +27,52 @@ const { periodsFor, packPeriods, arrangePeriods, plottedEvent } = await import(
     ),
   )
 );
-const { islands, data, stateAt } = await import(history);
+const { islands, data, stateAt, dateValue } = await import(history);
+const { calendarRange, yearPresets } = await import(
+  moduleUrl(
+    (await read('../lib/year-range.ts')).replace(
+      "'./history'",
+      JSON.stringify(history),
+    ),
+  )
+);
+
+test('Calendar ranges include the final year and its treaty handovers', () => {
+  const range = calendarRange([1756, 1763]);
+  assert.equal(range[0], 1756);
+  assert.ok(range[1] >= dateValue('1763-12-31'));
+  assert.ok(range[1] < dateValue('1764-01-01'));
+  for (const [id, title] of [
+    ['saint-lucia', 'Paris awards Saint Lucia to France'],
+    ['tobago', 'Britain takes possession'],
+  ]) {
+    const island = islands.find((i) => i.id === id);
+    const periods = periodsFor(island, 'administration', range);
+    assert.ok(periods.some((p) => p.event?.title === title));
+  }
+});
+
+test('Regional presets and single-year windows preserve continuous history', () => {
+  for (const years of [
+    ...yearPresets.map((p) => [p.start, p.end]),
+    [1763, 1763],
+  ]) {
+    const range = calendarRange(years);
+    assert.ok(range[0] < range[1]);
+    for (const island of islands)
+      for (const mode of ['administration', 'sovereignty']) {
+        const periods = periodsFor(island, mode, range);
+        assert.equal(periods[0].start, range[0]);
+        assert.equal(periods.at(-1).end, range[1]);
+        periods.forEach((p, n) => {
+          assert.ok(p.start <= p.end);
+          if (n) assert.equal(periods[n - 1].end, p.start);
+          if (p.start < p.end)
+            assert.equal(p.power, stateAt(island, (p.start + p.end) / 2, mode));
+        });
+      }
+  }
+});
 
 test('Every island and mode retains full period coverage and the recorded power at each date', () => {
   for (const i of islands)

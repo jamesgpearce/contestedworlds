@@ -70,3 +70,9 @@ Validation: TypeScript and lint pass. Browser checks covered all islands, a comp
 ## Powers and events by default · 7 September 2026
 
 The initial chart groups periods by power and uses event spacing. Both controls remain available for switching to island rows or calendar time. TypeScript, lint and production build pass; browser inspection confirms By Power and Events are selected on initialization.
+
+## Calendar windows and marker checkboxes · 7 September 2026
+
+Removed Explore a year. Start and end year inputs now set the chart window, applying on blur or Enter; reversed, blank and out-of-bounds entries preserve the previous window. Both endpoints are calendar years, including dated events through 31 December of the final year, and a single-year window is supported. Presets use the exact titles and bounds from Regional history, alongside The whole story. Claim markers and qualified changes have independent checkboxes; hiding the latter does not hide historical periods or their evidence notes. Changes preceding the visible start no longer get a false boundary marker at the clipping edge.
+
+Validation: TypeScript, lint and seven period-model tests pass, including closing-year treaty handovers and continuous coverage across every regional preset and a single-year window. Browser checks covered marker toggles, custom and invalid ranges, preset reset, the 1763 treaty events, and regional preset labels at 390 and 320 px. The long menu labels wrap without clipping. No browser errors were recorded.
