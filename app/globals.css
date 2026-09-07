@@ -2175,16 +2175,6 @@ footer > span:first-child {
   width: 14px;
   height: 8px;
 }
-.period-key .marker-key {
-  margin-left: auto;
-}
-.period-key .uncertain-key {
-  width: 7px;
-  height: 7px;
-  border: 1px solid var(--ink);
-  border-radius: 50%;
-  background: var(--paper);
-}
 .period-readout {
   margin-top: 4px;
   border-top: 2px solid var(--ink);
@@ -2310,9 +2300,6 @@ footer > span:first-child {
   }
   .period-key {
     gap: 7px 12px;
-  }
-  .period-key .marker-key {
-    margin-left: 0;
   }
 }
 @media (pointer: coarse) {
@@ -2609,4 +2596,8 @@ footer > span:first-child {
   background: var(--focus-line);
   border-color: var(--focus-line);
   color: var(--paper);
+}
+.period-row-label > .power-row-name {
+  padding: 3px 6px;
+  margin-left: -6px;
 }

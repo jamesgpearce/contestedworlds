@@ -1,7 +1,7 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- SVG periods use roving keyboard focus; native previous/next buttons provide the same navigation. */
 'use client';
 import { useState, useRef, useEffect, useLayoutEffect, useMemo } from 'react';
-import { ArrowLeft, ArrowRight, Diamond } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import {
   type Island,
   type HistoryEvent,
@@ -548,7 +548,14 @@ export function HistoryChart({
                   <svg width="22" height="17" viewBox="0 0 22 17">
                     <PowerSymbol id={row.id} />
                   </svg>
-                  <span>{owners[row.id].label}</span>
+                  <span
+                    className="power-row-name"
+                    style={{
+                      background: `color-mix(in srgb, ${powerColor(row.id)} 10%, var(--paper))`,
+                    }}
+                  >
+                    {owners[row.id].label}
+                  </span>
                 </>
               ) : (
                 <span>{tracks.find((i) => i.id === row.id)?.name}</span>
@@ -557,27 +564,18 @@ export function HistoryChart({
           ))}
         </div>
       </div>
-      <div className="period-key" aria-label="Power colors">
-        {data.owners
-          .filter((o) => periods.some((p) => p.power === o.id))
-          .map((o) => (
-            <span key={o.id}>
-              <i style={{ background: powerColor(o.id) }} />
-              {o.label}
-            </span>
-          ))}
-        {showQualified && (
-        <span className="marker-key">
-          <i className="uncertain-key" />
-          Qualified change
-        </span>
-        )}
-        {showClaims && (
-          <span>
-            <Diamond size={10} aria-hidden="true" /> Claim only
-          </span>
-        )}
-      </div>
+      {arrangement === 'islands' && (
+        <div className="period-key" aria-label="Power colors">
+          {data.owners
+            .filter((o) => periods.some((p) => p.power === o.id))
+            .map((o) => (
+              <span key={o.id}>
+                <i style={{ background: powerColor(o.id) }} />
+                {o.label}
+              </span>
+            ))}
+        </div>
+      )}
       <p className="chart-scale-note">
         {spacing === 'events'
           ? 'Event spacing · equal gaps between relevant dates for the selected islands, not equal years. Shared dates share a tick.'
