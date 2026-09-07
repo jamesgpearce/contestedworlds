@@ -75,7 +75,7 @@ export default function Home() {
   const [pinned, setPinned] = useState(false);
   const [focusRequest, setFocusRequest] = useState(0);
   const [eventId, setEventId] = useState('saint-lucia-12');
-  const [showClaims, setShowClaims] = useState(false);
+  const [showClaims, setShowClaims] = useState(true);
   const [showQualified, setShowQualified] = useState(true);
   const [year, setYear] = useState(dateValue('1763-02-10'));
   const [axisSpacing, setAxisSpacing] = useState('events');

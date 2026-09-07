@@ -106,7 +106,10 @@ export function PeriodCard({
                   </button>
                 </div>
                 <div className="period-card-meta">
-                  <strong>{owners[inspection.power].label}</strong>
+                  <strong>
+                    {inspection.event?.kind === 'claim' && 'Claim by '}
+                    {owners[inspection.power].label}
+                  </strong>
                   <span>{inspection.dates}</span>
                 </div>
                 {inspection.event && <h4>{inspection.event.title}</h4>}

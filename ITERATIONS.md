@@ -130,3 +130,7 @@ Moving from a rectangle or claim into its card temporarily protects that target 
 ## References at the introduction · 8 September 2026
 
 Context, Sources and Method move from the footer to quiet inline links beside the subtitle. They wrap below it on smaller screens and retain the direct opening of each reference section. The footer keeps only edition information.
+
+## Explicit claims, visible by default · 8 September 2026
+
+Claim cards now say “Claim by” before the power’s name, so their status is explicit in both hover and pinned details. Claim markers start enabled; the existing Options checkbox still hides them and removes their dates from event spacing.
