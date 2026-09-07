@@ -150,3 +150,7 @@ The lower blocks are now titled Context, Sources and Method, in that order, matc
 ## Open-source contribution path · 8 September 2026
 
 Added the owner-selected MIT code license, retaining CC BY 4.0 for the original dataset. Method invites evidence-backed dataset pull requests and links to the contribution guide. The footer links to the planned `jamesgpearce/contestedworlds` repository; repository creation is separate.
+
+## Flags for island rows · 8 September 2026
+
+Island grouping now places modern country or territory SVG flags beside island names, matching the size and muted treatment of power-row flags. Related islands may share a national flag. The assets extend the existing pinned flag-icons release, with its license retained and no new runtime dependency.

@@ -26,6 +26,7 @@ import {
   type Arrangement,
   type Placement,
 } from '@/lib/periods';
+import { islandFlags } from '@/lib/island-flags';
 import { eventAxis } from '@/lib/event-axis';
 import { PeriodCard } from '@/components/period-card';
 import { inspectTarget, type InspectionTarget } from '@/lib/chart-inspection';
@@ -762,7 +763,23 @@ export function HistoryChart({
                   </span>
                 </>
               ) : (
-                <span>{tracks.find((i) => i.id === row.id)?.name}</span>
+                <>
+                  {islandFlags[row.id] && (
+                    <svg
+                      width="22"
+                      height="17"
+                      viewBox="0 0 22 17"
+                      aria-hidden="true"
+                    >
+                      <image
+                        href={`/flags/${islandFlags[row.id]}.svg`}
+                        width={22}
+                        height={16.5}
+                      />
+                    </svg>
+                  )}
+                  <span>{tracks.find((i) => i.id === row.id)?.name}</span>
+                </>
               )}
             </div>
           ))}

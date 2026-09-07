@@ -578,10 +578,13 @@ export default function Home() {
               Powers &amp; flags
             </summary>
             <p>
-              Flags identify powers using modern designs; they do not change
-              with historical dates. UK includes earlier English rule.
-              Lettermarks identify Courland and Gran Colombia. Indigenous
+              Flags identify powers and island rows using modern designs; they
+              do not change with historical dates. UK includes earlier English
+              rule. Lettermarks identify Courland and Gran Colombia. Indigenous
               societies and independent states have no single national flag.
+              Island rows use contemporary country or territory flags, so some
+              islands share a national flag. The Caribbean Netherlands use the
+              Dutch flag.
             </p>
             <ul>
               {data.owners.map((o) => (
