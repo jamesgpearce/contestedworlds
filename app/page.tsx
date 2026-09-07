@@ -46,8 +46,6 @@ import {
   eventDate,
   changeCount,
   powerColor,
-  START,
-  END,
 } from '@/lib/history';
 
 const ranges: Record<string, [number, number]> = Object.fromEntries(
@@ -154,56 +152,30 @@ export default function Home() {
       ),
     [range, tracks, mode, showClaims],
   );
+  const openReference = (id: string) => {
+    const element = document.getElementById(id);
+    if (id === 'bibliography') setEvidence(true);
+    else if (element instanceof HTMLDetailsElement) element.open = true;
+    requestAnimationFrame(() =>
+      element?.scrollIntoView({ behavior: 'smooth' }),
+    );
+  };
   return (
     <main>
       <a className="skip-link" href="#explorer">
         Skip to the island explorer
       </a>
       <header className="masthead">
-        <button
-          className="wordmark"
-          onClick={() => {
-            setYearRange(ranges.all);
-          }}
-        >
-          <svg className="atlas-mark" viewBox="0 0 32 24" aria-hidden="true">
-            <path
-              d="M1 4h10v16h20M1 20h20V4h10M1 12h30"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-          </svg>
-          <span>
-            Caribbean<span className="wordmark-sub">History atlas</span>
-          </span>
-        </button>
-        <div className="masthead-right">
-          <ThemeSwitcher />
-          <button
-            onClick={() => {
-              setEvidence(true);
-              document
-                .getElementById('sources-method')
-                ?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            <span className="sources-label-long">Sources & method</span>
-            <span className="sources-label-short">Sources</span> <Arrow />
-          </button>
+        <div className="atlas-title">
+          <h1>
+            Sea of <span>Empires</span>
+          </h1>
+          <p>
+            Caribbean islands through conquest, occupation and independence.
+          </p>
         </div>
+        <ThemeSwitcher />
       </header>
-      <section className="intro">
-        <h1>
-          A sea of <span>empires</span>
-        </h1>
-        <p className="intro-copy">
-          <span>
-            {START}–{END}
-          </span>{' '}
-          · {islands.length} island histories
-        </p>
-      </section>
       <section
         className="explorer"
         id="explorer"
@@ -481,7 +453,7 @@ export default function Home() {
             secondary compilations.
           </p>
         </div>
-        <details className="war-context">
+        <details className="war-context" id="regional-history">
           <summary>
             <DisclosureIcon />
             Regional history
@@ -551,6 +523,7 @@ export default function Home() {
           </p>
         </details>
         <details
+          id="bibliography"
           open={evidence}
           onToggle={(e) => setEvidence(e.currentTarget.open)}
         >
@@ -586,7 +559,25 @@ export default function Home() {
         </details>
       </section>
       <footer>
-        <span>A sea of empires</span>
+        <span>Sea of Empires · Caribbean</span>
+        <nav aria-label="Atlas references">
+          {[
+            ['Context', 'regional-history'],
+            ['Sources', 'bibliography'],
+            ['Method', 'sources-method'],
+          ].map(([label, id]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                openReference(id);
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
         <span>Research edition · 2026</span>
       </footer>
     </main>

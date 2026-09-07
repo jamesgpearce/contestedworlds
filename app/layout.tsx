@@ -3,7 +3,7 @@ import { themeBootstrap } from '@/lib/theme';
 import './globals.css';
 export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
-  title: 'A Sea of Empires — The Caribbean, 1450–2026',
+  title: 'Sea of Empires — The Caribbean, 1450–2026',
   description:
     'Follow 36 island histories through conquest, treaties, occupation and independence. A sourced interactive atlas of the Caribbean.',
 };

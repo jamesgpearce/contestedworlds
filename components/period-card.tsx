@@ -55,7 +55,7 @@ export function PeriodCard({
           align="start"
           sideOffset={10}
           positionMethod="fixed"
-          collisionPadding={{ top: 70, right: 12, bottom: 12, left: 12 }}
+          collisionPadding={{ top: 120, right: 12, bottom: 12, left: 12 }}
           collisionAvoidance={{
             side: 'flip',
             align: 'shift',

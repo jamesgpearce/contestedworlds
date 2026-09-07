@@ -90,3 +90,7 @@ The system appearance choice uses Lucide Sun–Moon, alongside Sun for light and
 Hover and keyboard focus resolve one explicit rectangle into its island, power, dates, full event text, evidence notes and citations. The same target drives the highlighted route and the attached card. Clicking pins both until another rectangle is clicked, a click elsewhere, or Escape; the card offers previous/next navigation. About appears only for a pinned island and retains the complete chronology. The lower selected-period readout and upper preview strip are removed. Virtual anchoring follows changes of rectangle and viewport collision handling keeps the card on screen.
 
 Validation: the dataset remains 36 tracks, 433 events and 68 sources. Model tests cover every rectangle in both political-power modes, stale/cross-island targets, and every claim/context record. Browser checks cover keyboard inspection, pinning, next-period navigation, selecting another island, outside dismissal, Escape focus return, and phone card positioning.
+
+## Sea of Empires masthead · 8 September 2026
+
+The main title is now Sea of Empires, with the subtitle “Caribbean islands through conquest, occupation and independence.” One masthead replaces the separate Caribbean logo strip and repeated title; the appearance menu stays in reach. Context, Sources and Method links move to the footer and open their reference sections. The browser title follows the shorter name. A separate regional subtitle leaves room for future editions.

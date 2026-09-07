@@ -181,61 +181,37 @@ h3 {
   text-underline-offset: 3px;
 }
 
-/* A fixed navigation strip; all three appearance choices stay in reach. */
+/* The atlas title and its appearance control share one compact masthead. */
 .masthead {
   position: sticky;
   top: 0;
   z-index: 40;
-  min-height: 62px;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
+  padding: 18px 0 16px;
   background: var(--paper);
   border-bottom: 2px solid var(--ink);
 }
-.wordmark {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 0;
-  padding: 0;
-  background: none;
-  text-align: left;
-  font-weight: 650;
-  font-size: 1rem;
-  letter-spacing: -0.02em;
+.atlas-title h1 {
+  font-size: clamp(1.75rem, 3.3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.065em;
 }
-.atlas-mark {
-  width: 36px;
-  height: 28px;
+.atlas-title h1 > span {
   color: var(--focus-line);
 }
-.wordmark-sub {
-  display: inline;
-  margin-left: 12px;
-  font-size: 0.8125rem;
-  font-weight: 400;
+.atlas-title p {
+  margin-top: 8px;
   color: var(--faint);
-  letter-spacing: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-wrap: pretty;
 }
-.masthead-right {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-.masthead-right > button {
-  border: 0;
-  padding: 8px 0;
-  background: none;
-  font-size: 0.875rem;
-}
-.masthead-right > button {
-  white-space: nowrap;
-}
-.masthead-right > button span[aria-hidden] {
-  margin-left: 5px;
-  color: var(--focus-line);
+.masthead > .theme-trigger {
+  flex: none;
 }
 .theme-trigger {
   display: inline-flex;
@@ -271,31 +247,6 @@ h3 {
   vertical-align: -0.13em;
   flex-shrink: 0;
   stroke-width: 1.6;
-}
-/* A compact title keeps the timeline in the opening viewport. */
-.intro {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 22px 0 18px;
-}
-.intro h1 {
-  font-size: clamp(2rem, 3.3vw, 3rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.065em;
-}
-.intro h1 > span {
-  color: var(--focus-line);
-}
-.intro-copy {
-  font-size: 0.875rem;
-  color: var(--faint);
-}
-.intro-copy > span {
-  font-family: var(--mono);
-  color: var(--ink);
 }
 .stories {
   display: grid;
@@ -391,7 +342,6 @@ h3 {
   justify-content: space-between;
   gap: 16px;
   padding: 10px 0;
-  border-top: 2px solid var(--ink);
 }
 .chart-selection {
   display: flex;
@@ -1362,9 +1312,6 @@ footer > span:first-child {
   :root {
     --gutter: 24px;
   }
-  .wordmark-sub {
-    display: none;
-  }
   .story {
     gap: 9px;
     padding: 12px 10px;
@@ -1411,15 +1358,6 @@ footer > span:first-child {
 @media (max-width: 750px) {
   .masthead {
     gap: 12px;
-  }
-  .masthead-right {
-    gap: 14px;
-  }
-  .intro {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-    padding: 18px 0 14px;
   }
   .story-trace {
     display: none;
@@ -1484,30 +1422,6 @@ footer > span:first-child {
   .masthead {
     min-height: 49px;
     gap: 8px;
-  }
-  .wordmark {
-    gap: 6px;
-    font-size: 0.8125rem;
-  }
-  .atlas-mark {
-    width: 23px;
-    height: 20px;
-  }
-  .masthead-right {
-    gap: 10px;
-  }
-  .masthead-right > button {
-    font-size: 0.75rem;
-  }
-  .intro {
-    gap: 7px;
-    padding: 15px 0 12px;
-  }
-  .intro h1 {
-    font-size: 2rem;
-  }
-  .intro-copy {
-    font-size: 0.8125rem;
   }
   .chart-heading {
     gap: 8px;
@@ -1751,7 +1665,6 @@ footer > span:first-child {
   .masthead {
     position: static;
   }
-  .masthead-right,
   .stories,
   .toolbar,
   .island-browser,
@@ -1781,9 +1694,6 @@ footer > span:first-child {
   .event-list {
     max-height: none;
     overflow: visible;
-  }
-  .intro {
-    padding: 20px 0;
   }
   .context-strip {
     break-inside: avoid;
@@ -2602,5 +2512,40 @@ details[open] > summary > .disclosure-chevron {
 @media print {
   .period-card-positioner {
     display: none;
+  }
+}
+
+footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-left: auto;
+}
+footer nav a {
+  text-underline-offset: 3px;
+}
+#regional-history,
+#bibliography,
+#sources-method {
+  scroll-margin-top: 125px;
+}
+@media (max-width: 600px) {
+  .masthead {
+    padding: 14px 0 12px;
+  }
+  .atlas-title p {
+    font-size: 0.75rem;
+  }
+  footer {
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 12px 20px;
+  }
+  footer nav {
+    margin-left: 0;
+    gap: 20px;
+  }
+  footer > span:last-child {
+    flex-basis: 100%;
   }
 }
