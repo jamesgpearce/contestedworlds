@@ -78,13 +78,6 @@ export default function Home() {
     (n, i) => n + i.events.length,
     0,
   );
-  const selectIsland = (id: string) => {
-    const island = islands.find((i) => i.id === id);
-    if (!island) return;
-    setSelected(id);
-    setSelectedIds((ids) => (ids.includes(id) ? ids : [...ids, id]));
-    setEventId('');
-  };
   const selectEvent = (e: HistoryEvent) => {
     setEventId(e.id);
     setYear(dateValue(e.date));
@@ -203,7 +196,6 @@ export default function Home() {
                 ids={selectedIds}
                 inspected={selected}
                 onChange={changeSelection}
-                onInspect={selectIsland}
               />
               <span className="coverage">
                 {tracks.reduce((n, i) => n + changeCount(i, mode, range), 0)}{' '}
