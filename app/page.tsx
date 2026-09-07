@@ -3,13 +3,7 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
 import { flushSync } from 'react-dom';
-import {
-  ArrowUpRight,
-  ChevronDown,
-  ArrowRight,
-  ArrowLeft,
-  Download,
-} from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Download } from 'lucide-react';
 import { registerAtlasTools } from '@/lib/atlas-tools';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -26,29 +20,20 @@ import {
   PopoverTitle,
 } from '@/components/ui/popover';
 import { Slider } from '@/components/ui/slider';
-import { Input } from '@/components/ui/input';
 import { IslandMap } from '@/components/island-map';
 import { ThemeSwitcher } from '@/components/theme-switcher';
-import { PeriodTable } from '@/components/period-table';
+import { Cite } from '@/components/citations';
 import { HistoryChart } from '@/components/history-chart';
 import { IslandPicker } from '@/components/island-picker';
-import {
-  plottedEvent,
-  periodsFor,
-  type Arrangement,
-  type Period,
-} from '@/lib/periods';
+import { plottedEvent, type Arrangement, type Period } from '@/lib/periods';
 import { eventAxis } from '@/lib/event-axis';
 import { PowerSymbol } from '@/components/power-symbol';
 import {
   data,
   islands,
   owners,
-  sources,
   type HistoryEvent,
   type Mode,
-  changes,
-  stateAt,
   dateValue,
   eventDate,
   changeCount,
@@ -57,124 +42,13 @@ import {
   END,
 } from '@/lib/history';
 
-const displays = [
-  {
-    id: 'chart-islands',
-    view: 'chart',
-    arrangement: 'islands',
-    label: 'Chart by Island',
-  },
-  {
-    id: 'chart-powers',
-    view: 'chart',
-    arrangement: 'powers',
-    label: 'Chart by Power',
-  },
-  {
-    id: 'table-islands',
-    view: 'table',
-    arrangement: 'islands',
-    label: 'Table by Island',
-  },
-  {
-    id: 'table-powers',
-    view: 'table',
-    arrangement: 'powers',
-    label: 'Table by Power',
-  },
-] as const;
-
 const ranges: Record<string, [number, number]> = {
   all: [START, END],
   empires: [1600, 1820],
   independence: [1790, END],
 };
-const stories = [
-  {
-    id: 'saint-lucia',
-    number: '01',
-    label: 'Repeated Anglo-French transfers',
-    range: 'empires',
-    year: 1763,
-  },
-  {
-    id: 'guadeloupe',
-    number: '02',
-    label: 'Swedish title, British government',
-    range: 'empires',
-    year: 1813,
-  },
-  {
-    id: 'haiti',
-    number: '03',
-    label: 'Revolution and independence',
-    range: 'independence',
-    year: 1804,
-  },
-  {
-    id: 'tobago',
-    number: '04',
-    label: 'The Courland colony',
-    range: 'empires',
-    year: 1654,
-  },
-];
-const kindLabel: Record<string, string> = {
-  'context-change': 'Local control',
-  'resistance-change': 'Resistance',
-  capture: 'Occupation / conquest',
-  restoration: 'Restoration',
-  settlement: 'Colonial settlement',
-  treaty: 'Treaty / agreement',
-  independence: 'Independence',
-  claim: 'Claim only',
-  status: 'Constitutional change',
-  withdrawal: 'Withdrawal',
-  resistance: 'Resistance',
-  context: 'Historical context',
-};
-function Cite({ ids }: { ids: string[] }) {
-  return (
-    <span className="citations">
-      {Array.from(new Set(ids)).map((id, n) => (
-        <a
-          key={id}
-          href={sources[id]?.url}
-          target="_blank"
-          rel="noreferrer"
-          title={`${sources[id]?.publisher}: ${sources[id]?.title}`}
-        >
-          [{n + 1}]
-          <span className="sr-only">
-            {' '}
-            {sources[id]?.title} (opens a new tab)
-          </span>
-        </a>
-      ))}
-    </span>
-  );
-}
 function Arrow() {
   return <ArrowUpRight className="inline-icon" aria-hidden="true" />;
-}
-
-function StoryTrace({ id }: { id: string }) {
-  const island = islands.find((i) => i.id === id)!;
-  const periods = periodsFor(island, 'administration', [START, END]);
-  return (
-    <svg className="story-trace" viewBox="0 0 96 32" aria-hidden="true">
-      {periods.map((p) => (
-        <rect
-          key={p.id}
-          x={2 + ((p.start - START) / (END - START)) * 92}
-          y={12}
-          width={((p.end - p.start) / (END - START)) * 92}
-          height={8}
-          fill={powerColor(p.power)}
-        />
-      ))}
-    </svg>
-  );
 }
 
 export default function Home() {
@@ -188,10 +62,7 @@ export default function Home() {
   const [arrangement, setArrangement] = useState<Arrangement>('islands');
   const [mode, setMode] = useState<Mode>('administration');
   const [period, setPeriod] = useState('all');
-  const [view, setView] = useState<'chart' | 'table'>('chart');
   const [eventId, setEventId] = useState('saint-lucia-12');
-  const [query, setQuery] = useState('');
-  const [group, setGroup] = useState('All islands');
   const [showClaims, setShowClaims] = useState(false);
   const [year, setYear] = useState(dateValue('1763-02-10'));
   const [axisSpacing, setAxisSpacing] = useState('time');
@@ -202,16 +73,7 @@ export default function Home() {
     [selectedIds],
   );
   const activeArrangement = tracks.length > 1 ? arrangement : 'powers';
-  const event =
-    current.events.find((e) => e.id === eventId) ||
-    [...current.events].reverse().find((e) => dateValue(e.date) <= year) ||
-    current.events[0];
   const range = ranges[period];
-  const visible = islands.filter(
-    (i) =>
-      (group === 'All islands' || i.region === group) &&
-      i.name.toLowerCase().includes(query.toLowerCase()),
-  );
   const activeEventCount = data.islands.reduce(
     (n, i) => n + i.events.length,
     0,
@@ -250,9 +112,6 @@ export default function Home() {
           setYear(year);
           setMode(mode);
           setPeriod('all');
-          setView('chart');
-          setGroup('All islands');
-          setQuery('');
           setEventId('');
         });
       }),
@@ -277,23 +136,6 @@ export default function Home() {
   const cursorLabel = dateUnderCursor
     ? eventDate(dateUnderCursor)
     : String(Math.floor(year));
-  const selectedInRange = current.events.filter(
-    (e) => dateValue(e.date) >= range[0] && dateValue(e.date) <= range[1],
-  );
-  const atYear = stateAt(current, year, mode);
-  function preset(s: (typeof stories)[number]) {
-    setSelected(s.id);
-    setSelectedIds([s.id]);
-    setArrangement('powers');
-    setPeriod(s.range);
-    setGroup('All islands');
-    setQuery('');
-    setView('chart');
-    const i = islands.find((i) => i.id === s.id)!;
-    const e = i.events.find((e) => e.year === s.year);
-    setYear(e ? dateValue(e.date) : s.year);
-    setEventId(e?.id || '');
-  }
   return (
     <main>
       <a className="skip-link" href="#explorer">
@@ -304,8 +146,6 @@ export default function Home() {
           className="wordmark"
           onClick={() => {
             setPeriod('all');
-            setGroup('All islands');
-            setQuery('');
           }}
         >
           <svg className="atlas-mark" viewBox="0 0 32 24" aria-hidden="true">
@@ -324,7 +164,7 @@ export default function Home() {
           <ThemeSwitcher />
           <button
             onClick={() => {
-              setEvidence(!evidence);
+              setEvidence(true);
               document
                 .getElementById('sources-method')
                 ?.scrollIntoView({ behavior: 'smooth' });
@@ -371,41 +211,29 @@ export default function Home() {
               </span>
             </div>
             <div className="chart-view-controls">
-              <Tabs
-                className="display-toggle"
-                value={`${view}-${activeArrangement}`}
-                onValueChange={(value) => {
-                  const choice = displays.find((d) => d.id === value);
-                  if (choice) {
-                    setView(choice.view);
-                    setArrangement(choice.arrangement);
-                  }
-                }}
-              >
-                <TabsList aria-label="Display and grouping">
-                  {displays
-                    .filter(
-                      (d) => tracks.length > 1 || d.arrangement === 'powers',
-                    )
-                    .map((d) => (
-                      <TabsTrigger key={d.id} value={d.id}>
-                        {d.label}
-                      </TabsTrigger>
-                    ))}
-                </TabsList>
-              </Tabs>
-              {view === 'chart' && (
+              {tracks.length > 1 && (
                 <Tabs
-                  className="axis-toggle"
-                  value={axisSpacing}
-                  onValueChange={(v) => setAxisSpacing(String(v))}
+                  value={activeArrangement}
+                  onValueChange={(value) =>
+                    setArrangement(value as Arrangement)
+                  }
                 >
-                  <TabsList aria-label="Horizontal spacing">
-                    <TabsTrigger value="time">Time</TabsTrigger>
-                    <TabsTrigger value="events">Events</TabsTrigger>
+                  <TabsList aria-label="Group periods by">
+                    <TabsTrigger value="islands">By Island</TabsTrigger>
+                    <TabsTrigger value="powers">By Power</TabsTrigger>
                   </TabsList>
                 </Tabs>
               )}
+              <Tabs
+                className="axis-toggle"
+                value={axisSpacing}
+                onValueChange={(value) => setAxisSpacing(String(value))}
+              >
+                <TabsList aria-label="Horizontal spacing">
+                  <TabsTrigger value="time">Time</TabsTrigger>
+                  <TabsTrigger value="events">Events</TabsTrigger>
+                </TabsList>
+              </Tabs>
               <Popover>
                 <PopoverTrigger
                   className="chart-options-trigger"
@@ -475,15 +303,49 @@ export default function Home() {
                       </SelectContent>
                     </Select>
                   </div>
-                  {view === 'chart' && (
-                    <button
-                      className="overview-toggle"
-                      aria-pressed={showClaims}
-                      onClick={() => setShowClaims(!showClaims)}
-                    >
-                      {showClaims ? 'Hide' : 'Show'} claim markers
-                    </button>
+                  {tracks.length > 0 && (
+                    <div className="chart-option-field year-option">
+                      <p className="chart-option-label">
+                        Explore a year <output>{Math.floor(year)}</output>
+                      </p>
+                      <Slider
+                        value={[
+                          eventSpacing
+                            ? eventScale.position(year) *
+                              (eventScale.domain.length - 1)
+                            : Math.max(
+                                range[0],
+                                Math.min(Math.floor(year), range[1]),
+                              ),
+                        ]}
+                        min={eventSpacing ? 0 : range[0]}
+                        max={
+                          eventSpacing ? eventScale.domain.length - 1 : range[1]
+                        }
+                        step={1}
+                        thumbLabel={
+                          eventSpacing ? 'Event to explore' : 'Year to explore'
+                        }
+                        thumbValueText={cursorLabel}
+                        onValueChange={(v) => {
+                          const value = typeof v === 'number' ? v : v[0];
+                          setYear(
+                            eventSpacing
+                              ? eventScale.domain[Math.round(value)]
+                              : value,
+                          );
+                          setEventId('');
+                        }}
+                      />
+                    </div>
                   )}
+                  <button
+                    className="overview-toggle"
+                    aria-pressed={showClaims}
+                    onClick={() => setShowClaims(!showClaims)}
+                  >
+                    {showClaims ? 'Hide' : 'Show'} claim markers
+                  </button>
                 </PopoverContent>
               </Popover>
             </div>
@@ -499,7 +361,7 @@ export default function Home() {
                 Show all {islands.length} islands
               </button>
             </div>
-          ) : view === 'chart' ? (
+          ) : (
             <>
               <HistoryChart
                 tracks={tracks}
@@ -518,278 +380,38 @@ export default function Home() {
                   selectEvent(e);
                 }}
               />
-              <p className="chart-scale-note">
-                {eventSpacing
-                  ? 'Event spacing · equal gaps between relevant dates for the selected islands, not equal years. Shared dates share a tick.'
-                  : 'Linear time · Indigenous histories extend millennia before 1450.'}
-              </p>
             </>
-          ) : (
-            <PeriodTable
-              tracks={tracks}
-              mode={mode}
-              range={range}
-              arrangement={activeArrangement}
-              inspectedId={selected}
-              eventId={eventId}
-              year={year}
-              onSelect={selectPeriod}
-              renderSources={(ids) => <Cite ids={ids} />}
-            />
           )}
-          <div className="power-legend-row">
-            <details className="power-key">
-              <summary>Powers &amp; flags</summary>
-              <p>
-                Flags identify powers using modern designs; they do not change
-                with historical dates. UK includes earlier English rule.
-                Lettermarks identify Courland and Gran Colombia. Indigenous
-                societies and independent states have no single national flag.
-              </p>
-              <ul>
-                {data.owners.map((o) => (
-                  <li key={o.id}>
-                    <svg viewBox="0 0 22 17" aria-hidden="true">
-                      <PowerSymbol id={o.id} />
-                    </svg>
-                    <div>
-                      <strong>{o.label}</strong>
-                      <p>{o.description}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <p>
-                SVG flags:{' '}
-                <a
-                  href="https://github.com/lipis/flag-icons"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  flag-icons (MIT)
-                </a>
-                . Order flag:{' '}
-                <a
-                  href="https://www.orderofmalta.int/government/flags-emblems/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Order of Malta
-                </a>
-                .
-              </p>
-            </details>
-          </div>
-          {tracks.length > 0 && view === 'chart' && (
-            <div className="time-control">
-              <div>
-                <span id="time-label">Explore a year</span>
-                <output>{Math.floor(year)}</output>
-              </div>
-              <Slider
-                value={[
-                  eventSpacing
-                    ? eventScale.position(year) * (eventScale.domain.length - 1)
-                    : Math.max(range[0], Math.min(Math.floor(year), range[1])),
-                ]}
-                min={eventSpacing ? 0 : range[0]}
-                max={eventSpacing ? eventScale.domain.length - 1 : range[1]}
-                step={1}
-                thumbLabel={
-                  eventSpacing ? 'Event to explore' : 'Year to explore'
-                }
-                thumbValueText={cursorLabel}
-                onValueChange={(v) => {
-                  const value = typeof v === 'number' ? v : v[0];
-                  setYear(
-                    eventSpacing ? eventScale.domain[Math.round(value)] : value,
-                  );
-                  setEventId('');
-                }}
-              />
-              <span className="year-state">
-                {current.name} <strong>{owners[atYear].label}</strong>
-              </span>
-            </div>
-          )}
-          <nav className="stories" aria-label="Stories to explore">
-            {stories.map((s) => (
-              <button
-                key={s.id}
-                className={
-                  tracks.length > 0 && selected === s.id
-                    ? 'story active'
-                    : 'story'
-                }
-                onClick={() => preset(s)}
-              >
-                <span className="story-number">{s.number}</span>
-                <span className="story-copy">
-                  <strong>{islands.find((i) => i.id === s.id)?.name}</strong>
-                  <span>{s.label}</span>
-                </span>
-                <StoryTrace id={s.id} />
-                <span className="story-arrow" aria-hidden="true">
-                  <Arrow />
-                </span>
-              </button>
-            ))}
-          </nav>
-          <details className="war-context">
-            <summary>The wars behind the changes</summary>
-            <div>
-              {data.contexts
-                .filter((c) => c.end >= range[0] && c.start <= range[1])
-                .map((c) => (
-                  <article key={c.id}>
-                    <h3>
-                      {c.start}–{c.end} · {c.title}
-                    </h3>
-                    <p>
-                      {c.description} <Cite ids={c.sources} />
-                    </p>
-                  </article>
-                ))}
-            </div>
-          </details>
         </div>
         {tracks.length > 0 && (
-          <aside className="inspector" aria-label="Selected island details">
-            <div className="inspector-body">
-              <div className="island-overview">
-                <div className="island-identification">
-                  <span>Selected island</span>
-                  <span className="island-index">
-                    {String(islands.indexOf(current) + 1).padStart(2, '0')} /{' '}
-                    {islands.length}
-                  </span>
-                </div>
-                <h2 className="island-title">{current.name}</h2>
-                <p className="island-summary">{current.summary}</p>
-                <div className="island-stats">
-                  <div>
-                    <strong>{changes(current, mode).length}</strong>
-                    <span>
-                      recorded {mode === 'administration' ? 'control' : 'title'}{' '}
-                      changes
-                    </span>
-                  </div>
-                  <div>
-                    <strong>{owners[current.currentSovereign].label}</strong>
-                    <span>sovereign status today</span>
-                  </div>
-                </div>
-                <div className="map-slot" id="island-map">
-                  <p className="region-name">{current.region}</p>
+          <details className="island-reference" id="island-background">
+            <summary>
+              About {current.name}
+              <span>
+                Background &amp; {current.events.length} dated records
+              </span>
+            </summary>
+            <div className="island-reference-body">
+              <div className="reference-background">
+                <p>{current.notes}</p>
+                <p className="reference-peoples">{current.peoples}</p>
+                <Cite ids={current.sources} />
+                <p className="reference-location">
+                  {current.region} · Today:{' '}
+                  {owners[current.currentSovereign].label}
+                </p>
+                <div className="reference-map">
                   <IslandMap island={current} year={year} mode={mode} />
-                  <p className="coordinates">
-                    {Math.abs(current.coordinates[1]).toFixed(2)}° N &nbsp;{' '}
-                    {Math.abs(current.coordinates[0]).toFixed(2)}° W
-                  </p>
-                  <p className="map-people">{current.peoples}</p>
                 </div>
               </div>
-              <div className="event-detail">
-                <div
-                  className="event-card"
-                  id="selected-event"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  <p className="event-position">
-                    {current.name} ·{' '}
-                    {dateValue(event.date) > year
-                      ? 'Next recorded event'
-                      : 'Selected historical event'}
-                  </p>
-                  <div className="event-date">
-                    {eventDate(event)}{' '}
-                    <span>{kindLabel[event.kind] || event.kind}</span>
-                  </div>
-                  <h3>{event.title}</h3>
-                  <p>{event.detail}</p>
-                  {(mode === 'administration'
-                    ? event.changesControl
-                    : event.changesSovereignty) && (
-                    <p className="event-transition">
-                      {
-                        owners[
-                          mode === 'administration'
-                            ? event.previousController
-                            : event.previousSovereign
-                        ]?.label
-                      }
-                      <ArrowRight className="inline-icon" aria-hidden="true" />
-                      {
-                        owners[
-                          mode === 'administration'
-                            ? event.resultingController
-                            : event.resultingSovereign
-                        ]?.label
-                      }
-                    </p>
-                  )}
-                  {event.uncertainty && (
-                    <p className="qualification">
-                      <span>Evidence note</span>
-                      {event.uncertainty}
-                    </p>
-                  )}
-                  {event.qualification && (
-                    <p className="qualification">{event.qualification}</p>
-                  )}
-                  <div className="event-sources">
-                    <span>Sources</span>
-                    <Cite ids={event.sources} />
-                  </div>
-                  <div className="event-nav">
-                    <button
-                      disabled={current.events.indexOf(event) === 0}
-                      onClick={() =>
-                        selectEvent(
-                          current.events[current.events.indexOf(event) - 1],
-                        )
-                      }
-                    >
-                      <ArrowLeft className="inline-icon" aria-hidden="true" />{' '}
-                      Previous
-                    </button>
-                    <span>
-                      {current.events.indexOf(event) + 1} /{' '}
-                      {current.events.length}
-                    </span>
-                    <button
-                      disabled={
-                        current.events.indexOf(event) ===
-                        current.events.length - 1
-                      }
-                      onClick={() =>
-                        selectEvent(
-                          current.events[current.events.indexOf(event) + 1],
-                        )
-                      }
-                    >
-                      Next{' '}
-                      <ArrowRight className="inline-icon" aria-hidden="true" />
-                    </button>
-                  </div>
-                </div>
-                <details className="island-notes" id="island-background">
-                  <summary>The history behind the periods</summary>
-                  <p>{current.notes}</p>
-                  <Cite ids={current.sources} />
-                </details>
-              </div>
-              <div className="chronology">
-                <div className="event-list-heading">
-                  <h3>Chronology</h3>
-                  <span>{selectedInRange.length} events in view</span>
-                </div>
+              <div className="reference-chronology">
+                <h3>Dated records</h3>
                 <ol className="event-list">
-                  {selectedInRange.map((e) => (
+                  {current.events.map((e) => (
                     <li key={e.id}>
-                      <button
-                        className={e.id === event.id ? 'active' : ''}
+                      <a
+                        href="#selected-event"
+                        className={e.id === eventId ? 'active' : ''}
                         onClick={() => selectEvent(e)}
                       >
                         <time>{eventDate(e)}</time>
@@ -807,119 +429,14 @@ export default function Home() {
                             }}
                           />
                         )}
-                      </button>
+                      </a>
                     </li>
                   ))}
                 </ol>
-                {!selectedInRange.length && (
-                  <p className="quiet">
-                    No recorded events in this period.{' '}
-                    <button
-                      onClick={() => setPeriod('all')}
-                      className="text-button"
-                    >
-                      Show the whole story
-                    </button>
-                    .
-                  </p>
-                )}
               </div>
             </div>
-          </aside>
+          </details>
         )}
-        <div className="island-browser">
-          <div className="browse-top">
-            <h3>Add or remove islands</h3>
-            <label className="search" htmlFor="island-search">
-              <span className="sr-only">Search islands</span>
-              <Input
-                id="island-search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Find an island…"
-                type="search"
-              />
-            </label>
-            <Select
-              value={group}
-              onValueChange={(v) => {
-                if (v) setGroup(v);
-              }}
-            >
-              <SelectTrigger aria-label="Island region">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {['All islands', ...new Set(islands.map((i) => i.region))].map(
-                  (g) => (
-                    <SelectItem value={g} key={g}>
-                      {g}
-                    </SelectItem>
-                  ),
-                )}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="island-list">
-            {visible.map((i) => (
-              <button
-                key={i.id}
-                aria-pressed={selectedIds.includes(i.id)}
-                className={
-                  selectedIds.includes(i.id)
-                    ? 'island-chip selected'
-                    : 'island-chip'
-                }
-                onClick={() =>
-                  changeSelection(
-                    selectedIds.includes(i.id)
-                      ? selectedIds.filter((id) => id !== i.id)
-                      : [...selectedIds, i.id],
-                  )
-                }
-              >
-                <span
-                  style={{ background: powerColor(stateAt(i, year, mode)) }}
-                />
-                {i.name}
-              </button>
-            ))}
-          </div>
-          {visible.length === 0 && (
-            <p>
-              No islands match.{' '}
-              <button
-                className="text-button"
-                onClick={() => {
-                  setQuery('');
-                  setGroup('All islands');
-                }}
-              >
-                Clear filters
-              </button>
-            </p>
-          )}
-        </div>
-      </section>
-      <section className="context-strip">
-        <h2>
-          People under
-          <br />
-          imperial rule
-        </h2>
-        <div>
-          <p>
-            Sugar, strategic harbours and Atlantic trade made these islands
-            imperial prizes. Their wealth was built through Indigenous
-            dispossession and the labour of enslaved Africans.
-          </p>
-          <p>
-            The chart traces political power. It cannot contain the lives,
-            resistance and cultures that endured beneath it. Indigenous
-            Caribbean peoples did not disappear.{' '}
-            <Cite ids={['regional', 'survival']} />
-          </p>
-        </div>
       </section>
       <section className="evidence" id="sources-method">
         <div className="evidence-top">
@@ -961,6 +478,69 @@ export default function Home() {
             secondary compilations.
           </p>
         </div>
+        <details className="war-context">
+          <summary>Regional history</summary>
+          <p className="regional-intro">
+            Sugar, strategic harbours and Atlantic trade made these islands
+            imperial prizes. Their wealth was built through Indigenous
+            dispossession and the labour of enslaved Africans. The chart traces
+            political power; Indigenous peoples, cultures and resistance endured
+            beyond it. <Cite ids={['regional', 'survival']} />
+          </p>
+          <div>
+            {data.contexts.map((c) => (
+              <article key={c.id}>
+                <h3>
+                  {c.start}–{c.end} · {c.title}
+                </h3>
+                <p>
+                  {c.description} <Cite ids={c.sources} />
+                </p>
+              </article>
+            ))}
+          </div>
+        </details>
+        <details className="power-key reference-key">
+          <summary>Powers &amp; flags</summary>
+          <p>
+            Flags identify powers using modern designs; they do not change with
+            historical dates. UK includes earlier English rule. Lettermarks
+            identify Courland and Gran Colombia. Indigenous societies and
+            independent states have no single national flag.
+          </p>
+          <ul>
+            {data.owners.map((o) => (
+              <li key={o.id}>
+                <svg viewBox="0 0 22 17" aria-hidden="true">
+                  <PowerSymbol id={o.id} />
+                </svg>
+                <div>
+                  <strong>{o.label}</strong>
+                  <p>{o.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p>
+            SVG flags:{' '}
+            <a
+              href="https://github.com/lipis/flag-icons"
+              target="_blank"
+              rel="noreferrer"
+            >
+              flag-icons (MIT)
+            </a>
+            . Order flag:{' '}
+            <a
+              href="https://www.orderofmalta.int/government/flags-emblems/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Order of Malta
+            </a>
+            .
+          </p>
+        </details>
         <details
           open={evidence}
           onToggle={(e) => setEvidence(e.currentTarget.open)}

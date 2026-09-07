@@ -4,13 +4,10 @@
 @source '../components/ui/tabs.tsx';
 @source '../components/ui/select.tsx';
 @source '../components/ui/slider.tsx';
-@source '../components/ui/input.tsx';
-@source '../components/ui/table.tsx';
 @source '../components/ui/dropdown-menu.tsx';
 @source '../components/ui/popover.tsx';
 @source '../components/history-chart.tsx';
 @source '../components/island-picker.tsx';
-@source '../components/period-table.tsx';
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -587,19 +584,16 @@ h3 {
   letter-spacing: -0.05em;
   min-width: 62px;
 }
-.time-control [data-slot='slider'] {
-  flex: 1;
-  min-width: 60px;
-}
-.time-control [data-slot='slider-track'] {
+.year-option [data-slot='slider-track'] {
   height: 2px;
   background: var(--border);
   border-radius: 0;
 }
-.time-control [data-slot='slider-range'] {
+.year-option [data-slot='slider-range'] {
+  height: 100%;
   background: var(--focus-line);
 }
-.time-control [data-slot='slider-thumb'] {
+.year-option [data-slot='slider-thumb'] {
   width: 11px;
   height: 21px;
   border: 2px solid var(--paper);
@@ -2301,7 +2295,7 @@ footer > span:first-child {
   margin-top: 10px;
   font-size: 0.8125rem;
 }
-.period-navigation > a {
+.period-navigation > .period-sources {
   margin-right: auto;
   display: inline-flex;
   align-items: center;
@@ -2322,7 +2316,7 @@ footer > span:first-child {
 .period-navigation button:hover:enabled {
   background: var(--secondary);
 }
-.period-atlas + .chart-scale-note {
+.period-atlas > .chart-scale-note {
   font-size: 0.75rem;
   padding-top: 8px;
 }
@@ -2365,7 +2359,7 @@ footer > span:first-child {
   .chart-view-controls [data-slot='tabs-list'] {
     height: 38px;
   }
-  .period-navigation > a {
+  .period-navigation > .period-sources {
     flex-basis: 100%;
     margin-bottom: 2px;
   }
@@ -2509,157 +2503,136 @@ footer > span:first-child {
   }
 }
 
-/* Format and grouping are one explicit choice; spacing belongs to charts. */
-.display-toggle [data-slot='tabs-list'] {
-  border: 1px solid var(--border);
-  background: transparent;
-  gap: 2px;
+/* One selected explanation, followed by optional island and source references. */
+.period-readout {
+  scroll-margin-top: 80px;
 }
-.display-toggle [data-slot='tabs-trigger'] {
-  padding-inline: 9px;
-  font-size: 0.8125rem;
-}
-.display-toggle [data-slot='tabs-trigger'][data-active] {
-  background: var(--accent);
-  box-shadow: none;
-}
-.period-table-wrap {
-  margin-top: 8px;
-}
-.period-table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-.period-table caption {
-  caption-side: top;
-  text-align: left;
-  margin: 0 0 16px;
-  color: var(--faint);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-.period-table caption > span {
-  display: block;
-  margin-top: 3px;
-}
-.period-identity-column {
-  width: 29%;
-}
-.period-source-column {
-  width: 70px;
-}
-.period-table th,
-.period-table td {
-  white-space: normal;
-  vertical-align: top;
-  overflow-wrap: anywhere;
-  padding: 12px 8px;
-  border-bottom: 1px solid var(--border);
-}
-.period-table thead th {
-  color: var(--faint);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-.period-table-group th {
-  background: var(--secondary);
-  color: var(--ink);
-}
-.period-table-group-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9375rem;
-  font-weight: 600;
-}
-.period-table-group-label > svg {
-  flex: none;
-  width: 22px;
-  height: 17px;
-}
-.period-table-count {
-  flex: none;
-  margin-left: auto;
-  color: var(--faint);
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-.period-table-date {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--faint);
-  font: 0.75rem/1.5 var(--mono);
-}
-.period-table-owner {
+.period-sources {
   display: flex;
   align-items: baseline;
-  gap: 6px;
-  line-height: 1.4;
-}
-.period-table-owner > i {
-  flex: none;
-  width: 10px;
-  height: 7px;
-}
-.period-table .table-event {
-  font-size: 0.9375rem;
-}
-.period-table .table-event[aria-pressed='true'] {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.period-table td p {
-  margin-top: 6px;
-  font-size: 0.8125rem;
-  line-height: 1.6;
-}
-.period-table td .citations {
-  display: flex;
   flex-wrap: wrap;
-  gap: 3px 4px;
-  white-space: normal;
+  gap: 8px;
+  margin-right: auto;
 }
-@media (max-width: 750px) {
-  .chart-heading {
+.period-sources > span:first-child {
+  color: var(--faint);
+}
+.period-sources .citations {
+  flex-wrap: wrap;
+}
+.readout-body .qualification {
+  margin-top: 12px;
+}
+.year-option .chart-option-label {
+  display: flex;
+  justify-content: space-between;
+}
+.year-option output {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.year-option [data-slot='slider'] {
+  padding: 12px 2px;
+}
+.island-reference {
+  margin-top: 20px;
+  border-block: 1px solid var(--border);
+}
+.island-reference > summary {
+  padding: 15px 0;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 550;
+}
+.island-reference > summary > span {
+  float: right;
+  color: var(--faint);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+.island-reference-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 36px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+}
+.reference-background > p {
+  margin-bottom: 12px;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.reference-peoples,
+.reference-location {
+  color: var(--faint);
+}
+.reference-background .reference-location {
+  margin-top: 20px;
+  font-size: 0.8125rem;
+}
+.reference-map {
+  max-width: 360px;
+}
+.reference-chronology h3 {
+  font-size: 0.9375rem;
+  margin-bottom: 12px;
+}
+.reference-chronology .event-list {
+  max-height: 560px;
+}
+.event-list a {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr) 8px;
+  align-items: baseline;
+  gap: 10px;
+  padding: 11px 8px;
+  color: var(--ink);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+.event-list a:hover,
+.event-list a.active {
+  background: var(--secondary);
+}
+.event-list a.active {
+  box-shadow: inset 2px 0 var(--focus-line);
+}
+.event-list a i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.evidence > details {
+  border: 0;
+  margin: 0;
+}
+.evidence > details > summary {
+  border-bottom: 0;
+  color: var(--ink);
+}
+.evidence > details[open] > summary {
+  border-bottom: 1px solid var(--border);
+}
+.evidence .regional-intro {
+  margin: 18px 0;
+  max-width: 90ch;
+}
+@media (max-width: 700px) {
+  .island-reference > summary > span {
+    display: block;
+    float: none;
+    margin: 5px 0 0 16px;
+  }
+  .island-reference-body {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
-  .display-toggle {
-    flex: 1 0 100%;
-    min-width: 0;
+  .period-navigation > .period-sources {
+    flex-basis: 100%;
+    margin-bottom: 4px;
   }
-  .chart-view-controls .display-toggle [data-slot='tabs-list'] {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
-    height: auto;
-  }
-  .display-toggle [data-slot='tabs-trigger'] {
-    min-height: 36px;
-  }
-  .period-identity-column {
-    width: 35%;
-  }
-  .period-source-column {
-    width: 60px;
-  }
-  .period-table th,
-  .period-table td {
-    padding: 10px 5px;
-  }
-  .period-table .table-event {
-    font-size: 0.8125rem;
-  }
-  .period-table-owner,
-  .period-table td p {
-    font-size: 0.75rem;
-  }
-  .period-table-group-label {
-    font-size: 0.8125rem;
-  }
-}
-@media (pointer: coarse) {
-  .display-toggle [data-slot='tabs-trigger'] {
-    min-height: 44px;
+  .reference-chronology .event-list {
+    max-height: 360px;
   }
 }

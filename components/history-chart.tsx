@@ -1,7 +1,7 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- SVG periods use roving keyboard focus; native previous/next buttons provide the same navigation. */
 'use client';
 import { useState, useRef, useEffect, useLayoutEffect, useMemo } from 'react';
-import { ArrowLeft, ArrowRight, ArrowDown, Diamond } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Diamond } from 'lucide-react';
 import {
   type Island,
   type HistoryEvent,
@@ -22,6 +22,7 @@ import {
   type Placement,
 } from '@/lib/periods';
 import { eventAxis } from '@/lib/event-axis';
+import { Cite } from '@/components/citations';
 import { PowerSymbol } from '@/components/power-symbol';
 
 type Frame = {
@@ -570,8 +571,19 @@ export function HistoryChart({
           </span>
         )}
       </div>
+      <p className="chart-scale-note">
+        {spacing === 'events'
+          ? 'Event spacing · equal gaps between relevant dates for the selected islands, not equal years. Shared dates share a tick.'
+          : 'Linear time · Indigenous histories extend millennia before 1450.'}
+      </p>
       {inspected && (
-        <div className="period-readout" aria-live="polite" aria-atomic="true">
+        <div
+          className="period-readout"
+          id="selected-event"
+          tabIndex={-1}
+          aria-live="polite"
+          aria-atomic="true"
+        >
           <div className="readout-heading">
             <span>
               {selectedClaim
@@ -595,13 +607,23 @@ export function HistoryChart({
             <div>
               <strong>{owners[displayPower!].label}</strong>
               {readoutEvent && <span> · {readoutEvent.title}</span>}
-              <p>{readoutEvent?.detail || current.notes}</p>
+              <p>{readoutEvent?.detail || current.summary}</p>
+              {readoutEvent?.uncertainty && (
+                <p className="qualification">
+                  <span>Evidence note</span>
+                  {readoutEvent.uncertainty}
+                </p>
+              )}
+              {readoutEvent?.qualification && (
+                <p className="qualification">{readoutEvent.qualification}</p>
+              )}
             </div>
           </div>
           <div className="period-navigation">
-            <a href={readoutEvent ? '#selected-event' : '#island-background'}>
-              Sources &amp; context <ArrowDown size={14} aria-hidden="true" />
-            </a>
+            <div className="period-sources">
+              <span>Sources</span>
+              <Cite ids={readoutEvent?.sources || current.sources} />
+            </div>
             <span>
               {index + 1} / {sequence.length} periods
             </span>
