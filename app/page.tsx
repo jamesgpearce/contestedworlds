@@ -59,13 +59,13 @@ export default function Home() {
     'tobago',
     'saba',
   ]);
-  const [arrangement, setArrangement] = useState<Arrangement>('islands');
+  const [arrangement, setArrangement] = useState<Arrangement>('powers');
   const [mode, setMode] = useState<Mode>('administration');
   const [period, setPeriod] = useState('all');
   const [eventId, setEventId] = useState('saint-lucia-12');
   const [showClaims, setShowClaims] = useState(false);
   const [year, setYear] = useState(dateValue('1763-02-10'));
-  const [axisSpacing, setAxisSpacing] = useState('time');
+  const [axisSpacing, setAxisSpacing] = useState('events');
   const [evidence, setEvidence] = useState(false);
   const current = islands.find((i) => i.id === selected) || islands[0];
   const tracks = useMemo(

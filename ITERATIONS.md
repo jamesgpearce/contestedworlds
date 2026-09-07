@@ -66,3 +66,7 @@ Validation: TypeScript, lint and production build pass; the data compiler valida
 The closed island picker now names the selection: All 36 islands, a complete region, a single island, or the first two island names and the remaining count. Two islands are named without an empty remainder; no selection reads Choose islands. The separate selected/inspecting summary and removable tags are removed, along with their callback and styles. The existing menu retains individual and regional checkboxes, Select all, Clear selection and Keep only.
 
 Validation: TypeScript and lint pass. Browser checks covered all islands, a complete region, one island, two islands, three islands and empty selection. Labels wrap at 390 and 320 px with no horizontal overflow after chart resize. No browser errors were recorded.
+
+## Powers and events by default · 7 September 2026
+
+The initial chart groups periods by power and uses event spacing. Both controls remain available for switching to island rows or calendar time. TypeScript, lint and production build pass; browser inspection confirms By Power and Events are selected on initialization.
