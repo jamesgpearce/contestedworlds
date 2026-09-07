@@ -134,3 +134,7 @@ Context, Sources and Method move from the footer to quiet inline links beside th
 ## Explicit claims, visible by default · 8 September 2026
 
 Claim cards now say “Claim by” before the power’s name, so their status is explicit in both hover and pinned details. Claim markers start enabled; the existing Options checkbox still hides them and removes their dates from event spacing.
+
+## Direct claim targeting · 8 September 2026
+
+Measured the claim diamonds and their hit circles: their centers agree. The apparent offset came from hover protection keeping the underlying period active. Entering a claim directly from its containing rectangle now hands inspection to the claim immediately, while paths into the metadata card remain protected.

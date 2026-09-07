@@ -287,6 +287,18 @@ export function HistoryChart({
     if (pinned || e.pointerType === 'touch') return;
     if (e.currentTarget !== getAnchorElement() || pointerTransit.current)
       return;
+    const nextClaim =
+      e.relatedTarget instanceof Element
+        ? e.relatedTarget.closest('[data-claim-period-id]')
+        : null;
+    // Entering an embedded claim is a direct inspection, not travel to the card.
+    if (
+      nextClaim?.getAttribute('data-claim-period-id') ===
+      e.currentTarget.getAttribute('data-period-id')
+    ) {
+      pointerTransit.current = null;
+      return;
+    }
     const origin = { x: e.clientX, y: e.clientY };
     const card = panelRef.current;
     if (card && origin.y <= card.getBoundingClientRect().top) {
