@@ -168,7 +168,13 @@ export default function Home() {
       <header className="masthead">
         <div className="atlas-title">
           <h1>
-            Contested <span>Worlds</span>
+            <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M2 2h16v12h-8v16H2Z" />
+              <path d="M22 2h8v28H14V18h8Z" />
+            </svg>
+            <span className="brand-name">
+              Contested <span>Worlds</span>
+            </span>
           </h1>
           <p>
             Caribbean islands through conquest, occupation and independence.

@@ -102,3 +102,7 @@ Renamed the atlas to Contested Worlds across the masthead, browser title, footer
 ## Stable pinning and opening societies · 8 September 2026
 
 The card retains its hover anchor when focus and click pin the same rectangle. Anchoring measures only the period body, excluding selection ornaments and hit areas; the pin control keeps the same footprint in both states. Opening periods use the existing peoples description rather than the whole-history summary. The country background starts expanded when an island is selected. Browser checks measured identical card bounds before and after off-centre chart clicks and the Pin details control, including a 320 px viewport.
+
+## A shared boundary · 8 September 2026
+
+A design-agent identity study produced two equal territories separated by a stepped open seam. The compact SVG joins the existing title and replaces the old favicon; light/dark treatments use the site’s muted green and clay palette. The original mark needs only two paths, with no new image or font dependency.
