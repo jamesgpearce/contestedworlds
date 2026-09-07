@@ -122,3 +122,7 @@ Claim diamonds are centered within their island’s period rectangle, using the 
 ## Three-state appearance button · 8 September 2026
 
 The compact Lucide appearance button cycles Auto → Light → Dark → Auto without opening a menu. Its accessible label and native tooltip name the current preference and next action. Existing persistence, system tracking and pre-paint theme resolution are preserved.
+
+## Reachable hover details · 8 September 2026
+
+Moving from a rectangle or claim into its card temporarily protects that target along the pointer’s path. Neighbouring tracks crossed en route do not replace the card; leaving the corridor restores normal hovering. Entering the card cancels dismissal, and pinning, keyboard focus and outside dismissal retain their existing behavior. Geometry regression tests cover both alignments, narrow screens and deliberate movement away from the card.

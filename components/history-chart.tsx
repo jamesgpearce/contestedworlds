@@ -29,6 +29,7 @@ import {
 import { eventAxis } from '@/lib/event-axis';
 import { PeriodCard } from '@/components/period-card';
 import { inspectTarget, type InspectionTarget } from '@/lib/chart-inspection';
+import { withinCardCorridor, type Point } from '@/lib/pointer-corridor';
 import { PowerSymbol } from '@/components/power-symbol';
 
 // Selection markers and enlarged hit areas must not move the card's anchor.
@@ -136,6 +137,7 @@ export function HistoryChart({
   const panelRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ignoreFocus = useRef(false);
+  const pointerTransit = useRef<{ origin: Point; scope: string } | null>(null);
   const lastFocusRequest = useRef(0);
   const [hover, setHover] = useState<{
     target: InspectionTarget;
@@ -150,10 +152,10 @@ export function HistoryChart({
     ...range,
     ...tracks.map((i) => i.id),
   ].join('/');
-  const cancelClose = () => {
+  const cancelClose = useCallback(() => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = null;
-  };
+  }, []);
   useEffect(
     () => () => {
       if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -249,6 +251,7 @@ export function HistoryChart({
     element.focus({ preventScroll: true });
   }, [focusRequest, getAnchorElement]);
   const dismiss = (restoreFocus = false) => {
+    pointerTransit.current = null;
     cancelClose();
     setHover(null);
     onDismiss();
@@ -260,15 +263,61 @@ export function HistoryChart({
       });
     }
   };
-  const leave = () => {
+  const leave = useCallback(() => {
+    pointerTransit.current = null;
     if (pinned) return;
     cancelClose();
     closeTimer.current = setTimeout(() => {
       if (!panelRef.current?.contains(document.activeElement)) setHover(null);
     }, 220);
+  }, [pinned, cancelClose]);
+  const travelingToCard = useCallback(
+    (point: Point) => {
+      const transit = pointerTransit.current;
+      const card = panelRef.current;
+      return !!(
+        transit?.scope === scope &&
+        card &&
+        withinCardCorridor(point, transit.origin, card.getBoundingClientRect())
+      );
+    },
+    [scope],
+  );
+  const leaveMark = (e: React.PointerEvent<SVGGElement>) => {
+    if (pinned || e.pointerType === 'touch') return;
+    if (e.currentTarget !== getAnchorElement() || pointerTransit.current)
+      return;
+    const origin = { x: e.clientX, y: e.clientY };
+    const card = panelRef.current;
+    if (card && origin.y <= card.getBoundingClientRect().top) {
+      pointerTransit.current = { origin, scope };
+      cancelClose();
+    } else leave();
   };
-  const show = (target: InspectionTarget) => {
+  const enterCard = () => {
+    pointerTransit.current = null;
+    cancelClose();
+  };
+  useEffect(() => {
+    if (pinned || !hover) return;
+    const move = (e: PointerEvent) => {
+      if (!pointerTransit.current) return;
+      if (travelingToCard({ x: e.clientX, y: e.clientY })) cancelClose();
+      else leave();
+    };
+    // Capture runs before another rectangle can replace the card in the gap.
+    document.addEventListener('pointermove', move, true);
+    const exit = () => leave();
+    document.documentElement.addEventListener('pointerleave', exit);
+    return () => {
+      document.removeEventListener('pointermove', move, true);
+      document.documentElement.removeEventListener('pointerleave', exit);
+    };
+  }, [pinned, hover, leave, travelingToCard, cancelClose]);
+  const show = (target: InspectionTarget, point?: Point) => {
     if (pinned || ignoreFocus.current) return;
+    if (point && travelingToCard(point)) return;
+    pointerTransit.current = null;
     cancelClose();
     setHover((previous) =>
       previous?.scope === scope &&
@@ -279,9 +328,11 @@ export function HistoryChart({
         : { target, scope },
     );
   };
-  const showPeriod = (p: Period) =>
-    show({ islandId: p.islandId, periodId: p.id, year: p.start });
+  const showPeriod = (p: Period, point?: Point) =>
+    show({ islandId: p.islandId, periodId: p.id, year: p.start }, point);
+  const pointFrom = (e: React.PointerEvent) => ({ x: e.clientX, y: e.clientY });
   const select = (p: Period, reveal = false) => {
+    pointerTransit.current = null;
     cancelClose();
     setHover(null);
     setFocusId(p.id);
@@ -294,6 +345,7 @@ export function HistoryChart({
       );
   };
   const selectClaim = (island: Island, event: HistoryEvent) => {
+    pointerTransit.current = null;
     cancelClose();
     setHover(null);
     onClaim(island, event);
@@ -389,7 +441,7 @@ export function HistoryChart({
         onPin={pin}
         onSelect={(p) => select(p, true)}
         onDismiss={dismiss}
-        onEnter={cancelClose}
+        onEnter={enterCard}
         onLeave={leave}
       />
       <div className="period-canvas" style={{ height: frame.height }}>
@@ -517,9 +569,12 @@ export function HistoryChart({
                 }}
                 onBlur={leave}
                 onPointerEnter={(e) => {
-                  if (e.pointerType !== 'touch') showPeriod(p);
+                  if (e.pointerType !== 'touch') showPeriod(p, pointFrom(e));
                 }}
-                onPointerLeave={leave}
+                onPointerMove={(e) => {
+                  if (e.pointerType !== 'touch') showPeriod(p, pointFrom(e));
+                }}
+                onPointerLeave={leaveMark}
               >
                 <rect
                   data-period-body
@@ -607,9 +662,19 @@ export function HistoryChart({
                 onClick={() => selectClaim(island, event)}
                 onPointerEnter={(e) => {
                   if (e.pointerType !== 'touch')
-                    show({ islandId: island.id, eventId: event.id, year: t });
+                    show(
+                      { islandId: island.id, eventId: event.id, year: t },
+                      pointFrom(e),
+                    );
                 }}
-                onPointerLeave={leave}
+                onPointerMove={(e) => {
+                  if (e.pointerType !== 'touch')
+                    show(
+                      { islandId: island.id, eventId: event.id, year: t },
+                      pointFrom(e),
+                    );
+                }}
+                onPointerLeave={leaveMark}
                 onFocus={() =>
                   show({ islandId: island.id, eventId: event.id, year: t })
                 }
