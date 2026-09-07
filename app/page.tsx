@@ -62,12 +62,9 @@ function DisclosureIcon() {
 
 export default function Home() {
   const [selected, setSelected] = useState('saint-lucia');
-  const [selectedIds, setSelectedIds] = useState([
-    'saint-lucia',
-    'saint-vincent',
-    'tobago',
-    'saba',
-  ]);
+  const [selectedIds, setSelectedIds] = useState(() =>
+    islands.map((island) => island.id),
+  );
   const [arrangement, setArrangement] = useState<Arrangement>('powers');
   const [mode, setMode] = useState<Mode>('administration');
   const [yearRange, setYearRange] = useState<[number, number]>(ranges.all);
