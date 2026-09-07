@@ -146,3 +146,7 @@ All 36 island tracks are selected initially, derived from the dataset so future 
 ## Matching reference blocks · 8 September 2026
 
 The lower blocks are now titled Context, Sources and Method, in that order, matching the subtitle links. Context holds the regional history; Sources holds the bibliography and downloads; Method holds the editorial scope and flag conventions. Existing section anchors remain valid.
+
+## Open-source contribution path · 8 September 2026
+
+Added the owner-selected MIT code license, retaining CC BY 4.0 for the original dataset. Method invites evidence-backed dataset pull requests and links to the contribution guide. The footer links to the planned `jamesgpearce/contestedworlds` repository; repository creation is separate.

@@ -48,6 +48,6 @@ The site is statically exported, with system fonts and no database, analytics, r
 
 ## Research and assets
 
-Original dataset prose and structure: CC BY 4.0. Source publications retain their rights. Coastlines: Natural Earth public-domain 1:110m land, clipped to the Caribbean. Island points are approximate geographic locators, not historical boundaries. Code licensing remains a repository-owner choice before open-source publication.
+Original dataset prose and structure: CC BY 4.0. Source publications retain their rights. Coastlines: Natural Earth public-domain 1:110m land, clipped to the Caribbean. Island points are approximate geographic locators, not historical boundaries. Code is licensed under the [MIT License](LICENSE). Dataset corrections and source-backed pull requests are welcome at [jamesgpearce/contestedworlds](https://github.com/jamesgpearce/contestedworlds); see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 A Sites manifest is included for private preview hosting. It does not make the source repository or site public.

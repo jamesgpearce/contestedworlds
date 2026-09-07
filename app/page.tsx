@@ -48,6 +48,8 @@ import {
   powerColor,
 } from '@/lib/history';
 
+const repository = 'https://github.com/jamesgpearce/contestedworlds';
+
 const ranges: Record<string, [number, number]> = Object.fromEntries(
   yearPresets.map((preset) => [preset.id, [preset.start, preset.end]]),
 );
@@ -530,6 +532,20 @@ export default function Home() {
             <DisclosureIcon />
             <h2>Method</h2>
           </summary>
+          <p className="contribution-note">
+            <strong>Open source. Corrections welcome.</strong> The code is
+            MIT-licensed and the dataset is CC BY 4.0. Found a missing event, a
+            date to correct, or a better source?{' '}
+            <a
+              href={`${repository}/blob/main/CONTRIBUTING.md`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Make a pull request against the dataset
+            </a>{' '}
+            on GitHub. Each island has an editable JSON file; no chart code
+            changes are needed.
+          </p>
           <div className="method-grid">
             <p>
               <strong>
@@ -605,6 +621,9 @@ export default function Home() {
       <footer>
         <span>Contested Worlds · Caribbean</span>
 
+        <a href={repository} target="_blank" rel="noreferrer">
+          Open source on GitHub <Arrow />
+        </a>
         <span>Research edition · 2026</span>
       </footer>
     </main>

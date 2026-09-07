@@ -46,4 +46,4 @@ These checks establish structural integrity, not historical truth. The evidence 
 
 Add an island file and list its ID in `data/scope.json`; add a modern place there only if it expands the geographic scope. Keep an explicit note when a track represents a principal island or an archipelago. The chart derives its data and counts from the compiled records.
 
-Original dataset prose and structure are CC BY 4.0; linked source texts retain their own rights. Code licensing should be selected by the repository owner before its public release.
+Original dataset prose and structure are CC BY 4.0; linked source texts retain their own rights. Code is licensed under the MIT License; see `LICENSE`.
