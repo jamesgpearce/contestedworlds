@@ -114,3 +114,7 @@ Cards now always anchor below their rectangle: left-aligned by default, right-al
 ## Axis spacing in Options · 8 September 2026
 
 Moved the Time / Events choice into Options under X-axis spacing, with a short explanation of each mode. The top bar retains island grouping and Options; event spacing remains the default.
+
+## Claims within their periods · 8 September 2026
+
+Claim diamonds are centered within their island’s period rectangle, using the same period resolver as the metadata card. Removed the vertical staggering that could place them in another island’s lane. Exact dates and claimant colors are preserved in both chart arrangements and during the transition between them.

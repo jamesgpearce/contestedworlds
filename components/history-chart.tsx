@@ -379,7 +379,6 @@ export function HistoryChart({
         ?.focus();
     }
   };
-  const claimSpots: { x: number; y: number }[] = [];
   return (
     <div className="period-atlas" ref={ref}>
       <PeriodCard
@@ -582,33 +581,25 @@ export function HistoryChart({
             );
           })}
           {claims.map(({ island, event }) => {
-            const t = dateValue(event.date),
-              p = periods.find(
-                (p) => p.islandId === island.id && p.start <= t && p.end >= t,
-              );
+            const t = dateValue(event.date);
+            // Resolve the same period as the card, including exact handover dates.
+            const p = inspectTarget(
+              { islandId: island.id, eventId: event.id, year: t },
+              tracks,
+              periods,
+              mode,
+              range,
+            )?.period;
             if (!p) return null;
             const pos = frame.positions[p.id] || layout.positions[p.id];
             const xx = x(t);
-            let yy = pos.y - 7,
-              slot = 0;
-            // Nearby claims remain independently selectable even on a compressed time axis.
-            while (
-              claimSpots.some(
-                (s) => Math.abs(s.x - xx) < 12 && Math.abs(s.y - yy) < 12,
-              )
-            ) {
-              slot++;
-              yy =
-                slot % 2
-                  ? pos.y + pos.height + 7 + Math.floor(slot / 2) * 12
-                  : pos.y - 7 - Math.floor(slot / 2) * 12;
-            }
-            claimSpots.push({ x: xx, y: yy });
+            const yy = pos.y + pos.height / 2;
             return (
               <g
                 key={event.id}
                 className="claim-mark"
                 data-claim-id={event.id}
+                data-claim-period-id={p.id}
                 opacity={activeIsland && activeIsland !== island.id ? 0.22 : 1}
                 role="button"
                 tabIndex={0}
