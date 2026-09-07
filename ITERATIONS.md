@@ -94,3 +94,7 @@ Validation: the dataset remains 36 tracks, 433 events and 68 sources. Model test
 ## Sea of Empires masthead · 8 September 2026
 
 The main title is now Sea of Empires, with the subtitle “Caribbean islands through conquest, occupation and independence.” One masthead replaces the separate Caribbean logo strip and repeated title; the appearance menu stays in reach. Context, Sources and Method links move to the footer and open their reference sections. The browser title follows the shorter name. A separate regional subtitle leaves room for future editions.
+
+## Contested Worlds · 8 September 2026
+
+Renamed the atlas to Contested Worlds across the masthead, browser title, footer, project metadata and dataset documentation. Caribbean remains the edition, leaving the name suitable for future regional histories.

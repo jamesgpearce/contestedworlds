@@ -1,4 +1,4 @@
-# Sea of Empires
+# Contested Worlds
 
 An interactive history of Caribbean political power, 1450–2026. Thirty-six tracks cover the 31 places in the original research scope. The visualization distinguishes administration from sovereign title, and European claims from effective control.
 

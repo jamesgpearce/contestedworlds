@@ -1,4 +1,4 @@
-# A Sea of Empires — editorial method
+# Contested Worlds — editorial method
 
 Version 1.0.0, compiled 6 September 2026.
 

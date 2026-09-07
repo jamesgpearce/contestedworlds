@@ -168,7 +168,7 @@ export default function Home() {
       <header className="masthead">
         <div className="atlas-title">
           <h1>
-            Sea of <span>Empires</span>
+            Contested <span>Worlds</span>
           </h1>
           <p>
             Caribbean islands through conquest, occupation and independence.
@@ -559,7 +559,7 @@ export default function Home() {
         </details>
       </section>
       <footer>
-        <span>Sea of Empires · Caribbean</span>
+        <span>Contested Worlds · Caribbean</span>
         <nav aria-label="Atlas references">
           {[
             ['Context', 'regional-history'],
