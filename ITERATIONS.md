@@ -126,3 +126,7 @@ The compact Lucide appearance button cycles Auto → Light → Dark → Auto wit
 ## Reachable hover details · 8 September 2026
 
 Moving from a rectangle or claim into its card temporarily protects that target along the pointer’s path. Neighbouring tracks crossed en route do not replace the card; leaving the corridor restores normal hovering. Entering the card cancels dismissal, and pinning, keyboard focus and outside dismissal retain their existing behavior. Geometry regression tests cover both alignments, narrow screens and deliberate movement away from the card.
+
+## References at the introduction · 8 September 2026
+
+Context, Sources and Method move from the footer to quiet inline links beside the subtitle. They wrap below it on smaller screens and retain the direct opening of each reference section. The footer keeps only edition information.

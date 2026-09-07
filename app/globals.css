@@ -206,8 +206,15 @@ h3 {
 .atlas-title .brand-name > span {
   color: var(--focus-line);
 }
-.atlas-title p {
+.atlas-subtitle {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 18px;
   margin-top: 8px;
+}
+.atlas-title p {
+  margin: 0;
   color: var(--faint);
   font-size: 0.8125rem;
   line-height: 1.5;
@@ -2517,14 +2524,24 @@ details[open] > summary > .disclosure-chevron {
   }
 }
 
-footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  margin-left: auto;
+.subtitle-references {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  color: var(--faint);
 }
-footer nav a {
+.subtitle-references a {
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
   text-underline-offset: 3px;
+  padding-block: 4px;
+}
+.subtitle-references .reference-separator {
+  display: inline-block;
+  margin-inline: 9px;
+  color: var(--faint);
+  text-decoration: none;
 }
 #regional-history,
 #bibliography,
@@ -2542,10 +2559,6 @@ footer nav a {
     flex-wrap: wrap;
     align-items: baseline;
     gap: 12px 20px;
-  }
-  footer nav {
-    margin-left: 0;
-    gap: 20px;
   }
   footer > span:last-child {
     flex-basis: 100%;

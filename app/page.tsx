@@ -1,7 +1,7 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- Inline SVG needs its image role; the labeled scroll region has an explicit accessible role. */
 /* oxlint-disable jsx-a11y/no-noninteractive-tabindex -- Keyboard users must be able to focus and scroll the chart. */
 'use client';
-import { useState, useEffect, useMemo } from 'react';
+import { Fragment, useState, useEffect, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import {
   ArrowUpRight,
@@ -176,9 +176,35 @@ export default function Home() {
               Contested <span>Worlds</span>
             </span>
           </h1>
-          <p>
-            Caribbean islands through conquest, occupation and independence.
-          </p>
+          <div className="atlas-subtitle">
+            <p>
+              Caribbean islands through conquest, occupation and independence.
+            </p>
+            <nav className="subtitle-references" aria-label="Atlas references">
+              {[
+                ['Context', 'regional-history'],
+                ['Sources', 'bibliography'],
+                ['Method', 'sources-method'],
+              ].map(([label, id], n) => (
+                <Fragment key={id}>
+                  {n > 0 && (
+                    <span className="reference-separator" aria-hidden="true">
+                      ·
+                    </span>
+                  )}
+                  <a
+                    href={`#${id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openReference(id);
+                    }}
+                  >
+                    {label}
+                  </a>
+                </Fragment>
+              ))}
+            </nav>
+          </div>
         </div>
         <ThemeSwitcher />
       </header>
@@ -578,24 +604,7 @@ export default function Home() {
       </section>
       <footer>
         <span>Contested Worlds · Caribbean</span>
-        <nav aria-label="Atlas references">
-          {[
-            ['Context', 'regional-history'],
-            ['Sources', 'bibliography'],
-            ['Method', 'sources-method'],
-          ].map(([label, id]) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                openReference(id);
-              }}
-            >
-              {label}
-            </a>
-          ))}
-        </nav>
+
         <span>Research edition · 2026</span>
       </footer>
     </main>
