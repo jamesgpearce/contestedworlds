@@ -110,3 +110,7 @@ A design-agent identity study produced two equal territories separated by a step
 ## Predictable rectangle corners · 8 September 2026
 
 Cards now always anchor below their rectangle: left-aligned by default, right-aligned to its right edge if the card would overflow. Horizontal clamping covers phone widths where neither alignment fits. Pointer coordinates and saved attachment fractions are removed, and cards no longer flip above the period as their content changes.
+
+## Axis spacing in Options · 8 September 2026
+
+Moved the Time / Events choice into Options under X-axis spacing, with a short explanation of each mode. The top bar retains island grouping and Options; event spacing remains the default.

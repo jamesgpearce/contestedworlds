@@ -219,16 +219,6 @@ export default function Home() {
                   </TabsList>
                 </Tabs>
               )}
-              <Tabs
-                className="axis-toggle"
-                value={axisSpacing}
-                onValueChange={(value) => setAxisSpacing(String(value))}
-              >
-                <TabsList aria-label="Horizontal spacing">
-                  <TabsTrigger value="time">Time</TabsTrigger>
-                  <TabsTrigger value="events">Events</TabsTrigger>
-                </TabsList>
-              </Tabs>
               <Popover>
                 <PopoverTrigger
                   className="chart-options-trigger"
@@ -262,6 +252,23 @@ export default function Home() {
                       {mode === 'administration'
                         ? 'Colonial governments and substantial military occupations.'
                         : 'Recorded sovereign status. Occupation can change the government without changing the title.'}
+                    </p>
+                  </div>
+                  <div className="chart-option-field">
+                    <p className="chart-option-label">X-axis spacing</p>
+                    <Tabs
+                      value={axisSpacing}
+                      onValueChange={(value) => setAxisSpacing(String(value))}
+                    >
+                      <TabsList aria-label="X-axis evenly spaces">
+                        <TabsTrigger value="time">Time</TabsTrigger>
+                        <TabsTrigger value="events">Events</TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                    <p className="chart-option-help">
+                      {axisSpacing === 'events'
+                        ? 'Equal gaps between relevant event dates for the selected islands.'
+                        : 'Equal gaps represent equal spans of time.'}
                     </p>
                   </div>
                   <div className="chart-option-field">
