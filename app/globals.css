@@ -2601,3 +2601,20 @@ footer > span:first-child {
   padding: 3px 6px;
   margin-left: -6px;
 }
+
+/* Native disclosure behavior, with the same Lucide chevrons as other controls. */
+summary:has(> .disclosure-chevron) {
+  list-style: none;
+}
+summary:has(> .disclosure-chevron)::-webkit-details-marker {
+  display: none;
+}
+.disclosure-chevron {
+  display: inline-block;
+  vertical-align: -2px;
+  margin-inline-end: 6px;
+  transform: rotate(-90deg);
+}
+details[open] > summary > .disclosure-chevron {
+  transform: none;
+}

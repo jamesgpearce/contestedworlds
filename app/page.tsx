@@ -56,6 +56,11 @@ const ranges: Record<string, [number, number]> = Object.fromEntries(
 function Arrow() {
   return <ArrowUpRight className="inline-icon" aria-hidden="true" />;
 }
+function DisclosureIcon() {
+  return (
+    <ChevronDown className="disclosure-chevron" size={14} aria-hidden="true" />
+  );
+}
 
 export default function Home() {
   const [selected, setSelected] = useState('saint-lucia');
@@ -368,6 +373,7 @@ export default function Home() {
         {tracks.length > 0 && (
           <details className="island-reference" id="island-background">
             <summary>
+              <DisclosureIcon />
               About {current.name}
               <span>
                 Background &amp; {current.events.length} dated records
@@ -461,7 +467,10 @@ export default function Home() {
           </p>
         </div>
         <details className="war-context">
-          <summary>Regional history</summary>
+          <summary>
+            <DisclosureIcon />
+            Regional history
+          </summary>
           <p className="regional-intro">
             Sugar, strategic harbours and Atlantic trade made these islands
             imperial prizes. Their wealth was built through Indigenous
@@ -483,7 +492,10 @@ export default function Home() {
           </div>
         </details>
         <details className="power-key reference-key">
-          <summary>Powers &amp; flags</summary>
+          <summary>
+            <DisclosureIcon />
+            Powers &amp; flags
+          </summary>
           <p>
             Flags identify powers using modern designs; they do not change with
             historical dates. UK includes earlier English rule. Lettermarks
@@ -528,10 +540,9 @@ export default function Home() {
           onToggle={(e) => setEvidence(e.currentTarget.open)}
         >
           <summary>
+            <DisclosureIcon />
             Bibliography & editorial notes{' '}
-            <span>
-              {data.sources.length} sources <Arrow />
-            </span>
+            <span>{data.sources.length} sources</span>
           </summary>
           <p className="bibliography-intro">
             Compiled 6 September 2026. Treaty editions, local museums,

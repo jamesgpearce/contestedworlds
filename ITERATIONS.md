@@ -80,3 +80,7 @@ Validation: TypeScript, lint and seven period-model tests pass, including closin
 ## Color at the power labels · 7 September 2026
 
 Power names have a ten-percent tint of their chart color behind the text. The redundant color legend is removed in the power arrangement and retained in the island arrangement. Marker symbols live beside their checkboxes in Options. Browser checks covered the legend changing with arrangement and the label tint on desktop and phones in both appearances. The production build passes; historical data and dependencies are unchanged.
+
+## Consistent Lucide controls · 8 September 2026
+
+The system appearance choice uses Lucide Sun–Moon, alongside Sun for light and Moon for dark. Native disclosure triangles are replaced with Lucide chevrons that turn with the open state, and the bibliography's duplicate expansion arrow is removed. Existing navigation, dropdown, download and marker-option icons already use Lucide. TypeScript, lint and production build pass; browser checks confirm all three appearance icons and keyboard expansion with the correct chevron direction. No dependencies or historical data changed.
