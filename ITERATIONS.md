@@ -84,3 +84,9 @@ Power names have a ten-percent tint of their chart color behind the text. The re
 ## Consistent Lucide controls · 8 September 2026
 
 The system appearance choice uses Lucide Sun–Moon, alongside Sun for light and Moon for dark. Native disclosure triangles are replaced with Lucide chevrons that turn with the open state, and the bibliography's duplicate expansion arrow is removed. Existing navigation, dropdown, download and marker-option icons already use Lucide. TypeScript, lint and production build pass; browser checks confirm all three appearance icons and keyboard expansion with the correct chevron direction. No dependencies or historical data changed.
+
+## Attached period details · 8 September 2026
+
+Hover and keyboard focus resolve one explicit rectangle into its island, power, dates, full event text, evidence notes and citations. The same target drives the highlighted route and the attached card. Clicking pins both until another rectangle is clicked, a click elsewhere, or Escape; the card offers previous/next navigation. About appears only for a pinned island and retains the complete chronology. The lower selected-period readout and upper preview strip are removed. Virtual anchoring follows changes of rectangle and viewport collision handling keeps the card on screen.
+
+Validation: the dataset remains 36 tracks, 433 events and 68 sources. Model tests cover every rectangle in both political-power modes, stale/cross-island targets, and every claim/context record. Browser checks cover keyboard inspection, pinning, next-period navigation, selecting another island, outside dismissal, Escape focus return, and phone card positioning.

@@ -19,12 +19,20 @@ const history = moduleUrl(
     `const raw=${raw};`,
   ),
 );
+const periodsModule = moduleUrl(
+  (await read('../lib/periods.ts')).replace(
+    "'./history'",
+    JSON.stringify(history),
+  ),
+);
 const { periodsFor, packPeriods, arrangePeriods, plottedEvent } = await import(
+  periodsModule
+);
+const { inspectTarget } = await import(
   moduleUrl(
-    (await read('../lib/periods.ts')).replace(
-      "'./history'",
-      JSON.stringify(history),
-    ),
+    (await read('../lib/chart-inspection.ts'))
+      .replaceAll("'./history'", JSON.stringify(history))
+      .replace("'./periods'", JSON.stringify(periodsModule)),
   )
 );
 const { islands, data, stateAt, dateValue } = await import(history);
@@ -159,4 +167,96 @@ test('The event domain excludes contextual records and includes claims only on r
   assert.equal(plottedEvent(claim, 'administration'), false);
   assert.equal(plottedEvent(claim, 'administration', true), true);
   assert.equal(plottedEvent(context, 'administration', true), false);
+});
+
+test('Every hover card resolves only its own island, period, power and cited event', () => {
+  const range = [1450, 2026];
+  for (const mode of ['administration', 'sovereignty']) {
+    const ps = islands.flatMap((i) => periodsFor(i, mode, range));
+    for (const p of ps) {
+      // A stale event cursor must never override the rectangle under the pointer.
+      const inspected = inspectTarget(
+        {
+          islandId: p.islandId,
+          periodId: p.id,
+          eventId: 'saint-lucia-12',
+          year: 1763,
+        },
+        islands,
+        ps,
+        mode,
+        range,
+      );
+      assert.equal(inspected.island.id, p.islandId);
+      assert.equal(inspected.period, p);
+      assert.equal(inspected.event, p.event);
+      assert.equal(inspected.power, p.power);
+      assert.ok(inspected.sequence.every((q) => q.islandId === p.islandId));
+    }
+  }
+});
+
+test('Stale or mismatched rectangle targets do not fall back to another island', () => {
+  const range = [1450, 2026];
+  const ps = islands.flatMap((i) => periodsFor(i, 'administration', range));
+  assert.equal(inspectTarget(null, islands, ps, 'administration', range), null);
+  assert.equal(
+    inspectTarget(
+      { islandId: 'missing', year: 1763 },
+      islands,
+      ps,
+      'administration',
+      range,
+    ),
+    null,
+  );
+  assert.equal(
+    inspectTarget(
+      {
+        islandId: 'saint-lucia',
+        periodId: ps.find((p) => p.islandId === 'saba').id,
+        year: 1763,
+      },
+      islands,
+      ps,
+      'administration',
+      range,
+    ),
+    null,
+  );
+  assert.equal(
+    inspectTarget(
+      { islandId: 'saint-lucia', periodId: 'stale', year: 1763 },
+      islands,
+      ps,
+      'administration',
+      range,
+    ),
+    null,
+  );
+});
+
+test('Claim and contextual records keep their exact text, dates and evidence in either mode', () => {
+  const range = [1450, 2026];
+  for (const mode of ['administration', 'sovereignty']) {
+    const ps = islands.flatMap((i) => periodsFor(i, mode, range));
+    for (const island of islands)
+      for (const e of island.events) {
+        const inspected = inspectTarget(
+          { islandId: island.id, eventId: e.id, year: dateValue(e.date) },
+          islands,
+          ps,
+          mode,
+          range,
+        );
+        assert.equal(inspected.event, e);
+        assert.equal(inspected.island, island);
+        assert.equal(
+          inspected.standalone,
+          plottedEvent(e, mode) ? undefined : e,
+        );
+        if (e.kind === 'claim')
+          assert.equal(inspected.power, e.claimant || inspected.period.power);
+      }
+  }
 });

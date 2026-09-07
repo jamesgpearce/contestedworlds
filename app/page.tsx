@@ -74,6 +74,8 @@ export default function Home() {
   const [mode, setMode] = useState<Mode>('administration');
   const [yearRange, setYearRange] = useState<[number, number]>(ranges.all);
   const range = useMemo(() => calendarRange(yearRange), [yearRange]);
+  const [pinned, setPinned] = useState(false);
+  const [focusRequest, setFocusRequest] = useState(0);
   const [eventId, setEventId] = useState('saint-lucia-12');
   const [showClaims, setShowClaims] = useState(false);
   const [showQualified, setShowQualified] = useState(true);
@@ -92,6 +94,7 @@ export default function Home() {
         ranges[key][0] === yearRange[0] && ranges[key][1] === yearRange[1],
     ) || 'custom';
   const changeRange = (next: [number, number]) => {
+    setPinned(false);
     setYearRange([...next]);
     const bounds = calendarRange(next);
     setYear((value) => Math.max(bounds[0], Math.min(value, bounds[1])));
@@ -101,7 +104,9 @@ export default function Home() {
     (n, i) => n + i.events.length,
     0,
   );
-  const selectEvent = (e: HistoryEvent) => {
+  const selectEvent = (e: HistoryEvent, reveal = false) => {
+    setPinned(true);
+    if (reveal) setFocusRequest((value) => value + 1);
     setEventId(e.id);
     setYear(dateValue(e.date));
     if (dateValue(e.date) < range[0] || dateValue(e.date) > range[1])
@@ -109,12 +114,14 @@ export default function Home() {
   };
   const changeSelection = (ids: string[]) => {
     setSelectedIds(ids);
+    if (!ids.includes(selected)) setPinned(false);
     if (ids.length && !ids.includes(selected)) {
       setSelected(ids[0]);
       setEventId('');
     }
   };
   const selectPeriod = (p: Period) => {
+    setPinned(true);
     setSelected(p.islandId);
     setYear(p.start);
     setEventId(p.event?.id || '');
@@ -123,6 +130,8 @@ export default function Home() {
     () =>
       registerAtlasTools(({ islandId, year, mode }) => {
         flushSync(() => {
+          setPinned(true);
+          setFocusRequest((value) => value + 1);
           setSelected(islandId);
           setSelectedIds([islandId]);
           setYear(year);
@@ -361,6 +370,9 @@ export default function Home() {
                 inspectedId={selected}
                 eventId={eventId}
                 year={year}
+                pinned={pinned}
+                focusRequest={focusRequest}
+                onDismiss={() => setPinned(false)}
                 onSelect={selectPeriod}
                 onClaim={(island, e) => {
                   setSelected(island.id);
@@ -370,7 +382,7 @@ export default function Home() {
             </>
           )}
         </div>
-        {tracks.length > 0 && (
+        {pinned && selectedIds.includes(selected) && (
           <details className="island-reference" id="island-background">
             <summary>
               <DisclosureIcon />
@@ -398,9 +410,12 @@ export default function Home() {
                   {current.events.map((e) => (
                     <li key={e.id}>
                       <a
-                        href="#selected-event"
+                        href="#explorer"
                         className={e.id === eventId ? 'active' : ''}
-                        onClick={() => selectEvent(e)}
+                        onClick={(click) => {
+                          click.preventDefault();
+                          selectEvent(e, true);
+                        }}
                       >
                         <time>{eventDate(e)}</time>
                         <span>{e.title}</span>
