@@ -227,21 +227,9 @@ h3 {
   background: none;
   color: var(--faint);
 }
-.theme-trigger:hover,
-.theme-trigger[data-popup-open] {
+.theme-trigger:hover {
   background: var(--secondary);
   color: var(--ink);
-}
-.theme-menu[data-slot='dropdown-menu-content'] {
-  width: 180px;
-  border-radius: 2px;
-  padding: 5px;
-}
-.theme-menu [data-slot='dropdown-menu-radio-item'] {
-  min-height: 38px;
-  font-size: 0.875rem;
-  gap: 10px;
-  border-radius: 1px;
 }
 .inline-icon {
   display: inline-block;

@@ -118,3 +118,7 @@ Moved the Time / Events choice into Options under X-axis spacing, with a short e
 ## Claims within their periods · 8 September 2026
 
 Claim diamonds are centered within their island’s period rectangle, using the same period resolver as the metadata card. Removed the vertical staggering that could place them in another island’s lane. Exact dates and claimant colors are preserved in both chart arrangements and during the transition between them.
+
+## Three-state appearance button · 8 September 2026
+
+The compact Lucide appearance button cycles Auto → Light → Dark → Auto without opening a menu. Its accessible label and native tooltip name the current preference and next action. Existing persistence, system tracking and pre-paint theme resolution are preserved.
