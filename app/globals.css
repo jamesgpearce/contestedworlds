@@ -2401,7 +2401,7 @@ details[open] > summary > .disclosure-chevron {
 }
 .period-card {
   width: min(390px, calc(100vw - 24px));
-  max-height: min(var(--available-height), calc(100svh - 90px));
+  max-height: calc(100svh - 140px);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 16px;

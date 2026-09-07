@@ -106,3 +106,7 @@ The card retains its hover anchor when focus and click pin the same rectangle. A
 ## A shared boundary · 8 September 2026
 
 A design-agent identity study produced two equal territories separated by a stepped open seam. The compact SVG joins the existing title and replaces the old favicon; light/dark treatments use the site’s muted green and clay palette. The original mark needs only two paths, with no new image or font dependency.
+
+## Predictable rectangle corners · 8 September 2026
+
+Cards now always anchor below their rectangle: left-aligned by default, right-aligned to its right edge if the card would overflow. Horizontal clamping covers phone widths where neither alignment fits. Pointer coordinates and saved attachment fractions are removed, and cards no longer flip above the period as their content changes.

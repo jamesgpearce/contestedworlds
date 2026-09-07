@@ -19,7 +19,10 @@ export function PeriodCard({
 }: {
   inspection: Inspection | null;
   pinned: boolean;
-  anchor: Popover.Positioner.Props['anchor'];
+  anchor: {
+    readonly contextElement?: Element;
+    getBoundingClientRect: () => DOMRect;
+  };
   panelRef: React.RefObject<HTMLDivElement | null>;
   onPin: () => void;
   onSelect: (period: Period) => void;
@@ -54,10 +57,17 @@ export function PeriodCard({
           side="bottom"
           align="start"
           sideOffset={10}
-          positionMethod="fixed"
+          alignOffset={({ positioner }) => {
+            const rectangle = anchor.getBoundingClientRect();
+            return rectangle.left + positioner.width >
+              document.documentElement.clientWidth - 12
+              ? rectangle.width - positioner.width
+              : 0;
+          }}
+          positionMethod="absolute"
           collisionPadding={{ top: 120, right: 12, bottom: 12, left: 12 }}
           collisionAvoidance={{
-            side: 'flip',
+            side: 'none',
             align: 'shift',
             fallbackAxisSide: 'none',
           }}

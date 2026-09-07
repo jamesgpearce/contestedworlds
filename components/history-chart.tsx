@@ -140,13 +140,8 @@ export function HistoryChart({
   const [hover, setHover] = useState<{
     target: InspectionTarget;
     scope: string;
-    fraction: number;
   } | null>(null);
   const [focusId, setFocusId] = useState('');
-  const [attachment, setAttachment] = useState<{
-    key: string;
-    fraction: number;
-  } | null>(null);
   const scope = [
     arrangement,
     spacing,
@@ -222,11 +217,6 @@ export function HistoryChart({
       ? `claim:${inspection.standalone.id}`
       : `period:${inspection.period.id}`
     : '';
-  const fraction = pinned
-    ? attachment?.key === anchorKey
-      ? attachment.fraction
-      : 0.5
-    : (hover?.fraction ?? 0.5);
   const getAnchorElement = useCallback(
     () =>
       ref.current?.querySelector<SVGGraphicsElement>(
@@ -245,17 +235,10 @@ export function HistoryChart({
       getBoundingClientRect() {
         const element = getAnchorElement();
         const bounds = element && periodBounds(element);
-        return bounds
-          ? new DOMRect(
-              bounds.left + bounds.width * fraction,
-              bounds.top,
-              0,
-              bounds.height,
-            )
-          : new DOMRect();
+        return bounds || new DOMRect();
       },
     }),
-    [getAnchorElement, fraction],
+    [getAnchorElement],
   );
   useEffect(() => {
     if (!focusRequest || focusRequest === lastFocusRequest.current) return;
@@ -284,60 +267,22 @@ export function HistoryChart({
       if (!panelRef.current?.contains(document.activeElement)) setHover(null);
     }, 220);
   };
-  const show = (
-    target: InspectionTarget,
-    element: SVGGraphicsElement,
-    clientX?: number,
-  ) => {
+  const show = (target: InspectionTarget) => {
     if (pinned || ignoreFocus.current) return;
     cancelClose();
-    const bounds = periodBounds(element);
     setHover((previous) =>
       previous?.scope === scope &&
       previous.target.islandId === target.islandId &&
       previous.target.periodId === target.periodId &&
       previous.target.eventId === target.eventId
         ? previous
-        : {
-            target,
-            scope,
-            fraction:
-              clientX === undefined
-                ? 0.5
-                : Math.max(
-                    0,
-                    Math.min(
-                      1,
-                      (clientX - bounds.left) / Math.max(1, bounds.width),
-                    ),
-                  ),
-          },
+        : { target, scope },
     );
   };
-  const showPeriod = (
-    p: Period,
-    element: SVGGraphicsElement,
-    clientX?: number,
-  ) =>
-    show(
-      { islandId: p.islandId, periodId: p.id, year: p.start },
-      element,
-      clientX,
-    );
-  const select = (p: Period, at = 0.5, reveal = false) => {
+  const showPeriod = (p: Period) =>
+    show({ islandId: p.islandId, periodId: p.id, year: p.start });
+  const select = (p: Period, reveal = false) => {
     cancelClose();
-    const key = `period:${p.id}`;
-    setAttachment(
-      pinned && attachment?.key === key
-        ? attachment
-        : {
-            key,
-            fraction:
-              hover?.scope === scope && hover.target.periodId === p.id
-                ? hover.fraction
-                : at,
-          },
-    );
     setHover(null);
     setFocusId(p.id);
     onSelect(p);
@@ -348,17 +293,16 @@ export function HistoryChart({
           ?.scrollIntoView({ block: 'nearest' }),
       );
   };
-  const selectClaim = (island: Island, event: HistoryEvent, at = 0.5) => {
+  const selectClaim = (island: Island, event: HistoryEvent) => {
     cancelClose();
-    setAttachment({ key: `claim:${event.id}`, fraction: at });
     setHover(null);
     onClaim(island, event);
   };
   const pin = () => {
     if (!inspection) return;
     if (inspection.standalone)
-      selectClaim(inspection.island, inspection.standalone, fraction);
-    else select(inspection.period, fraction);
+      selectClaim(inspection.island, inspection.standalone);
+    else select(inspection.period);
   };
   const tabTarget = periods.some((p) => p.id === focusId)
     ? focusId
@@ -412,7 +356,7 @@ export function HistoryChart({
         ) || periods.find((q) => q.islandId === island.id);
     } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      select(p, fraction);
+      select(p);
       return;
     } else if (e.key === 'Escape') {
       e.preventDefault();
@@ -444,7 +388,7 @@ export function HistoryChart({
         anchor={anchor}
         panelRef={panelRef}
         onPin={pin}
-        onSelect={(p) => select(p, 0.5, true)}
+        onSelect={(p) => select(p, true)}
         onDismiss={dismiss}
         onEnter={cancelClose}
         onLeave={leave}
@@ -567,27 +511,14 @@ export function HistoryChart({
                 aria-label={`${name}. ${owners[p.power].label}. ${periodDates(p, range)}.${p.event ? ' ' + p.event.title : ''}`}
                 aria-pressed={selected}
                 onKeyDown={(e) => keyboard(e, p)}
-                onClick={(e) => {
-                  const bounds = periodBounds(e.currentTarget);
-                  const at = e.detail
-                    ? Math.max(
-                        0,
-                        Math.min(
-                          1,
-                          (e.clientX - bounds.left) / Math.max(1, bounds.width),
-                        ),
-                      )
-                    : 0.5;
-                  select(p, at);
-                }}
-                onFocus={(e) => {
+                onClick={() => select(p)}
+                onFocus={() => {
                   setFocusId(p.id);
-                  showPeriod(p, e.currentTarget);
+                  showPeriod(p);
                 }}
                 onBlur={leave}
                 onPointerEnter={(e) => {
-                  if (e.pointerType !== 'touch')
-                    showPeriod(p, e.currentTarget, e.clientX);
+                  if (e.pointerType !== 'touch') showPeriod(p);
                 }}
                 onPointerLeave={leave}
               >
@@ -685,17 +616,11 @@ export function HistoryChart({
                 onClick={() => selectClaim(island, event)}
                 onPointerEnter={(e) => {
                   if (e.pointerType !== 'touch')
-                    show(
-                      { islandId: island.id, eventId: event.id, year: t },
-                      e.currentTarget,
-                    );
+                    show({ islandId: island.id, eventId: event.id, year: t });
                 }}
                 onPointerLeave={leave}
-                onFocus={(e) =>
-                  show(
-                    { islandId: island.id, eventId: event.id, year: t },
-                    e.currentTarget,
-                  )
+                onFocus={() =>
+                  show({ islandId: island.id, eventId: event.id, year: t })
                 }
                 onBlur={leave}
                 onKeyDown={(e) => {
