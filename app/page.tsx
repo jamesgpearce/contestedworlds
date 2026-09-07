@@ -355,7 +355,12 @@ export default function Home() {
           )}
         </div>
         {pinned && selectedIds.includes(selected) && (
-          <details className="island-reference" id="island-background">
+          <details
+            key={current.id}
+            className="island-reference"
+            id="island-background"
+            open
+          >
             <summary>
               <DisclosureIcon />
               About {current.name}

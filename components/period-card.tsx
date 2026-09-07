@@ -101,7 +101,7 @@ export function PeriodCard({
                 </div>
                 {inspection.event && <h4>{inspection.event.title}</h4>}
                 <Popover.Description id="period-metadata-description">
-                  {inspection.event?.detail || inspection.island.summary}
+                  {inspection.event?.detail || inspection.island.peoples}
                 </Popover.Description>
                 {inspection.event?.uncertainty && (
                   <p className="qualification">
@@ -121,17 +121,19 @@ export function PeriodCard({
                   />
                 </div>
                 <div className="period-card-navigation">
-                  {pinned ? (
-                    <span className="period-card-pinned">
-                      <Pin size={13} aria-hidden="true" />
-                      Pinned
-                    </span>
-                  ) : (
-                    <button onClick={onPin} data-panel-primary>
-                      <Pin size={13} aria-hidden="true" />
-                      Pin details
-                    </button>
-                  )}
+                  <div className="period-card-pin">
+                    {pinned ? (
+                      <span className="period-card-pinned">
+                        <Pin size={13} aria-hidden="true" />
+                        Pinned
+                      </span>
+                    ) : (
+                      <button onClick={onPin} data-panel-primary>
+                        <Pin size={13} aria-hidden="true" />
+                        Pin details
+                      </button>
+                    )}
+                  </div>
                   <span className="period-card-count">
                     {inspection.index + 1} / {inspection.sequence.length}
                   </span>

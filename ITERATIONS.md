@@ -98,3 +98,7 @@ The main title is now Sea of Empires, with the subtitle “Caribbean islands thr
 ## Contested Worlds · 8 September 2026
 
 Renamed the atlas to Contested Worlds across the masthead, browser title, footer, project metadata and dataset documentation. Caribbean remains the edition, leaving the name suitable for future regional histories.
+
+## Stable pinning and opening societies · 8 September 2026
+
+The card retains its hover anchor when focus and click pin the same rectangle. Anchoring measures only the period body, excluding selection ornaments and hit areas; the pin control keeps the same footprint in both states. Opening periods use the existing peoples description rather than the whole-history summary. The country background starts expanded when an island is selected. Browser checks measured identical card bounds before and after off-centre chart clicks and the Pin details control, including a 320 px viewport.

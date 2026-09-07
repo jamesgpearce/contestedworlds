@@ -2490,6 +2490,16 @@ details[open] > summary > .disclosure-chevron {
 .period-card-pinned {
   color: var(--faint);
 }
+.period-card-pin {
+  flex: 0 0 88px;
+}
+.period-card-pin > * {
+  width: 100%;
+  white-space: nowrap;
+}
+.period-card-navigation svg {
+  flex: none;
+}
 .period-card-count {
   margin-inline: auto 4px;
   color: var(--faint);
@@ -2502,7 +2512,8 @@ details[open] > summary > .disclosure-chevron {
   cursor: default;
 }
 @media (pointer: coarse) {
-  .period-card button {
+  .period-card button,
+  .period-card-pinned {
     min-height: 44px;
   }
   .period-card-close {

@@ -31,6 +31,13 @@ import { PeriodCard } from '@/components/period-card';
 import { inspectTarget, type InspectionTarget } from '@/lib/chart-inspection';
 import { PowerSymbol } from '@/components/power-symbol';
 
+// Selection markers and enlarged hit areas must not move the card's anchor.
+function periodBounds(element: SVGGraphicsElement) {
+  return (
+    element.querySelector<SVGGraphicsElement>('[data-period-body]') || element
+  ).getBoundingClientRect();
+}
+
 type Frame = {
   positions: Record<string, Placement>;
   height: number;
@@ -236,7 +243,8 @@ export function HistoryChart({
         return getAnchorElement() || undefined;
       },
       getBoundingClientRect() {
-        const bounds = getAnchorElement()?.getBoundingClientRect();
+        const element = getAnchorElement();
+        const bounds = element && periodBounds(element);
         return bounds
           ? new DOMRect(
               bounds.left + bounds.width * fraction,
@@ -283,18 +291,28 @@ export function HistoryChart({
   ) => {
     if (pinned || ignoreFocus.current) return;
     cancelClose();
-    const bounds = element.getBoundingClientRect();
-    setHover({
-      target,
-      scope,
-      fraction:
-        clientX === undefined
-          ? 0.5
-          : Math.max(
-              0,
-              Math.min(1, (clientX - bounds.left) / Math.max(1, bounds.width)),
-            ),
-    });
+    const bounds = periodBounds(element);
+    setHover((previous) =>
+      previous?.scope === scope &&
+      previous.target.islandId === target.islandId &&
+      previous.target.periodId === target.periodId &&
+      previous.target.eventId === target.eventId
+        ? previous
+        : {
+            target,
+            scope,
+            fraction:
+              clientX === undefined
+                ? 0.5
+                : Math.max(
+                    0,
+                    Math.min(
+                      1,
+                      (clientX - bounds.left) / Math.max(1, bounds.width),
+                    ),
+                  ),
+          },
+    );
   };
   const showPeriod = (
     p: Period,
@@ -308,7 +326,18 @@ export function HistoryChart({
     );
   const select = (p: Period, at = 0.5, reveal = false) => {
     cancelClose();
-    setAttachment({ key: `period:${p.id}`, fraction: at });
+    const key = `period:${p.id}`;
+    setAttachment(
+      pinned && attachment?.key === key
+        ? attachment
+        : {
+            key,
+            fraction:
+              hover?.scope === scope && hover.target.periodId === p.id
+                ? hover.fraction
+                : at,
+          },
+    );
     setHover(null);
     setFocusId(p.id);
     onSelect(p);
@@ -539,7 +568,7 @@ export function HistoryChart({
                 aria-pressed={selected}
                 onKeyDown={(e) => keyboard(e, p)}
                 onClick={(e) => {
-                  const bounds = e.currentTarget.getBoundingClientRect();
+                  const bounds = periodBounds(e.currentTarget);
                   const at = e.detail
                     ? Math.max(
                         0,
@@ -563,6 +592,7 @@ export function HistoryChart({
                 onPointerLeave={leave}
               >
                 <rect
+                  data-period-body
                   x={x(p.start)}
                   y={0}
                   width={Math.max(0, x(p.end) - x(p.start))}
