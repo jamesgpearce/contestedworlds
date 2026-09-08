@@ -1,4 +1,5 @@
-import raw from './caribbean.json';
+import { atlasData } from './atlas-data';
+const [raw] = await atlasData;
 export type HistoryEvent = {
   id: string;
   date: string;

@@ -1,15 +1,16 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import Home from './app/page';
-import { Analytics } from './components/analytics';
 import { initializeTheme } from './lib/theme';
-import './app/globals.css';
+import { atlasData } from './lib/atlas-data';
 
 initializeTheme();
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Home />
-    <Analytics />
-  </StrictMode>,
-);
+Promise.all([atlasData, import('./render')])
+  .then(([, { mount }]) => mount())
+  .catch(() => {
+    const screen = document.getElementById('boot-screen')!;
+    screen.dataset.failed = 'true';
+    document.getElementById('boot-status')!.textContent =
+      'The atlas could not load. Check your connection and try again.';
+    const retry = document.getElementById('boot-retry')!;
+    retry.hidden = false;
+    retry.onclick = () => window.location.reload();
+  });

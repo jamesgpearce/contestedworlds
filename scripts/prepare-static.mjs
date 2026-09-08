@@ -23,10 +23,19 @@ const escape = (value) =>
     .replaceAll('<', '&lt;')
     .replaceAll('"', '&quot;');
 const indexPath = join(root, 'index.html');
+const manifest = JSON.parse(await readFile(join(root, '.vite/manifest.json')));
+const atlas = manifest['src/render.tsx'];
+const preloads = [
+  `<link rel="modulepreload" crossorigin href="${base}/${atlas.file}">`,
+  ...atlas.css.map(
+    (file) => `<link rel="preload" as="style" href="${base}/${file}">`,
+  ),
+].join('\n');
 const index = (await readFile(indexPath, 'utf8'))
   .replaceAll('__BASE_PATH__', base)
   .replaceAll('__SOCIAL_IMAGE__', new URL(`${base}/social-card.png`, site).href)
-  .replaceAll('__SITE_URL__', site.href);
+  .replaceAll('__SITE_URL__', site.href)
+  .replace('</head>', `${preloads}\n</head>`);
 await writeFile(indexPath, index);
 await cp(indexPath, join(root, '404.html'));
 await writeFile(join(root, '.nojekyll'), '');

@@ -14,7 +14,7 @@ const moduleUrl = (source) =>
   ).toString('base64')}`;
 const historyUrl = moduleUrl(
   (await read('../src/lib/history.ts')).replace(
-    "import raw from './caribbean.json';",
+    "import { atlasData } from './atlas-data';\nconst [raw] = await atlasData;",
     `const raw = ${await read('../src/lib/caribbean.json')};`,
   ),
 );

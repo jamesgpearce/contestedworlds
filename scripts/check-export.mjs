@@ -5,7 +5,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadEnv } from 'vite';
 import { gunzipSync, gzipSync } from 'node:zlib';
-import { gzipOptions, javascriptGzipBudget, textAssets } from './assets.mjs';
+import {
+  bootstrapGzipBudget,
+  gzipOptions,
+  javascriptGzipBudget,
+  textAssets,
+} from './assets.mjs';
 const root = fileURLToPath(new URL('../docs/', import.meta.url));
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
 const env = loadEnv(
@@ -64,8 +69,16 @@ assert.equal(
   'Canonical URL',
 );
 assert.ok(
-  html.includes('<div id="root"></div>') && html.includes('type="module"'),
+  html.includes('<div id="root">') && html.includes('type="module"'),
   'Static markup must include the Vite client entry',
+);
+assert.ok(
+  html.includes('id="boot-status"') && html.includes('<style>'),
+  'First paint needs inline loading markup and CSS',
+);
+assert.ok(
+  !/rel="stylesheet"/.test(html),
+  'Full atlas CSS must not block the loading screen',
 );
 const image = await readFile(path.join(root, 'social-card.png'));
 assert.equal(image.readUInt32BE(16), 1200);
@@ -87,6 +100,37 @@ assert.equal(
   'Custom domain CNAME',
 );
 const assets = await textAssets(root);
+const manifest = JSON.parse(
+  await readFile(path.join(root, '.vite/manifest.json')),
+);
+const atlas = manifest['src/render.tsx'];
+assert.ok(
+  html.includes(`rel="modulepreload" crossorigin href="${base}/${atlas.file}"`),
+  'Preload the atlas code alongside its data',
+);
+for (const name of ['caribbean', 'coastlines']) {
+  const file = manifest[`src/lib/${name}.json`].file;
+  assert.ok(
+    file.startsWith(`assets/${name}-`) && file.endsWith('.json'),
+    `${name} must be a hashed external asset`,
+  );
+  const loaders = await Promise.all(
+    manifest['index.html'].imports.map((key) =>
+      readFile(path.join(root, manifest[key].file), 'utf8'),
+    ),
+  );
+  assert.ok(
+    loaders.some((code) => code.includes(`${base}/${file}`)),
+    `${name} must start loading from the bootstrap's static imports`,
+  );
+  assert.deepEqual(
+    JSON.parse(await readFile(path.join(root, file))),
+    JSON.parse(
+      await readFile(new URL(`../src/lib/${name}.json`, import.meta.url)),
+    ),
+    `External ${name} dataset differs from its source`,
+  );
+}
 const sizes = [];
 for (const file of assets) {
   const original = await readFile(path.join(root, file));
@@ -106,12 +150,28 @@ for (const file of assets) {
 }
 assert.ok(sizes.length, 'No JavaScript assets found');
 const totalGzip = sizes.reduce((sum, asset) => sum + asset.gzip, 0);
+const bootstrap = new Set();
+const addStaticImports = (key) => {
+  if (bootstrap.has(manifest[key].file)) return;
+  bootstrap.add(manifest[key].file);
+  for (const dependency of manifest[key].imports || [])
+    addStaticImports(dependency);
+};
+addStaticImports('index.html');
+const bootstrapGzip = sizes
+  .filter((asset) => bootstrap.has(asset.file))
+  .reduce((sum, asset) => sum + asset.gzip, 0);
+assert.ok(
+  bootstrapGzip < bootstrapGzipBudget,
+  `Bootstrap gzip budget exceeded: ${bootstrapGzip} >= ${bootstrapGzipBudget} bytes`,
+);
 assert.ok(
   totalGzip < javascriptGzipBudget,
   `JavaScript gzip budget exceeded: ${totalGzip} >= ${javascriptGzipBudget} bytes across all chunks`,
 );
 for (const { file, raw, gzip } of sizes)
   console.log(`${file}: ${raw} bytes raw / ${gzip} bytes gzip`);
+console.log(`Bootstrap: ${bootstrapGzip} / ${bootstrapGzipBudget} bytes gzip.`);
 console.log(
   `Verified ${assets.length} gzip assets; total JavaScript ${totalGzip} / ${javascriptGzipBudget} bytes gzip.`,
 );

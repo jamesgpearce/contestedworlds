@@ -32,9 +32,74 @@
     <link rel="icon" href="__BASE_PATH__/favicon.svg" />
     <link rel="apple-touch-icon" href="__BASE_PATH__/apple-touch-icon.png" />
     <title>Contested Worlds — The Caribbean</title>
+    <style>
+      html {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        background: light-dark(#f4f5f2, #1a211f);
+        color: light-dark(#293230, #e3e7de);
+      }
+      #boot-screen {
+        box-sizing: border-box;
+        max-width: 32rem;
+        margin: 15vh auto;
+        padding: 24px;
+        font:
+          16px/1.55 'Helvetica Neue',
+          Arial,
+          sans-serif;
+        text-align: center;
+      }
+      #boot-screen h1 {
+        margin: 0 0 12px;
+        font-size: clamp(26px, 6vw, 38px);
+        letter-spacing: -0.05em;
+      }
+      #boot-status::before {
+        content: '';
+        display: block;
+        width: 24px;
+        height: 24px;
+        margin: 24px auto;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: boot-spin 1s linear infinite;
+      }
+      #boot-screen[data-failed] #boot-status::before {
+        display: none;
+      }
+      #boot-retry {
+        padding: 8px 16px;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      @keyframes boot-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #boot-status::before {
+          animation: none;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main id="boot-screen">
+        <h1>Contested Worlds</h1>
+        <p id="boot-status" role="status">
+          Loading Caribbean island histories…
+        </p>
+        <button id="boot-retry" type="button" hidden>Try again</button>
+        <noscript>This interactive atlas needs JavaScript enabled.</noscript>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

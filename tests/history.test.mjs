@@ -14,7 +14,7 @@ const json = await readFile(
 );
 const javascript = ts.transpileModule(
   input.replace(
-    /import raw from ['"].\/caribbean.json['"];?/,
+    "import { atlasData } from './atlas-data';\nconst [raw] = await atlasData;",
     `const raw = ${json};`,
   ),
   {

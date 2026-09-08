@@ -23,11 +23,15 @@ Selection membership, a pinned target and transient hover are distinct. Hover ne
 
 ## Bundle size
 
-The complete history dataset stays embedded in the JavaScript, so the atlas needs no separate data request. Preact's compatibility layer replaces React DOM's larger renderer without changing component imports; the browser suite covers the resulting interactions. React packages remain installed for the React API/types and Lucide's peer dependency, but are aliased out of the browser bundle.
+History and coastlines are separate content-hashed JSON assets. `atlas-data.ts` starts both fetches from the bootstrap's static imports and shares one promise with the chart modules. JSON stays outside JavaScript without duplicate requests; normal HTTP caching and decompression apply. This reduces JavaScript parsing and lets code-only updates reuse cached data. The first-load byte total still includes both datasets.
 
-`npm run size:compare` measures both Oxc and three-pass Terser against the entire JavaScript graph without writing `docs/`. Oxc currently produces the smaller gzip output and is the production default. Shared viewport listeners and a direct `clsx` re-export remove repeated runtime wrappers; source formatting is left readable because the minifier removes whitespace.
+`index.html` contains a small loading screen and inline critical CSS. `main.tsx` restores the theme and imports `render.tsx` while the JSON loads. The generated HTML preloads the chart module and its stylesheet; the full stylesheet is applied by the dynamic import rather than blocking the loading screen. Fetch preloads are avoided because WebKit duplicated their transfers in verification. The app uses system fonts, so there are no font downloads or font preloads. Failed data/chunk loads show a retry action that reloads the same shared URL; data requests time out after 15 seconds.
 
-The build generates level-9 `.gz` siblings for text assets, including JSON/CSV downloads. `npm run check:export` decompresses every sibling, compares it byte-for-byte with its original, checks reproducible compression, and enforces a total JavaScript gzip budget below **100,000 bytes across all chunks**. These sizes describe the local build; a host's on-the-fly compression level can produce different transfer sizes. See [HTTP compression](deployment.md#http-compression).
+Preact's compatibility layer replaces React DOM's larger renderer without changing component imports; the browser suite covers the resulting interactions. React packages remain installed for the React API/types and Lucide's peer dependency, but are aliased out of the browser bundle.
+
+`npm run size:compare` measures both Oxc and three-pass Terser against the entire JavaScript graph without writing `docs/`. Oxc remains the production default: it currently produces less raw JavaScript, while gzip sizes are effectively tied (Terser saves 14 bytes across the complete graph). Shared viewport listeners and a direct `clsx` re-export remove repeated runtime wrappers; source formatting is left readable because the minifier removes whitespace.
+
+The build generates level-9 `.gz` siblings for text assets, including JSON/CSV downloads. `npm run check:export` decompresses every sibling, compares it byte-for-byte with its original, checks reproducible compression, and enforces a total JavaScript gzip budget below **100,000 bytes across all chunks**, with the bootstrap and its static imports below **5,000 bytes**. It also verifies both external JSON files against their source data, their deployment prefixes and the code preload. These sizes describe the local build; a host's on-the-fly compression level can produce different transfer sizes. See [HTTP compression](deployment.md#http-compression).
 
 ## Validation
 

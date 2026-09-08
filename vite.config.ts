@@ -12,8 +12,10 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'docs',
       emptyOutDir: true,
+      assetsInlineLimit: 0,
+      manifest: true,
       license: { fileName: 'licenses.txt' },
-      // Measured smaller than Terser for this bundle; size:compare checks both.
+      // Less raw JS than Terser; gzip is nearly tied. size:compare checks both.
       minify: 'oxc',
       terserOptions: { ecma: 2020, module: true, compress: { passes: 3 } },
     },

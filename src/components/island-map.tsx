@@ -1,4 +1,4 @@
-import land from '@/lib/coastlines.json';
+import { atlasData } from '@/lib/atlas-data';
 import { ArrowUpRight } from 'lucide-react';
 import {
   islands,
@@ -7,6 +7,8 @@ import {
   type Island,
   type Mode,
 } from '@/lib/history';
+
+const [, land] = await atlasData;
 
 export function IslandMap({
   island,

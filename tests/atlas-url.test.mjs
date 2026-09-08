@@ -16,7 +16,7 @@ const moduleUrl = (source) =>
 const raw = await read('../src/lib/caribbean.json');
 const history = moduleUrl(
   (await read('../src/lib/history.ts')).replace(
-    "import raw from './caribbean.json';",
+    "import { atlasData } from './atlas-data';\nconst [raw] = await atlasData;",
     `const raw = ${raw};`,
   ),
 );
