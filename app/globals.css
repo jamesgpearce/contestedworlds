@@ -2606,10 +2606,6 @@ details[open] > summary > .disclosure-chevron {
 .method-intro strong {
   color: var(--ink);
 }
-.method-author {
-  display: block;
-  margin-top: 8px;
-}
 @media (max-width: 750px) {
   .method-intro {
     grid-template-columns: 1fr;

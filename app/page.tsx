@@ -563,13 +563,12 @@ export default function Home() {
           </summary>
           <div className="method-intro">
             <p>
-              <strong>Why I made this.</strong> While traveling through the
+              <strong>What is this?</strong> While traveling through the
               Caribbean, I realized how little I knew about the historical
               imperial chessboard of these islands, and how, for centuries, they
               had lain at the center of global geopolitics. I hope this
               infographic conveys just how complex, surprising, and often tragic
               their histories have been.
-              <span className="method-author">James Pearce</span>
             </p>
             <p>
               <strong>Open source. Corrections welcome.</strong> The code is
