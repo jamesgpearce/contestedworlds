@@ -154,3 +154,7 @@ Added the owner-selected MIT code license, retaining CC BY 4.0 for the original 
 ## Flags for island rows · 8 September 2026
 
 Island grouping now places modern country or territory SVG flags beside island names, matching the size and muted treatment of power-row flags. Related islands may share a national flag. The assets extend the existing pinned flag-icons release, with its license retained and no new runtime dependency.
+
+## Island names at the start of each track · 8 September 2026
+
+Power grouping now right-aligns a small island name beside each first visible rectangle. Labels use the actual starting power, including Shared / unsettled, and follow custom date windows. Power headings move above rows with these names; Indigenous is shortened in the row heading. A compact label column keeps the names separate from dates on phones.

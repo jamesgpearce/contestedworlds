@@ -2606,3 +2606,22 @@ details[open] > summary > .disclosure-chevron {
 .contribution-note strong {
   color: var(--ink);
 }
+
+/* Name each starting lane without obscuring dated rectangles. */
+.period-start-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.period-start-label {
+  position: absolute;
+  left: 8px;
+  transform: translateY(-50%);
+  text-align: right;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--faint);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

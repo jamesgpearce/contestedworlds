@@ -71,6 +71,20 @@ export function periodsFor(
   return result;
 }
 
+/** One starting track per island, preferring a lasting period at the window boundary. */
+export function startingPeriods(periods: Period[]) {
+  const first = new Map<string, Period>();
+  for (const p of periods) {
+    const previous = first.get(p.islandId);
+    if (
+      !previous ||
+      (p.start === previous.start && previous.start === previous.end)
+    )
+      first.set(p.islandId, p);
+  }
+  return [...first.values()];
+}
+
 /** Interval packing within each power, with a preference for an island's previous lane. */
 export function packPeriods(periods: Period[]) {
   const lanes = new Map<string, number>();
@@ -120,6 +134,11 @@ export function arrangePeriods(
 ) {
   const compact = width < 700;
   const packed = packPeriods(periods);
+  const labelStarts = arrangement === 'powers' && islandIds.length > 1;
+  const startingPowers = new Set(
+    labelStarts ? startingPeriods(periods).map((p) => p.power) : [],
+  );
+  const headingAbove = (id: string) => compact || startingPowers.has(id);
   const ids =
     arrangement === 'islands'
       ? islandIds
@@ -131,7 +150,8 @@ export function arrangePeriods(
         : 62
       : Math.max(
           compact ? 58 : 44,
-          (packed.counts.get(id) || 1) * 12 + (compact ? 38 : 20),
+          (packed.counts.get(id) || 1) * 12 +
+            (compact ? 38 : startingPowers.has(id) ? 44 : 20),
         ),
   );
   const extra =
@@ -144,7 +164,7 @@ export function arrangePeriods(
       id,
       top,
       bottom: top + height,
-      labelY: compact ? top + 15 : top + height / 2,
+      labelY: headingAbove(id) ? top + 15 : top + height / 2,
       lanes: arrangement === 'islands' ? 1 : packed.counts.get(id)!,
     };
     top += height;
@@ -157,7 +177,7 @@ export function arrangePeriods(
     )!;
     const height = arrangement === 'islands' ? 16 : 8;
     const lane = arrangement === 'islands' ? 0 : packed.lanes.get(p.id)!;
-    const center = (row.top + (compact ? 24 : 0) + row.bottom) / 2;
+    const center = (row.top + (headingAbove(row.id) ? 24 : 0) + row.bottom) / 2;
     positions[p.id] = {
       y: center + (lane - (row.lanes - 1) / 2) * 12 - height / 2,
       height,
@@ -168,7 +188,8 @@ export function arrangePeriods(
     rows,
     height: top + 8,
     compact,
-    left: compact ? 8 : width < 1000 ? 210 : 240,
+    left: compact ? (labelStarts ? 126 : 8) : width < 1000 ? 210 : 240,
+    starting: labelStarts ? startingPeriods(periods) : [],
     right: 12,
   };
 }

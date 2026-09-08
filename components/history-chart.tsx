@@ -735,6 +735,32 @@ export function HistoryChart({
           )}
         </svg>
         <div
+          className="period-start-labels"
+          aria-hidden="true"
+          style={{ opacity: changing ? 0 : 1 }}
+        >
+          {layout.starting.map((p) => {
+            const pos = frame.positions[p.id] || layout.positions[p.id];
+            const name = tracks.find((i) => i.id === p.islandId)?.name;
+            return (
+              <span
+                key={p.islandId}
+                data-start-island={p.islandId}
+                data-start-period={p.id}
+                className="period-start-label"
+                style={{
+                  top: pos.y + pos.height / 2,
+                  width: layout.left - 18,
+                  opacity:
+                    activeIsland && activeIsland !== p.islandId ? 0.4 : 1,
+                }}
+              >
+                {name}
+              </span>
+            );
+          })}
+        </div>
+        <div
           className="period-row-labels"
           aria-hidden="true"
           style={{ opacity: changing ? 0 : 1 }}
@@ -759,7 +785,9 @@ export function HistoryChart({
                       background: `color-mix(in srgb, ${powerColor(row.id)} 10%, var(--paper))`,
                     }}
                   >
-                    {owners[row.id].label}
+                    {row.id === 'indigenous'
+                      ? 'Indigenous'
+                      : owners[row.id].label}
                   </span>
                 </>
               ) : (

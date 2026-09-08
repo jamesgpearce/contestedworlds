@@ -25,9 +25,13 @@ const periodsModule = moduleUrl(
     JSON.stringify(history),
   ),
 );
-const { periodsFor, packPeriods, arrangePeriods, plottedEvent } = await import(
-  periodsModule
-);
+const {
+  periodsFor,
+  packPeriods,
+  arrangePeriods,
+  plottedEvent,
+  startingPeriods,
+} = await import(periodsModule);
 const { inspectTarget } = await import(
   moduleUrl(
     (await read('../lib/chart-inspection.ts'))
@@ -258,5 +262,25 @@ test('Claim and contextual records keep their exact text, dates and evidence in 
         if (e.kind === 'claim')
           assert.equal(inspected.power, e.claimant || inspected.period.power);
       }
+  }
+});
+
+test('Starting labels identify every island under its actual power at the visible boundary', () => {
+  for (const mode of ['administration', 'sovereignty']) {
+    for (const range of [
+      [1450, 2026],
+      [1763, 1820],
+      [1800, 2026],
+    ]) {
+      const ps = islands.flatMap((i) => periodsFor(i, mode, range));
+      const starts = startingPeriods(ps);
+      assert.equal(starts.length, islands.length);
+      assert.equal(new Set(starts.map((p) => p.islandId)).size, islands.length);
+      for (const p of starts) {
+        const island = islands.find((i) => i.id === p.islandId);
+        assert.equal(p.start, range[0]);
+        assert.equal(p.power, stateAt(island, range[0], mode));
+      }
+    }
   }
 });
