@@ -74,7 +74,7 @@ function DisclosureIcon() {
 }
 
 export default function Home() {
-  const [view, updateView] = useAtlasView();
+  const [view, updateView, viewReady] = useAtlasView();
   const {
     selectedIds,
     arrangement,
@@ -238,6 +238,7 @@ export default function Home() {
         className="explorer"
         id="explorer"
         aria-label="Interactive history atlas"
+        aria-busy={!viewReady}
       >
         <div className="chart-side">
           <div className="chart-heading">
@@ -404,6 +405,7 @@ export default function Home() {
           ) : (
             <>
               <HistoryChart
+                viewReady={viewReady}
                 tracks={tracks}
                 mode={mode}
                 range={range}

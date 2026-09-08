@@ -44,7 +44,11 @@ type Frame = {
   height: number;
   connectors: number;
 };
-function useMovingPeriods(target: Frame, arrangement: Arrangement) {
+function useMovingPeriods(
+  target: Frame,
+  arrangement: Arrangement,
+  ready: boolean,
+) {
   const [frame, setFrame] = useState(target);
   const displayed = useRef(target);
   const first = useRef(true);
@@ -59,8 +63,9 @@ function useMovingPeriods(target: Frame, arrangement: Arrangement) {
     };
     const regrouping = previousArrangement.current !== arrangement;
     previousArrangement.current = arrangement;
-    if (first.current || reduce.matches || !regrouping) {
-      first.current = false;
+    if (!ready || first.current || reduce.matches || !regrouping) {
+      // Restoring URL state is initialization, not an interactive regrouping.
+      first.current = !ready;
       stop();
       return;
     }
@@ -93,11 +98,12 @@ function useMovingPeriods(target: Frame, arrangement: Arrangement) {
       cancelAnimationFrame(request);
       reduce.removeEventListener('change', stop);
     };
-  }, [target, arrangement]);
+  }, [target, arrangement, ready]);
   return frame;
 }
 
 export function HistoryChart({
+  viewReady,
   tracks,
   mode,
   range,
@@ -112,6 +118,7 @@ export function HistoryChart({
   onSelect,
   onClaim,
 }: {
+  viewReady: boolean;
   tracks: Island[];
   mode: Mode;
   range: [number, number];
@@ -190,7 +197,8 @@ export function HistoryChart({
     }),
     [layout, arrangement],
   );
-  const frame = useMovingPeriods(target, arrangement);
+  const ready = viewReady && width > 0;
+  const frame = useMovingPeriods(target, arrangement, ready);
   const changing = Math.abs(frame.connectors - target.connectors) > 0.001;
   const plotWidth = Math.max(1, width - layout.left - layout.right);
   const x = (date: number) =>
@@ -307,7 +315,7 @@ export function HistoryChart({
     setHover(null);
     onClaim(island, event);
   };
-  if (!width) {
+  if (!ready) {
     // Static HTML cannot know the browser's container width. Reserve the correct
     // row height for either layout, but never expose a provisionally sized SVG.
     const wideHeight = arrangePeriods(

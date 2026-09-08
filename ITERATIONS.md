@@ -206,3 +206,7 @@ Removed the initial 1,000px chart-width guess. Static HTML reserves row heights 
 ## A personal introduction to the method · 8 September 2026
 
 Method now opens with James Pearce's motivation for making the atlas, alongside the open-source contribution note in two equal-width text panels. The panels stack on narrow screens.
+
+## Restore the saved arrangement before drawing · 8 September 2026
+
+Chart initialization now waits for both the browser's URL snapshot and the measured container width. Static defaults are never displayed as selected controls or animated into a saved arrangement. Later changes between By Island and By Power still animate.
