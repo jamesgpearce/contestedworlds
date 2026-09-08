@@ -73,6 +73,20 @@ npm run check:export
 
 For a normal local preview, run `npm run build && npm run preview`. Vite writes the deployable site to `docs/`; `scripts/prepare-static.mjs` adds `.nojekyll`, `CNAME`, `robots.txt`, `sitemap.xml` and the `404.html` fallback. Upload **only `docs/`**.
 
+## HTTP compression
+
+Every build creates `.gz` siblings for JavaScript, CSS, JSON, CSV and other text assets in `docs/`. `npm run check:export` verifies that they decompress exactly and that all JavaScript chunks together stay below 100,000 gzip bytes. The uncompressed originals remain available.
+
+Keep normal `.js` and `.json` URLs in the page. GitHub Pages already negotiates gzip compression: on 2026-09-08, the live `/data/caribbean.json` response had `Content-Type: application/json`, `Content-Encoding: gzip` and `Vary: Accept-Encoding`. The browser decodes that response automatically, so `fetch(url).then(response => response.json())` works without decompression code. [HTTP content encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Encoding).
+
+The generated `.gz` files provide reproducible measurements and can be used by hosts configured to serve precompressed siblings. Do not assume GitHub Pages selects those files: [GitHub's discussion of precompressed assets](https://github.com/orgs/community/discussions/21655) distinguishes that feature from on-the-fly gzip. A direct `.json.gz` download needs a host to set the original content type and `Content-Encoding: gzip` before a browser can treat it transparently as JSON. Vite's local preview also serves the ordinary originals.
+
+Check the deployed response, since GitHub's compression level may differ from the local level-9 assets:
+
+```sh
+curl -sSI -H 'Accept-Encoding: gzip' https://contestedworlds.com/data/caribbean.json
+```
+
 ## Analytics
 
 The project's GA4 tag is **G-EYQ3SGDHPC**. It loads after the initial render, only when the current hostname matches the configured site URL. Localhost, Do Not Track and Global Privacy Control disable loading. The integration disables Google signals and ad personalization, and uses the canonical page URL instead of forwarding selected islands, record IDs or arbitrary query parameters.

@@ -2,6 +2,8 @@ import { cp, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadEnv } from 'vite';
+import { gzipSync } from 'node:zlib';
+import { gzipOptions, textAssets } from './assets.mjs';
 const root = fileURLToPath(new URL('../docs/', import.meta.url));
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url)),
@@ -36,4 +38,13 @@ await writeFile(
 await writeFile(
   join(root, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${escape(site.href)}</loc></url></urlset>\n`,
+);
+const assets = await textAssets(root);
+for (const file of assets)
+  await writeFile(
+    join(root, `${file}.gz`),
+    gzipSync(await readFile(join(root, file)), gzipOptions),
+  );
+console.log(
+  `Generated ${assets.length} gzip assets, including JSON and CSV downloads.`,
 );

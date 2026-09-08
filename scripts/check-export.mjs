@@ -4,6 +4,8 @@ import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadEnv } from 'vite';
+import { gunzipSync, gzipSync } from 'node:zlib';
+import { gzipOptions, javascriptGzipBudget, textAssets } from './assets.mjs';
 const root = fileURLToPath(new URL('../docs/', import.meta.url));
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
 const env = loadEnv(
@@ -83,6 +85,35 @@ assert.equal(
   (await readFile(path.join(root, 'CNAME'), 'utf8')).trim(),
   'contestedworlds.com',
   'Custom domain CNAME',
+);
+const assets = await textAssets(root);
+const sizes = [];
+for (const file of assets) {
+  const original = await readFile(path.join(root, file));
+  const compressed = await readFile(path.join(root, `${file}.gz`));
+  assert.deepEqual(
+    gunzipSync(compressed),
+    original,
+    `Invalid or stale gzip: ${file}`,
+  );
+  assert.deepEqual(
+    compressed,
+    gzipSync(original, gzipOptions),
+    `Gzip settings drifted: ${file}`,
+  );
+  if (file.endsWith('.js'))
+    sizes.push({ file, raw: original.length, gzip: compressed.length });
+}
+assert.ok(sizes.length, 'No JavaScript assets found');
+const totalGzip = sizes.reduce((sum, asset) => sum + asset.gzip, 0);
+assert.ok(
+  totalGzip < javascriptGzipBudget,
+  `JavaScript gzip budget exceeded: ${totalGzip} >= ${javascriptGzipBudget} bytes across all chunks`,
+);
+for (const { file, raw, gzip } of sizes)
+  console.log(`${file}: ${raw} bytes raw / ${gzip} bytes gzip`);
+console.log(
+  `Verified ${assets.length} gzip assets; total JavaScript ${totalGzip} / ${javascriptGzipBudget} bytes gzip.`,
 );
 console.log(
   `Static export verified: ${paths.size} local/link references, social metadata, image dimensions and downloads (${base || '/'}).`,

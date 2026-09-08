@@ -1,6 +1,6 @@
 # Code structure
 
-The static page is built with React 19 and Vite. Rendering and interaction run in the browser; data compilation is a dependency-free Python step. There is no runtime server. The npm dependency set contains the UI primitives actually used by the atlas; obsolete starter modules and the former line-chart renderer are retained only in Git history.
+The static page uses React component APIs and types, with Vite aliasing the browser runtime to `preact/compat`. Rendering and interaction run in the browser; data compilation is a dependency-free Python step. There is no runtime server. The npm dependency set contains the UI primitives actually used by the atlas; obsolete starter modules and the former line-chart renderer are retained only in Git history.
 
 ## Data to pixels
 
@@ -20,6 +20,14 @@ The static page is built with React 19 and Vite. Rendering and interaction run i
 Selection membership, a pinned target and transient hover are distinct. Hover never writes the URL. A clicked target holds its details until replaced or dismissed. The card uses the rectangle's bounds, not pointer coordinates. Chart marks are outside the Tab order at the project's chosen interaction boundary; ordinary controls retain keyboard behavior, and a selected island has a linked chronology and Previous/Next controls.
 
 `site.config.json` and `src/lib/site-config.ts` centralize the public URL, Analytics ID and asset prefix. `vite.config.ts` writes the static bundle directly to `docs/`. `scripts/prepare-static.mjs` adds the Pages fallback, CNAME and crawl metadata; `check-export.mjs` checks actual generated asset links and metadata under both root and project paths.
+
+## Bundle size
+
+The complete history dataset stays embedded in the JavaScript, so the atlas needs no separate data request. Preact's compatibility layer replaces React DOM's larger renderer without changing component imports; the browser suite covers the resulting interactions. React packages remain installed for the React API/types and Lucide's peer dependency, but are aliased out of the browser bundle.
+
+`npm run size:compare` measures both Oxc and three-pass Terser against the entire JavaScript graph without writing `docs/`. Oxc currently produces the smaller gzip output and is the production default. Shared viewport listeners and a direct `clsx` re-export remove repeated runtime wrappers; source formatting is left readable because the minifier removes whitespace.
+
+The build generates level-9 `.gz` siblings for text assets, including JSON/CSV downloads. `npm run check:export` decompresses every sibling, compares it byte-for-byte with its original, checks reproducible compression, and enforces a total JavaScript gzip budget below **100,000 bytes across all chunks**. These sizes describe the local build; a host's on-the-fly compression level can produce different transfer sizes. See [HTTP compression](deployment.md#http-compression).
 
 ## Validation
 
