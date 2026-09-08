@@ -20,18 +20,42 @@ const history = moduleUrl(
     `const raw = ${raw};`,
   ),
 );
+const periodsModule = moduleUrl(
+  (await read('../lib/periods.ts')).replace(
+    "'./history'",
+    JSON.stringify(history),
+  ),
+);
+const yearRangeModule = moduleUrl(
+  (await read('../lib/year-range.ts')).replace(
+    "'./history'",
+    JSON.stringify(history),
+  ),
+);
 const {
   defaultAtlasView,
   readAtlasView,
   atlasViewUrl,
   islandUrlOrder,
   createAtlasUrlStore,
+  detailForPeriod,
+  resolveAtlasDetail,
 } = await import(
   moduleUrl(
-    (await read('../lib/atlas-url.ts')).replace(
-      "'./history'",
-      JSON.stringify(history),
-    ),
+    (await read('../lib/atlas-url.ts'))
+      .replace("'./history'", JSON.stringify(history))
+      .replace("'./periods'", JSON.stringify(periodsModule))
+      .replace("'./year-range'", JSON.stringify(yearRangeModule)),
+  )
+);
+const { periodsFor } = await import(periodsModule);
+const { islands, dateValue } = await import(history);
+const { calendarRange } = await import(yearRangeModule);
+const { inspectTarget } = await import(
+  moduleUrl(
+    (await read('../lib/chart-inspection.ts'))
+      .replaceAll("'./history'", JSON.stringify(history))
+      .replace("'./periods'", JSON.stringify(periodsModule)),
   )
 );
 const origin = 'https://example.com/atlas';
@@ -163,6 +187,7 @@ test('All options and varied multi-island selections round-trip without losing p
       yearRange: n & 8 ? [1600, 1850] : defaults.yearRange,
       showClaims: Boolean(n & 16),
       showQualified: Boolean(n & 32),
+      detail: null,
     };
     assert.deepEqual(roundTrip(view), view);
     assert.equal(
@@ -294,5 +319,113 @@ test('Back/forward restoration and later edits use the navigated view', () => {
   assert.equal(env.browser.location.search, '?islands=cuba&m=s');
   env.navigate('/atlas');
   assert.deepEqual(store.getSnapshot(), defaultAtlasView());
+  unsubscribe();
+});
+
+test('Every rectangle restores the same card identity in either political mode', () => {
+  for (const mode of ['administration', 'sovereignty']) {
+    const view = { ...defaultAtlasView(), mode };
+    const range = calendarRange(view.yearRange);
+    for (const island of islands) {
+      const periods = periodsFor(island, mode, range);
+      for (const period of periods) {
+        const shared = roundTrip({ ...view, detail: detailForPeriod(period) });
+        const card = inspectTarget(
+          resolveAtlasDetail(shared),
+          [island],
+          periods,
+          mode,
+          range,
+        );
+        assert.equal(card?.period.id, period.id);
+        assert.equal(card?.event?.id, period.event?.id);
+      }
+    }
+  }
+});
+
+test('Claim links restore claim metadata, including exact dates', () => {
+  for (const mode of ['administration', 'sovereignty']) {
+    const view = { ...defaultAtlasView(), mode };
+    const range = calendarRange(view.yearRange);
+    for (const island of islands) {
+      for (const event of island.events.filter(
+        (event) => event.kind === 'claim',
+      )) {
+        const shared = roundTrip({ ...view, detail: event.id });
+        const target = resolveAtlasDetail(shared);
+        const card = inspectTarget(
+          target,
+          [island],
+          periodsFor(island, mode, range),
+          mode,
+          range,
+        );
+        assert.equal(card?.event.id, event.id);
+        assert.equal(card?.standalone?.kind, 'claim');
+        assert.equal(target.year, dateValue(event.date));
+      }
+    }
+  }
+});
+
+test('Initial and clipped rectangles retain identity without date approximations', () => {
+  const initial = readAtlasView('?islands=dominica&detail=dominica.initial');
+  assert.equal(resolveAtlasDetail(initial).periodId, 'dominica:initial');
+  const island = islands.find((island) => island.id === 'saint-lucia');
+  const view = defaultAtlasView();
+  const period = periodsFor(
+    island,
+    view.mode,
+    calendarRange(view.yearRange),
+  ).find(
+    (period) => period.originalStart > 1600 && period.end - period.start > 5,
+  );
+  const clipped = roundTrip({
+    ...view,
+    yearRange: [Math.ceil(period.start) + 1, Math.floor(period.end) - 1],
+    detail: detailForPeriod(period),
+  });
+  assert.equal(resolveAtlasDetail(clipped).periodId, period.id);
+  assert.equal(resolveAtlasDetail(clipped).year, clipped.yearRange[0]);
+});
+
+test('Pinned details survive refresh and navigation; dismissal and invalidated targets clear them', () => {
+  const env = browserAt(`${origin}?islands=dominica&detail=dominica.initial`);
+  const store = createAtlasUrlStore(env.browser);
+  const unsubscribe = store.subscribe(() => store.getSnapshot());
+  const initial = store.getSnapshot();
+  store.update({ axisSpacing: 'time' });
+  assert.equal(store.getSnapshot().detail, initial.detail);
+  assert.deepEqual(
+    createAtlasUrlStore(env.browser).getSnapshot(),
+    store.getSnapshot(),
+  );
+  const periods = periodsFor(
+    islands.find((island) => island.id === 'dominica'),
+    initial.mode,
+    calendarRange(initial.yearRange),
+  );
+  store.update({ detail: detailForPeriod(periods[1]) });
+  assert.equal(resolveAtlasDetail(store.getSnapshot()).periodId, periods[1].id);
+  store.update({ detail: null });
+  assert.equal(env.browser.location.searchParams.has('detail'), false);
+  env.navigate('/atlas?islands=dominica&detail=dominica.initial');
+  assert.equal(store.getSnapshot().detail, 'dominica.initial');
+  store.update({ selectedIds: ['cuba'] });
+  assert.equal(store.getSnapshot().detail, null);
+  env.navigate('/atlas?islands=dominica&detail=dominica.initial');
+  store.update({ yearRange: [1900, 2000] });
+  assert.equal(store.getSnapshot().detail, null);
+  env.navigate('/atlas?islands=cuba&detail=cuba-01');
+  store.update({ showClaims: false });
+  assert.equal(store.getSnapshot().detail, null);
+  for (const query of [
+    'detail=unknown',
+    'detail=cuba-999',
+    'detail=bogus.initial',
+    'islands=cuba&detail=dominica.initial',
+  ])
+    assert.equal(readAtlasView(`?${query}`).detail, null);
   unsubscribe();
 });

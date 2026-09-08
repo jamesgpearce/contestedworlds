@@ -107,10 +107,7 @@ export function HistoryChart({
   scale,
   showClaims,
   showQualified,
-  inspectedId,
-  eventId,
-  year,
-  pinned,
+  pinnedTarget,
   focusRequest,
   onDismiss,
   onSelect,
@@ -124,15 +121,13 @@ export function HistoryChart({
   scale: ReturnType<typeof eventAxis>;
   showClaims: boolean;
   showQualified: boolean;
-  inspectedId: string;
-  eventId: string;
-  year: number;
-  pinned: boolean;
+  pinnedTarget: InspectionTarget | null;
   focusRequest: number;
   onDismiss: () => void;
   onSelect: (period: Period) => void;
   onClaim: (island: Island, event: HistoryEvent) => void;
 }) {
+  const pinned = !!pinnedTarget;
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(1000);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -204,8 +199,8 @@ export function HistoryChart({
       : (date - range[0]) / (range[1] - range[0])) *
       plotWidth;
   const inspection = inspectTarget(
-    pinned
-      ? { islandId: inspectedId, eventId, year }
+    pinnedTarget
+      ? pinnedTarget
       : hover?.scope === scope && !changing
         ? hover.target
         : null,
@@ -245,12 +240,31 @@ export function HistoryChart({
   );
   useEffect(() => {
     if (!focusRequest || focusRequest === lastFocusRequest.current) return;
+    // Shared details may arrive before the responsive chart has measured itself.
+    if (
+      Math.abs((ref.current?.clientWidth || 0) - width) > 1 ||
+      frame.height !== target.height ||
+      changing
+    )
+      return;
     const element = getAnchorElement();
     if (!element) return;
     lastFocusRequest.current = focusRequest;
-    element.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    element.scrollIntoView({
+      block: 'center',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'instant'
+        : 'smooth',
+    });
     element.focus({ preventScroll: true });
-  }, [focusRequest, getAnchorElement]);
+  }, [
+    focusRequest,
+    getAnchorElement,
+    width,
+    frame.height,
+    target.height,
+    changing,
+  ]);
   const dismiss = (restoreFocus = false) => {
     pointerTransit.current = null;
     cancelClose();

@@ -12,6 +12,11 @@ import {
 } from 'lucide-react';
 import { registerAtlasTools } from '@/lib/atlas-tools';
 import { useAtlasView } from '@/lib/use-atlas-view';
+import {
+  detailForPeriod,
+  readAtlasView,
+  resolveAtlasDetail,
+} from '@/lib/atlas-url';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -33,7 +38,12 @@ import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Cite } from '@/components/citations';
 import { HistoryChart } from '@/components/history-chart';
 import { IslandPicker } from '@/components/island-picker';
-import { plottedEvent, type Arrangement, type Period } from '@/lib/periods';
+import {
+  periodsFor,
+  plottedEvent,
+  type Arrangement,
+  type Period,
+} from '@/lib/periods';
 import { eventAxis } from '@/lib/event-axis';
 import { calendarRange, yearPresets } from '@/lib/year-range';
 import { PowerSymbol } from '@/components/power-symbol';
@@ -74,12 +84,14 @@ export default function Home() {
     showQualified,
     axisSpacing,
   } = view;
-  const [selected, setSelected] = useState('saint-lucia');
+  const [lastSelected, setLastSelected] = useState('saint-lucia');
+  const pinnedTarget = useMemo(() => resolveAtlasDetail(view), [view]);
+  const selected = pinnedTarget?.islandId || lastSelected;
+  const pinned = !!pinnedTarget;
+  const eventId = pinnedTarget?.eventId || '';
+  const year = pinnedTarget?.year ?? yearRange[0];
   const range = useMemo(() => calendarRange(yearRange), [yearRange]);
-  const [pinned, setPinned] = useState(false);
   const [focusRequest, setFocusRequest] = useState(0);
-  const [eventId, setEventId] = useState('saint-lucia-12');
-  const [year, setYear] = useState(dateValue('1763-02-10'));
   const [evidence, setEvidence] = useState(false);
   const tracks = useMemo(
     () => islands.filter((i) => selectedIds.includes(i.id)),
@@ -94,56 +106,65 @@ export default function Home() {
         ranges[key][0] === yearRange[0] && ranges[key][1] === yearRange[1],
     ) || 'custom';
   const changeRange = (next: [number, number]) => {
-    setPinned(false);
-    updateView({ yearRange: [...next] });
-    const bounds = calendarRange(next);
-    setYear((value) => Math.max(bounds[0], Math.min(value, bounds[1])));
-    setEventId('');
+    updateView({ yearRange: [...next], detail: null });
   };
   const activeEventCount = data.islands.reduce(
     (n, i) => n + i.events.length,
     0,
   );
   const selectEvent = (e: HistoryEvent, reveal = false) => {
-    setPinned(true);
+    const island = islands.find((island) =>
+      island.events.some((event) => event.id === e.id),
+    );
+    if (!island) return;
+    setLastSelected(island.id);
     if (reveal) setFocusRequest((value) => value + 1);
-    setEventId(e.id);
-    setYear(dateValue(e.date));
-    if (dateValue(e.date) < range[0] || dateValue(e.date) > range[1])
-      updateView({ yearRange: ranges.all });
+    updateView({
+      detail: e.id,
+      ...(e.kind === 'claim' ? { showClaims: true } : {}),
+      ...(dateValue(e.date) < range[0] || dateValue(e.date) > range[1]
+        ? { yearRange: ranges.all }
+        : {}),
+    });
   };
   const changeSelection = (ids: string[]) => {
     updateView({ selectedIds: ids });
-    if (!ids.includes(selected)) setPinned(false);
-    if (ids.length && !ids.includes(selected)) {
-      setSelected(ids[0]);
-      setEventId('');
-    }
+    if (ids.length && !ids.includes(selected)) setLastSelected(ids[0]);
   };
   const selectPeriod = (p: Period) => {
-    setPinned(true);
-    setSelected(p.islandId);
-    setYear(p.start);
-    setEventId(p.event?.id || '');
+    setLastSelected(p.islandId);
+    updateView({ detail: detailForPeriod(p) });
   };
   useEffect(
     () =>
       registerAtlasTools(({ islandId, year, mode }) => {
         flushSync(() => {
-          setPinned(true);
           setFocusRequest((value) => value + 1);
-          setSelected(islandId);
-          setYear(year);
-          updateView({ selectedIds: [islandId], mode, yearRange: ranges.all });
-          setEventId('');
+          setLastSelected(islandId);
+          const island = islands.find((island) => island.id === islandId)!;
+          const period = periodsFor(
+            island,
+            mode,
+            calendarRange(ranges.all),
+          ).find((period) => period.start <= year && period.end > year);
+          updateView({
+            selectedIds: [islandId],
+            mode,
+            yearRange: ranges.all,
+            detail: period ? detailForPeriod(period) : null,
+          });
         });
       }),
     [updateView],
   );
   useEffect(() => {
-    const dismiss = () => setPinned(false);
-    window.addEventListener('popstate', dismiss);
-    return () => window.removeEventListener('popstate', dismiss);
+    const revealSharedDetail = () => {
+      if (readAtlasView(window.location.search).detail)
+        setFocusRequest((value) => value + 1);
+    };
+    revealSharedDetail();
+    window.addEventListener('popstate', revealSharedDetail);
+    return () => window.removeEventListener('popstate', revealSharedDetail);
   }, []);
   const eventScale = useMemo(
     () =>
@@ -268,7 +289,9 @@ export default function Home() {
                     <p className="chart-option-label">Periods represent</p>
                     <Tabs
                       value={mode}
-                      onValueChange={(v) => updateView({ mode: v as Mode })}
+                      onValueChange={(v) =>
+                        updateView({ mode: v as Mode, detail: null })
+                      }
                     >
                       <TabsList aria-label="What the periods represent">
                         <TabsTrigger value="administration">
@@ -389,17 +412,11 @@ export default function Home() {
                 scale={eventScale}
                 showClaims={showClaims}
                 showQualified={showQualified}
-                inspectedId={current.id}
-                eventId={eventId}
-                year={year}
-                pinned={pinned && selectedIds.includes(selected)}
+                pinnedTarget={pinnedTarget}
                 focusRequest={focusRequest}
-                onDismiss={() => setPinned(false)}
+                onDismiss={() => updateView({ detail: null })}
                 onSelect={selectPeriod}
-                onClaim={(island, e) => {
-                  setSelected(island.id);
-                  selectEvent(e);
-                }}
+                onClaim={(_, e) => selectEvent(e)}
               />
             </>
           )}

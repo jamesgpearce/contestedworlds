@@ -1,5 +1,12 @@
-import { islands, START, END, type Mode } from './history';
-import type { Arrangement } from './periods';
+import { islands, START, END, dateValue, type Mode } from './history';
+import {
+  periodsFor,
+  plottedEvent,
+  type Arrangement,
+  type Period,
+} from './periods';
+import { calendarRange } from './year-range';
+import type { InspectionTarget } from './chart-inspection';
 
 export const urlRegions: Record<string, string> = {
   'greater-antilles': 'Greater Antilles',
@@ -58,6 +65,7 @@ export type AtlasView = {
   axisSpacing: 'events' | 'time';
   showClaims: boolean;
   showQualified: boolean;
+  detail: string | null;
 };
 
 export function defaultAtlasView(): AtlasView {
@@ -69,7 +77,45 @@ export function defaultAtlasView(): AtlasView {
     axisSpacing: 'events',
     showClaims: true,
     showQualified: true,
+    detail: null,
   };
+}
+
+export function detailForPeriod(period: Period): string {
+  return period.event?.id || `${period.islandId}.initial`;
+}
+
+/** Resolve a stable record identity, never an array index or rounded year. */
+export function resolveAtlasDetail(view: AtlasView): InspectionTarget | null {
+  if (!view.detail) return null;
+  const island = islands.find(
+    (island) =>
+      view.detail === `${island.id}.initial` ||
+      island.events.some((event) => event.id === view.detail),
+  );
+  if (!island || !view.selectedIds.includes(island.id)) return null;
+  const range = calendarRange(view.yearRange);
+  const periods = periodsFor(island, view.mode, range);
+  const period = periods.find(
+    (period) => detailForPeriod(period) === view.detail,
+  );
+  if (period)
+    return {
+      islandId: island.id,
+      periodId: period.id,
+      eventId: period.event?.id,
+      year: period.start,
+    };
+  const event = island.events.find((event) => event.id === view.detail);
+  if (
+    !event ||
+    plottedEvent(event, view.mode) ||
+    (event.kind === 'claim' && !view.showClaims)
+  )
+    return null;
+  const year = dateValue(event.date);
+  if (year < range[0] || year > range[1]) return null;
+  return { islandId: island.id, eventId: event.id, year };
 }
 
 function decodeLegacyIslands(value: string | null): string[] | undefined {
@@ -143,13 +189,15 @@ export function readAtlasView(search: string): AtlasView {
     if (start >= START && end <= END && start <= end)
       view.yearRange = [start, end];
   }
+  view.detail = params.get('detail');
+  if (!resolveAtlasDetail(view)) view.detail = null;
   return view;
 }
 
 /** Own only our query keys: preserve unrelated parameters and section anchors. */
 export function atlasViewUrl(href: string, view: AtlasView): string {
   const url = new URL(href);
-  for (const key of ['islands', 'i', 'g', 'a', 'm', 'y', 'c', 'q'])
+  for (const key of ['islands', 'i', 'g', 'a', 'm', 'y', 'c', 'q', 'detail'])
     url.searchParams.delete(key);
   const selected = new Set(view.selectedIds);
   if (!islands.every((island) => selected.has(island.id))) {
@@ -162,6 +210,8 @@ export function atlasViewUrl(href: string, view: AtlasView): string {
     url.searchParams.set('y', view.yearRange.join('-'));
   if (!view.showClaims) url.searchParams.set('c', '0');
   if (!view.showQualified) url.searchParams.set('q', '0');
+  if (view.detail && resolveAtlasDetail(view))
+    url.searchParams.set('detail', view.detail);
   return `${url.pathname}${url.search.replaceAll('%2C', ',')}${url.hash}`;
 }
 
@@ -202,6 +252,7 @@ export function createAtlasUrlStore(browser: Browser) {
         ...previous,
         ...(typeof change === 'function' ? change(previous) : change),
       };
+      if (!resolveAtlasDetail(next)) next.detail = null;
       const href = atlasViewUrl(browser.location.href, next);
       const current = browser.location;
       if (href !== `${current.pathname}${current.search}${current.hash}`)
