@@ -1,8 +1,16 @@
 import { islands, START, END, type Mode } from './history';
 import type { Arrangement } from './periods';
 
-// Public URL contract: append new IDs, never reorder or reuse a position.
-// This deliberately does not depend on the dataset's display order.
+export const urlRegions: Record<string, string> = {
+  'greater-antilles': 'Greater Antilles',
+  'southern-caribbean': 'Southern Caribbean',
+  'lucayan-archipelago': 'Lucayan Archipelago',
+  'lesser-antilles': 'Lesser Antilles',
+  'virgin-islands': 'Virgin Islands',
+  'western-caribbean': 'Western Caribbean',
+};
+
+// Read-only compatibility with the original links. Never reorder these positions.
 export const islandUrlOrder = [
   'haiti',
   'cuba',
@@ -64,7 +72,7 @@ export function defaultAtlasView(): AtlasView {
   };
 }
 
-function decodeIslands(value: string | null): string[] | undefined {
+function decodeLegacyIslands(value: string | null): string[] | undefined {
   if (!value || !/^1\.[0-9a-z]{1,32}$/.test(value)) return;
   let mask = BigInt(0);
   for (const digit of value.slice(2))
@@ -80,11 +88,49 @@ function decodeIslands(value: string | null): string[] | undefined {
     .map((island) => island.id);
 }
 
+function decodeIslands(value: string | null): string[] | undefined {
+  if (value === null) return;
+  if (value === 'none') return [];
+  const tokens = new Set(value.split(',').map((token) => token.trim()));
+  if (tokens.has('all')) return islands.map((island) => island.id);
+  const regions = new Set(
+    [...tokens].map((token) => urlRegions[token]).filter(Boolean),
+  );
+  const selected = islands.filter(
+    (island) => tokens.has(island.id) || regions.has(island.region),
+  );
+  return selected.length ? selected.map((island) => island.id) : undefined;
+}
+
+function encodeIslands(ids: string[]) {
+  const selected = new Set(ids);
+  const tokens: string[] = [];
+  for (const [slug, region] of Object.entries(urlRegions)) {
+    const members = islands.filter((island) => island.region === region);
+    if (
+      members.length > 1 &&
+      members.every((island) => selected.has(island.id))
+    ) {
+      tokens.push(slug);
+      members.forEach((island) => selected.delete(island.id));
+    }
+  }
+  tokens.push(
+    ...islands
+      .filter((island) => selected.has(island.id))
+      .map((island) => island.id),
+  );
+  return tokens.join(',') || 'none';
+}
+
 /** Invalid fields fall back independently, leaving the rest of a link usable. */
 export function readAtlasView(search: string): AtlasView {
   const params = new URLSearchParams(search);
   const view = defaultAtlasView();
-  view.selectedIds = decodeIslands(params.get('i')) ?? view.selectedIds;
+  view.selectedIds =
+    (params.has('islands')
+      ? decodeIslands(params.get('islands'))
+      : decodeLegacyIslands(params.get('i'))) ?? view.selectedIds;
   if (params.get('g') === 'i') view.arrangement = 'islands';
   if (params.get('a') === 't') view.axisSpacing = 'time';
   if (params.get('m') === 's') view.mode = 'sovereignty';
@@ -103,16 +149,11 @@ export function readAtlasView(search: string): AtlasView {
 /** Own only our query keys: preserve unrelated parameters and section anchors. */
 export function atlasViewUrl(href: string, view: AtlasView): string {
   const url = new URL(href);
-  for (const key of ['i', 'g', 'a', 'm', 'y', 'c', 'q'])
+  for (const key of ['islands', 'i', 'g', 'a', 'm', 'y', 'c', 'q'])
     url.searchParams.delete(key);
   const selected = new Set(view.selectedIds);
   if (!islands.every((island) => selected.has(island.id))) {
-    const mask = islandUrlOrder.reduce(
-      (bits, id, index) =>
-        selected.has(id) ? bits | (BigInt(1) << BigInt(index)) : bits,
-      BigInt(0),
-    );
-    url.searchParams.set('i', `1.${mask.toString(36)}`);
+    url.searchParams.set('islands', encodeIslands(view.selectedIds));
   }
   if (view.arrangement === 'islands') url.searchParams.set('g', 'i');
   if (view.axisSpacing === 'time') url.searchParams.set('a', 't');
@@ -121,7 +162,7 @@ export function atlasViewUrl(href: string, view: AtlasView): string {
     url.searchParams.set('y', view.yearRange.join('-'));
   if (!view.showClaims) url.searchParams.set('c', '0');
   if (!view.showQualified) url.searchParams.set('q', '0');
-  return `${url.pathname}${url.search}${url.hash}`;
+  return `${url.pathname}${url.search.replaceAll('%2C', ',')}${url.hash}`;
 }
 
 type ViewUpdate =

@@ -43,11 +43,11 @@ test('The default view has a bare URL; an empty selection is explicit', () => {
   assert.equal(atlasViewUrl(origin, defaults), '/atlas');
   assert.deepEqual(fromUrl('/atlas'), defaults);
   const empty = { ...defaults, selectedIds: [] };
-  assert.equal(atlasViewUrl(origin, empty), '/atlas?i=1.0');
+  assert.equal(atlasViewUrl(origin, empty), '/atlas?islands=none');
   assert.deepEqual(roundTrip(empty), empty);
 });
 
-test('Every island, including bits above 32, survives a shared link', () => {
+test('Every island and older encoded links survive sharing', () => {
   const defaults = defaultAtlasView();
   assert.equal(new Set(islandUrlOrder).size, islandUrlOrder.length);
   assert.deepEqual(new Set(islandUrlOrder), new Set(defaults.selectedIds));
@@ -106,6 +106,48 @@ test('Published island bit positions remain stable as data evolves', () => {
   ]);
 });
 
+test('Readable selections combine whole regions and individual islands', () => {
+  const selected = readAtlasView('?islands=greater-antilles,saint-lucia,cuba');
+  assert.deepEqual(selected.selectedIds, [
+    'haiti',
+    'cuba',
+    'dominican',
+    'puerto-rico',
+    'jamaica',
+    'saint-lucia',
+  ]);
+  assert.equal(
+    atlasViewUrl(origin, selected),
+    '/atlas?islands=greater-antilles,saint-lucia',
+  );
+  assert.equal(
+    atlasViewUrl(origin, readAtlasView('?islands=cuba,saint-lucia')),
+    '/atlas?islands=cuba,saint-lucia',
+  );
+  assert.deepEqual(readAtlasView('?islands=unknown,cuba').selectedIds, [
+    'cuba',
+  ]);
+  assert.deepEqual(readAtlasView('?islands=unknown'), defaultAtlasView());
+  assert.deepEqual(readAtlasView('?islands=all'), defaultAtlasView());
+  assert.deepEqual(readAtlasView('?islands=none&i=1.2').selectedIds, []);
+  for (const region of [
+    ...new Set(JSON.parse(raw).islands.map((island) => island.region)),
+  ]) {
+    const members = JSON.parse(raw)
+      .islands.filter((island) => island.region === region)
+      .map((island) => island.id);
+    assert.deepEqual(
+      readAtlasView(`?islands=${region.toLowerCase().replaceAll(' ', '-')}`)
+        .selectedIds,
+      members,
+    );
+    assert.deepEqual(
+      roundTrip({ ...defaultAtlasView(), selectedIds: members }).selectedIds,
+      members,
+    );
+  }
+});
+
 test('All options and varied multi-island selections round-trip without losing precision', () => {
   const defaults = defaultAtlasView();
   let seed = 6143;
@@ -123,7 +165,6 @@ test('All options and varied multi-island selections round-trip without losing p
       showQualified: Boolean(n & 32),
     };
     assert.deepEqual(roundTrip(view), view);
-    assert.ok(atlasViewUrl(origin, view).length < 70);
     assert.equal(
       atlasViewUrl(origin, {
         ...view,
@@ -250,7 +291,7 @@ test('Back/forward restoration and later edits use the navigated view', () => {
   assert.deepEqual(store.getSnapshot().selectedIds, ['cuba']);
   assert.equal(store.getSnapshot().showQualified, true);
   store.update((view) => ({ showClaims: !view.showClaims }));
-  assert.equal(env.browser.location.search, '?i=1.2&m=s');
+  assert.equal(env.browser.location.search, '?islands=cuba&m=s');
   env.navigate('/atlas');
   assert.deepEqual(store.getSnapshot(), defaultAtlasView());
   unsubscribe();

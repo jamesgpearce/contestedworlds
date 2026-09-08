@@ -170,3 +170,7 @@ The Knights of Malta now use the Order's eight-pointed white cross on red, disti
 ## Shareable chart views · 8 September 2026
 
 The address bar now holds the selected islands, grouping, axis spacing, political mode, calendar range and marker choices. Default values disappear from the URL; other island selections use a versioned base-36 bitmask with fixed positions independent of dataset ordering. The URL restores through hydration, refresh and browser navigation, and changes replace the current history entry. Appearance stays personal and inspection stays transient. Tests cover stable links, all 36 island positions, invalid inputs, option combinations and URL synchronization.
+
+## Readable shared selections · 8 September 2026
+
+New links name regions and islands directly, for example `islands=greater-antilles,saint-lucia`. Complete groups collapse to their region slug; all islands remain the omitted default, and `none` preserves an empty selection. Older encoded links remain readable and convert on the next edit.
