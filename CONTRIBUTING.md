@@ -14,7 +14,7 @@ No local installation is required for this path. Small PRs about one historical 
 
 ## Check locally
 
-Python 3.10+ is needed for data validation. Run the application tests with Node:
+Use Node 22.13+ for data validation and application tests:
 
 ```sh
 npm run data:check
@@ -60,21 +60,21 @@ For same-day transitions, array order is meaningful. Preserve intervening change
 
 Prefer treaties, local scholarship, museums, libraries, archives and government histories. A source entry needs `id`, `title`, `publisher`, `type`, an HTTPS `url`, and an `accessed` date in `YYYY-MM-DD` format. A citation establishes provenance, not certainty. Explain conflicting accounts instead of hiding them. Write a short paraphrase rather than copying whole passages from a copyrighted publication.
 
-See [the editorial method](data/methodology.md) for geographic scope, Indigenous histories, sovereignty and partial occupations. Structural validation cannot decide which historical interpretation is right.
+See [the editorial method](documentation/methodology.md) for geographic scope, Indigenous histories, sovereignty and partial occupations. Structural validation cannot decide which historical interpretation is right.
 
 ## Adding an island, region or power
 
 Discuss substantial scope changes in an issue first so they can receive geographic and historical review. For a new track:
 
 - Add `data/islands/<id>.json` and list its ID in `data/scope.json`; add a modern place there if needed.
-- Add an unambiguous short code to `islandUrlCodes` in `lib/atlas-url.ts`, plus a flag mapping in `lib/island-flags.ts` if appropriate. New regions need a slug in `urlRegions`.
-- Add a flag asset and retain its license if it is not already bundled. New powers need a reviewed symbol in `components/power-symbol.tsx`.
+- Add an unambiguous short code to `islandUrlCodes` in `src/lib/atlas-url.ts`, plus a flag mapping in `src/lib/island-flags.ts` if appropriate. New regions need a slug in `urlRegions`.
+- Add a flag asset and retain its license if it is not already bundled. New powers need a reviewed symbol in `src/components/power-symbol.tsx`.
 - Run the full checks. URL mapping tests catch missing or duplicate track codes.
 
 Ordinary date, prose and source corrections need none of these code changes.
 
 ## Code contributions
 
-Use `npm ci`, then `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, and `npm run check:export`. Preserve stable record identities, separate hover from pinned state, keep refresh free of initialization animations, and respect reduced motion. See [the architecture notes](docs/architecture.md).
+Use `npm ci`, then `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`, and `npm run check:export`. Preserve stable record identities, separate hover from pinned state, keep refresh free of initialization animations, and respect reduced motion. See [the architecture notes](documentation/architecture.md).
 
 Data contributions use [CC BY 4.0](data/LICENSE.md); code contributions use [MIT](LICENSE). Contributions must be yours to license. Linked publications keep their own rights.

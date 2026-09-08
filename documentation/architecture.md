@@ -1,17 +1,19 @@
 # Code structure
 
-The static page uses React component APIs and types, with Vite aliasing the browser runtime to `preact/compat`. Rendering and interaction run in the browser; data compilation is a dependency-free Python step. There is no runtime server. The npm dependency set contains the UI primitives actually used by the atlas; obsolete starter modules and the former line-chart renderer are retained only in Git history.
+The static page uses React component APIs and types, with Vite aliasing the browser runtime to `preact/compat`. Rendering and interaction run in the browser; data compilation is a dependency-free Node step. There is no runtime server. The npm dependency set contains the UI primitives actually used by the atlas; obsolete starter modules and the former line-chart renderer are retained only in Git history.
 
 ## Data to pixels
 
 1. `data/islands/*.json`, bibliography, powers, eras and scope are the editable research sources.
-2. `scripts/build-data.mjs` validates every input before generating `src/lib/caribbean.json` and downloadable JSON/CSV/reference files. Unknown fields, malformed text, invalid dates, missing citations and claim/control confusion fail here.
+2. `scripts/build-data.mjs` validates every input before generating `src/lib/caribbean.json` and the site's JSON/CSV downloads in `public/data/`. Unknown fields, malformed text, invalid dates, missing citations and claim/control confusion fail here.
 3. `lib/history.ts` supplies shared types, date formatting and political state. Date formatters are reused.
 4. `lib/periods.ts` derives periods with stable IDs, clips visible geometry and packs simultaneous holdings into lanes. Clipping retains the real historical endpoint used by the card.
 5. `lib/event-axis.ts` maps the selected dates onto equal event intervals; `lib/year-range.ts` defines inclusive calendar windows.
 6. `components/history-chart.tsx` renders SVG rectangles and connectors. It caches labels, routes and claim-to-period matches; hover and animation do not repeatedly format the whole chronology.
 
 `lib/chart-inspection.ts` resolves the island, record, dates, power and citations together. A card must never combine information from different targets. The initial period uses the island's Indigenous/context description. Claim records retain their exact dates and claimant.
+
+Contributor and agent guidance belongs in `documentation/`, including the [editorial method](methodology.md), with entry points in README and CONTRIBUTING. The generated `public/data/` directory contains only files linked by the site: `caribbean.json`, `events.csv` and `editorial-notes.json`. Data generation replaces that directory, and Vite copies it to `docs/data/` when building the site.
 
 ## State and interaction
 

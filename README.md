@@ -7,7 +7,7 @@ An interactive atlas of the Caribbean through conquest, treaties, occupation and
 **Most contributions belong in the data.** Correct a date, add a source, or explain a disputed transition in [data/islands/](data/islands/). Each island is an ordinary, diffable JSON file; you do not need to edit the visualization.
 
 - [Contribute a historical correction](CONTRIBUTING.md)
-- [Editorial method and scope](data/methodology.md)
+- [Editorial method and scope](documentation/methodology.md)
 - [Deploy to GitHub Pages and connect a domain](documentation/deployment.md)
 - [How shared URLs work](documentation/sharing-views.md)
 - [Code structure and validation](documentation/architecture.md)

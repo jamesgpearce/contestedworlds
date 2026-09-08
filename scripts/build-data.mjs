@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -414,6 +414,7 @@ async function compileData() {
 }
 
 async function writeOutputs(compiled) {
+  await rm(outputRoot, { recursive: true, force: true });
   await mkdir(outputRoot, { recursive: true });
   const compact = `${JSON.stringify(compiled)}\n`;
   await writeFile(join(outputRoot, 'caribbean.json'), compact);
@@ -474,22 +475,6 @@ async function writeOutputs(compiled) {
   await writeFile(
     join(outputRoot, 'editorial-notes.json'),
     `${JSON.stringify(notes, null, 2)}\n`,
-  );
-  const bibliography = [
-    '# Bibliography',
-    '',
-    `Compiled ${compiled.meta.compiled}. See methodology.md for scope and editorial cautions.`,
-    '',
-    ...compiled.sources.map(
-      (source) =>
-        `- **${source.id}** — ${source.publisher}. [${source.title}](${source.url}). ${source.type}; consulted ${source.accessed}.`,
-    ),
-    '',
-  ];
-  await writeFile(join(outputRoot, 'bibliography.md'), bibliography.join('\n'));
-  await writeFile(
-    join(outputRoot, 'methodology.md'),
-    await readFile(join(dataRoot, 'methodology.md')),
   );
 }
 

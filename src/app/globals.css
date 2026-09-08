@@ -1045,6 +1045,9 @@ footer > span:first-child {
   flex: none;
   filter: saturate(0.65);
 }
+.period-row-label.power-label {
+  left: 8px;
+}
 .period-row-label.above-row {
   left: 8px;
   font-size: 0.875rem;
@@ -1421,11 +1424,18 @@ details[open] > summary > .disclosure-chevron {
   justify-content: space-between;
   gap: 12px;
 }
-.period-card-heading h2 {
+.period-card-heading h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 1.125rem;
   font-weight: 650;
   line-height: 1.3;
   letter-spacing: -0.02em;
+}
+.period-card-flag {
+  flex: none;
+  object-fit: contain;
 }
 .period-card-title {
   min-width: 0;

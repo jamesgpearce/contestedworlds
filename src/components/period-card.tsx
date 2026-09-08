@@ -2,6 +2,8 @@ import { useLayoutEffect, useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { Cite } from '@/components/citations';
 import { owners, powerColor } from '@/lib/history';
+import { islandFlags } from '@/lib/island-flags';
+import { assetPath } from '@/lib/site-config';
 import type { Inspection } from '@/lib/chart-inspection';
 import type { Period } from '@/lib/periods';
 import { onViewportChange } from '@/lib/utils';
@@ -94,7 +96,20 @@ export function PeriodCard({
       >
         <div className="period-card-heading">
           <div className="period-card-title">
-            <h3>{inspection.island.name}</h3>
+            <h3>
+              {islandFlags[inspection.island.id] && (
+                <img
+                  className="period-card-flag"
+                  src={assetPath(
+                    `/flags/${islandFlags[inspection.island.id]}.svg`,
+                  )}
+                  width={24}
+                  height={18}
+                  alt=""
+                />
+              )}
+              <span>{inspection.island.name}</span>
+            </h3>
             {onShowIsland && (
               <button
                 type="button"
