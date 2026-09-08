@@ -1,0 +1,30 @@
+name: Historical correction or addition
+description: Improve an island's chronology, interpretation, or sources.
+title: '[History] '
+body:
+  - type: input
+    id: island
+    attributes:
+      label: Island and date or event ID
+      placeholder: Saint Lucia, 1763, saint-lucia-12
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: What should change?
+      description: Include the current statement and your proposed correction. Distinguish claims, administration, and sovereign title where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link the source and identify the relevant page or passage. A brief excerpt or your own summary is enough.
+    validations:
+      required: true
+  - type: textarea
+    id: uncertainty
+    attributes:
+      label: Extent and uncertainty
+      description: Does this concern the whole island, one settlement, a group, a claim, or an occupation? Note conflicting sources or approximate dates.

@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      react:
+        patterns: [react, react-dom, react-server-dom-webpack, '@types/react', '@types/react-dom']
+      build:
+        patterns: [vite, vinext, '@vitejs/*', '@openai/sites-vite-plugin']
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

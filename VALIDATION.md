@@ -1,36 +1,26 @@
 # Validation record
 
-6 September 2026.
+8 September 2026. Commands run from the repository root.
 
-- All 31 jurisdictions in the supplied scratch pad are represented, in 36 tracks.
-- The contributor compiler validates all 433 events and 68 bibliography entries before generating output. Thirty-six event records explicitly qualify their date or extent.
-- Nine contributor safety tests pass, including a harmless text correction, a broken source, invalid calendar dates, claim/control confusion, power-name typos, date precision, event ordering, duplicate JSON keys, and deterministic compilation.
-- Seven tests of the real timeline module pass: Guadeloupe's Swedish title under British administration, Haiti's occupation without annexation, Havana's limited occupation, the Treaty of Basel preceding administrative change, exact-day transitions, every path's finite coordinates and correct ending state in both modes and all three periods, and preserved date precision.
-- Four appearance tests pass: first-paint preference resolution, persistence across reloads, live system changes with explicit overrides, and blocked storage/cross-tab synchronization.
-- TypeScript and the implemented application/used-primitives lint pass. The unused generated component library is outside the application lint command.
-- The production static export passes. The local route returns HTTP 200. An SVG title hydration mismatch found in development was corrected; the subsequent server logs show successful renders without that warning.
-- The initial published version’s WebMCP tools were checked after the browser connection issue was resolved. The appearance update preserves those tools and the historical dataset.
-- Responsive browser checks covered 320×568, 390×844, 768×1024 and 1440×900 viewports. The full chart fits the opening viewport without page overflow at the tested phone sizes. The island picker (including long names), period controls, sovereign view, table, chart-event selection and event-detail link were exercised; light and dark phone layouts were inspected. A multi-part SVG title hydration issue found on a fresh reload was fixed and the reload verified. These are viewport checks, not physical-device or screen-reader testing.
-- Three geometry checks cover every historical path at phone and desktop widths, legible endpoint/date-tick spacing, and restrained Bézier bends that keep exact transition dates, preserve same-day order and never overshoot their power rows or the date range.
+## Automated checks
 
-Historical validation is distinct from structural validation. Many fine-grained colonial dates rely on a secondary chronology. Qualified early sequences should receive specialist review and correction through the documented contribution process.
+- `npm test`: 15 Python contributor checks and 40 JavaScript/TypeScript domain checks pass. These cover dataset shape and references, real calendar dates, stable event identities, URL restoration, claims versus control, precise period dates, clipping, lane packing, event spacing, theme preferences and Analytics configuration.
+- `npm run lint` and `npm run typecheck` pass for the application and its remaining component primitives.
+- `npm run build && npm run check:export` checks the deployable static artifact: local asset references, downloads, canonical and social metadata, image dimensions, crawler files and the absence of a provisional server-rendered chart.
+- The static export is checked both at `/` and at the GitHub project path `/contestedworlds`. The latter is flattened before upload, because Pages supplies that path itself.
+- The 1200×630 share card uses the real Greater Antilles period geometry, event axis and local SVG flags. The generated PNG was visually inspected.
 
-## Chart experiments
+The audited source retains 36 island histories, 433 event records and 68 bibliography entries. No historical dates or power transitions were changed by this code audit. Fine-grained sequences and qualified dates still warrant specialist review; structural validation is not historical proof.
 
-- 28 automated checks pass: nine contributor checks, twelve history/geometry checks, three event-axis checks and four appearance checks.
-- Grouped power rows retain every administration or sovereign in the selected island’s period. Other histories retain an explicit Other destination; expansion and comparison restore all fifteen rows.
-- Event-axis tests cover duplicate dates, empty periods, equal event spacing, monotonic interpolation, inverse navigation and label spacing. Width tests distinguish Guadeloupe’s 1813 title transfer from its unchanged administration and verify the selected date window.
-- Browser checks covered 320×568, 390×844, 768×1024 and 1440×900, including dark mode, the appearance radio menu, long island names, grouped/expanded power rows, event spacing, keyboard stepping through dates, and the recorded-change width legend. The narrow phone chart fits without horizontal page overflow. A fresh tablet reload reported no new browser errors. Wider label clearance was measured and corrected.
-- Existing chronology tests and all canonical historical JSON files remain unchanged in substance. No historical population or area data was introduced. These are browser viewport checks, not physical-device or screen-reader testing.
+## Changes caught by the audit
 
-## Shared-period atlas · 7 September 2026
+- A viewing window ending mid-period could replace a tooltip's historical end date with the window boundary. Periods now retain their actual next event; a regression check covers clipped histories in both political modes.
+- Hover and animation renders repeatedly formatted every period date and resolved every claim. Those derived records are now memoized, and date formatters are reused.
+- Removed retired chart geometry, unused starter components, unreferenced style rules and their unused dependencies. Updated affected runtime/build dependencies and retained third-party notices.
+- Added stricter contributor validation for unknown fields, malformed optional notes, coordinates, source URLs, non-finite numbers and event/context identifiers. Validation completes before generated files are written.
 
-This section supersedes the old single-line layout and width experiment above.
+## Verification boundaries
 
-- 33 automated checks pass: nine contributor checks, twelve history/geometry checks, three event-axis checks, four appearance checks and five period/packing checks.
-- Period checks cover every island in administration and sovereignty modes across all three ranges: complete coverage, correct interior power, stable keys when clipped, deterministic packing without concurrent overlap, and both layouts fitting their bands at phone and desktop widths. Context-only records are excluded from the event grid; claims are included only when enabled.
-- Browser checks exercised checkbox selection without closing the menu, removing the inspected island, retaining just one island, all 36 islands (338 administration rectangles), both arrangements, event spacing, keyboard stepping within and between islands, and precise selection of nearby claim markers. A hit-target overlap between the two early Saint Lucia claims was found and fixed by staggering the markers.
-- The arrangement transition was observed in the browser: sampled rectangles retained their IDs, x positions and widths while their y coordinates changed. The implementation respects reduced motion and cancels or finishes interrupted animations. Reduced-motion behavior was inspected in code; it was not tested by changing the device's system setting.
-- Viewports checked: 320, 390, 768 and 1440 pixels wide. The measured charts fit without horizontal page overflow after hydration, with readable labels above phone bands. Both site appearances were inspected. A containment rule also prevents the provisional server-rendered chart width from overflowing before measurement.
-- A fresh tablet load reported no browser console errors. An initial keyboard probe ran before hydration; after the controls were ready, keyboard movement selected and focused the correct period on the next island. These are browser viewport checks, not physical-device or screen-reader testing.
-- TypeScript, application lint and the production static export pass. The 433 canonical event records and 68 sources are unchanged; generated periods do not alter the contributor dataset. No new dependencies, fonts, map SDK or population/area metadata were introduced.
+This final audit used source inspection, automated checks, static artifact checks and a generated-image review. It did **not** repeat interactive browser, physical-device or screen-reader testing. Earlier browser observations are preserved in [docs/validation-history.md](docs/validation-history.md); some describe superseded interface experiments.
+
+GitHub Actions, public-domain DNS/HTTPS, Analytics Realtime and social-crawler retrieval require the repository and domain to be published. The setup and live checks are in [docs/deployment.md](docs/deployment.md).

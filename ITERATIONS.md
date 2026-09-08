@@ -210,3 +210,9 @@ Method now opens with James Pearce's motivation for making the atlas, alongside 
 ## Restore the saved arrangement before drawing · 8 September 2026
 
 Chart initialization now waits for both the browser's URL snapshot and the measured container width. Static defaults are never displayed as selected controls or animated into a saved arrangement. Later changes between By Island and By Power still animate.
+
+## Repository and deployment audit · 8 September 2026
+
+Fixed period metadata at clipped date-window boundaries and memoized expensive chart labels/claim lookups. Removed retired geometry, unused UI/CSS and dependencies, and updated the runtime/build stack. Stronger Python validation catches malformed contributor edits before generation.
+
+Prepared data-first contribution instructions, correction templates, CI, a GitHub Pages workflow and custom-domain instructions for contestedworlds.com. Added canonical/social metadata, a Greater Antilles By Power share card generated from the chart's real geometry, and the supplied Analytics tag with production-host and privacy-signal checks. Public site configuration lives in site.config.json; both root and project-path exports are checked.

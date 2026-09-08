@@ -8,6 +8,12 @@
     "pnpm-lock.yaml",
     "yarn.lock",
     "bun.lock",
-    "bun.lockb"
+    "bun.lockb",
+    "dist/**",
+    ".vinext/**",
+    "public/**",
+    "data/**",
+    "lib/caribbean.json",
+    "docs/validation-history.md"
   ]
 }

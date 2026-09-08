@@ -1,0 +1,36 @@
+# Code structure
+
+The static page is built with React 19, Vinext and Vite. Rendering and interaction run in the browser; data compilation is a dependency-free Python step. There is no runtime server. The npm dependency set contains the UI primitives actually used by the atlas; obsolete starter modules and the former line-chart renderer are retained only in Git history.
+
+## Data to pixels
+
+1. `data/islands/*.json`, bibliography, powers, eras and scope are the editable research sources.
+2. `scripts/build-data.py` validates every input before generating `lib/caribbean.json` and downloadable JSON/CSV/reference files. Unknown fields, malformed text, invalid dates, missing citations and claim/control confusion fail here.
+3. `lib/history.ts` supplies shared types, date formatting and political state. Date formatters are reused.
+4. `lib/periods.ts` derives periods with stable IDs, clips visible geometry and packs simultaneous holdings into lanes. Clipping retains the real historical endpoint used by the card.
+5. `lib/event-axis.ts` maps the selected dates onto equal event intervals; `lib/year-range.ts` defines inclusive calendar windows.
+6. `components/history-chart.tsx` renders SVG rectangles and connectors. It caches labels, routes and claim-to-period matches; hover and animation do not repeatedly format the whole chronology.
+
+`lib/chart-inspection.ts` resolves the island, record, dates, power and citations together. A card must never combine information from different targets. The initial period uses the island's Indigenous/context description. Claim records retain their exact dates and claimant.
+
+## State and interaction
+
+`lib/atlas-url.ts` owns the query contract and the URL store. `use-atlas-view.ts` connects it through `useSyncExternalStore`. Static HTML cannot know the URL query or container width: the plot waits for both before its first visible frame. Restoration snaps into place; deliberate grouping changes animate. Reduced motion makes transitions immediate.
+
+Selection membership, a pinned target and transient hover are distinct. Hover never writes the URL. A clicked target holds its details until replaced or dismissed. The card uses the rectangle's bounds, not pointer coordinates. Chart marks are outside the Tab order at the project's chosen interaction boundary; ordinary controls retain keyboard behavior, and a selected island has a linked chronology and Previous/Next controls.
+
+`site.config.json` and `lib/site-config.ts` centralize the public URL, Analytics ID and asset prefix. `next.config.ts` supplies the same base path to Vinext. `scripts/prepare-static.mjs` prepares a root-mounted artifact for Pages; `check-export.mjs` checks actual generated asset links and metadata under both root and project paths.
+
+## Validation
+
+- Python tests exercise contributor mistakes and ensure deterministic compilation.
+- Node tests exercise the real TypeScript timeline, periods, URL, theme and analytics modules. Historical fixtures explain important distinctions such as occupation without annexation.
+- Lint covers all application components; TypeScript checks the complete source tree.
+- Static-export checks verify referenced files, metadata, image dimensions, downloads and absence of a provisionally rendered chart.
+- CI runs data checks separately, then application tests and root/project-path exports. Pages deployment is gated on those checks.
+
+The audit's automated checks are not a new physical-device or screen-reader certification. Older browser observations are archived in [validation-history.md](validation-history.md); they should not be confused with evidence for the current build. Historical accuracy still requires source review.
+
+## Small changes stay small
+
+Keep original record IDs stable. Prefer explicit, pure timeline transformations to another state store or charting dependency. Do not derive population, land area or historical certainty from rectangle thickness. Regenerate share assets through `npm run social:build`; they reuse the plotting modules and actual Greater Antilles records.

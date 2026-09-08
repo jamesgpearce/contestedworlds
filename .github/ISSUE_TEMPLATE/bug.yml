@@ -1,0 +1,18 @@
+name: Visualization or interaction bug
+description: Report incorrect rendering, accessibility, or interaction.
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Link to the affected view
+      description: Copy the address bar so the selected islands and options are included.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device

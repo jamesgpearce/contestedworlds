@@ -1,86 +1,63 @@
 # Contested Worlds
 
-An interactive history of Caribbean political power, 1450–2026. Thirty-six tracks cover the 31 places in the original research scope. The visualization distinguishes administration from sovereign title, and European claims from effective control.
+An interactive atlas of the Caribbean through conquest, treaties, occupation and independence. Follow 36 island histories from 1450 to 2026, grouped either by island or by political power.
 
-## Historical corrections
+![Greater Antilles histories grouped by power](public/social-card.png)
 
-**Edit `data/islands/<island>.json`.** These are normal, formatted JSON files with stable event IDs. Bibliography entries live in `data/sources.json`. No visualization code needs to change for a corrected date or explanation. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [editorial method](data/methodology.md).
+**Most contributions belong in the data.** Correct a date, add a source, or explain a disputed transition in [data/islands/](data/islands/). Each island is an ordinary, diffable JSON file; you do not need to edit the visualization.
 
-The data is a research edition with explicit qualifications, not a claim of archival certainty. Source links document the evidence; structural validation cannot determine historical truth.
+- [Contribute a historical correction](CONTRIBUTING.md)
+- [Editorial method and scope](data/methodology.md)
+- [Deploy to GitHub Pages and connect a domain](docs/deployment.md)
+- [How shared URLs work](docs/sharing-views.md)
+- [Code structure and validation](docs/architecture.md)
 
-## Develop
+## Correct the data
 
-Requires Node 22.13+ and Python 3.10+.
+Open the island file on GitHub, choose **Edit**, and propose a pull request. Use an existing citation from [data/sources.json](data/sources.json), or add one with a specific page or passage. Preserve existing event IDs. The automated checks run on your PR.
+
+For a local check, only Python 3.10+ is needed:
+
+```sh
+python3 scripts/build-data.py --check
+```
+
+The compiler checks structure, dates, chronology, power IDs and citations. Historical accuracy still needs human judgment. Disputed dates and geographic limits should be explicit in the record, rather than silently resolved into false precision.
+
+## Run the atlas
+
+Requires Node 22.13+ and Python 3.10+. `.nvmrc` selects Node 22.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Both development and production regenerate the compact runtime dataset from the editable source files. To edit data with the server running, run `npm run data:build` after saving; the browser then updates through the normal development reload.
+When editing JSON while the server is running, use `npm run data:build` to refresh the runtime dataset.
 
-```sh
-npm run data:check  # Check historical data without writing generated files.
-npm test           # Contributor validation and timeline/geometry contracts.
-npm run lint       # Implemented application and the UI primitives it uses.
-npm run build      # Pre-render the page and create dist/client/.
-```
-
-Generated `lib/caribbean.json`, `public/data/`, and `dist/` are ignored by Git. The included GitHub Actions workflow checks dataset contributions and the production build. A JSON Schema supplies editor assistance; the Python compiler additionally verifies calendar dates, citation references, chronological order and political semantics.
-
-## Sharing a view
-
-Copy the address bar to share the selected islands, chart options and pinned details. Refresh restores that view. Changes replace the current URL without reloading or adding a browser-history entry for every checkbox. Defaults are omitted; a default view has no query string. Clicking a rectangle or claim marker adds its stable identity to the URL; Previous/Next changes it and closing the card removes it. Shared links restore and reveal the pinned card and its About section. Appearance remains a personal device preference; transient hover does not change the URL.
-
-For example, `?islands=cu,lc&g=i&a=t&y=1600-1850` selects Cuba and Saint Lucia, grouped by island on a calendar axis from 1600 through 1850.
-
-The compact query contract lives in `lib/atlas-url.ts`:
-
-| Key | Non-default value | Omitted default |
-| --- | --- | --- |
-| `islands` | Comma-separated country/territory codes or region slugs; `none` selects none | All islands |
-| `g` | `i` for island grouping | Power grouping |
-| `a` | `t` for calendar time | Event spacing |
-| `m` | `s` for sovereign title | Administration |
-| `y` | Inclusive `start-end` calendar years | Full dataset range |
-| `c` | `0` to hide claim markers | Visible |
-| `q` | `0` to hide qualified-change markers | Visible |
-| `detail` | `code.record-suffix`, or `code.initial` for an initial period | No pinned card |
-
-For example, `?islands=dm&detail=dm.initial` opens its initial Indigenous period, while `detail=lc.12` identifies a dated record. Targets use record identities rather than array positions or rounded dates, including clipped periods and claim cards. Removing the target island, excluding its period, hiding its claim marker, or passing an unknown record clears the pin.
-
-Island codes use lowercase [ISO country/territory identifiers](https://unstats.un.org/unsd/methodology/m49/overview/), with atlas-specific suffixes where a country has multiple tracks:
-
-| Country or territory | Individual tracks |
+| Command | Purpose |
 | --- | --- |
-| `tt` | `tt-tr` Trinidad, `tt-to` Tobago |
-| `ag` | `ag-a` Antigua, `ag-b` Barbuda |
-| `kn` | `kn-k` Saint Kitts, `kn-n` Nevis |
-| `vi` | `vi-c` Saint Croix, `vi-t` Saint Thomas, `vi-j` Saint John |
-| `bq` | `bq-bo` Bonaire, `bq-se` Sint Eustatius, `bq-sa` Saba |
+| `npm run data:check` | Validate the editable research files without writing output |
+| `npm test` | Data, historical semantics, URL state, geometry, appearance and analytics checks |
+| `npm run lint` | Lint the entire application and its UI components |
+| `npm run typecheck` | Check TypeScript |
+| `npm run build` | Export the static site to `dist/client/` |
+| `npm run check:export` | Verify generated assets, metadata, image dimensions and deployment paths |
+| `npm run preview` | Serve the exported site locally |
+| `npm run social:build` | Rebuild the share card from actual Greater Antilles periods |
 
-The bare country code selects all its tracks; a suffix selects one. Input is case-insensitive. Region slugs such as `greater-antilles` can be mixed with codes, and are emitted when they shorten the list. `ve` identifies the dataset's Nueva Esparta track. Pinned details always use an unambiguous island code and preserve the record suffix, including leading zeros. The mapping lives in `islandUrlCodes`; its keys must cover the dataset and its values must be unique. Previous URL formats are not supported. Invalid fields fall back individually, and unrelated query parameters and section anchors are preserved.
+GitHub Actions checks data separately before checking the application and both static URL layouts. A push to `main` publishes through the Pages workflow after validation. First enable **Settings → Pages → GitHub Actions**; see the [deployment guide](docs/deployment.md).
 
-## Design and accessibility
+## What the chart means
 
-The original two-territory mark uses a stepped open boundary and remains legible at favicon size. The masthead follows the page appearance; the SVG favicon follows the browser’s light/dark preference. A standalone mark is available in `public/mark.svg`.
+**By Island** gives each island a row. **By Power** packs simultaneous holdings into separate lanes and connects successive periods. Colors identify powers. Vertical distance and rectangle thickness do not measure population, area, or importance.
 
-The plot uses the same native SVG rectangles in two arrangements. Islands gives each selected island a row; Powers packs periods into parallel lanes inside each political-power band. Non-overlapping periods may share a lane, with a preference for keeping returning islands in their previous lane. The chart animates the same keyed rectangles vertically and changes their height over 620 ms; horizontal positions and power colors stay fixed. Thin cubic Bézier connectors appear in Powers. Reduced-motion preferences make the switch immediate, and resizing or changing the selection does not trigger a regrouping animation. Neither lane position nor rectangle height represents population, land area or importance.
+Administration and sovereign title are distinct. Claims are annotations, not transfers of control. Time spacing measures elapsed years; event spacing gives equal gaps to relevant dates for the selected islands. The 1450 edge is a display boundary, not the beginning of Indigenous history. Flags are contemporary identifiers, not period reconstructions.
 
-The checkbox picker selects islands individually or by region. Region checkboxes show selected counts and a mixed state for partial selections; clicking a partial region selects the rest, while clicking a complete region clears it. Select all and Clear selection work across regions. An empty selection shows an invitation to choose islands without stale island details. All 36 may be included; dense selections expand vertically rather than hiding concurrent holdings. The closed picker names all islands, one complete region, one island, or the first two islands and the remaining count. Individual and regional checkboxes are the single place to change membership; there is no separate selection summary or tag list. Hovering a rectangle highlights its island and opens an attached card with the power, full dates, initiating event, direct citations and evidence notes. Clicking pins the island and card at the rectangle corner without recentering; other hovers do not replace a pin. Clicking another rectangle replaces the pin, while clicking elsewhere or pressing Escape clears it. Hover follows each rectangle or claim directly, including targets in the gap above the card. Click the target to hold its details before moving into the card. The close button dismisses it on mouse and touch; there is no separate pin button or status label. Inspection never changes selection membership, axes or stacking. Chart rectangles and claim markers are outside the Tab order; the chart does not intercept Tab or arrow keys or move focus when revealing a shared record. Native previous/next controls and linked chronology provide alternatives to precise pointing. Claim markers are shown by default and their cards explicitly name the claimant with “Claim by”. Claim diamonds sit at their exact dates within the corresponding island period, with their outline identifying the claimant; uncertain changes retain hollow markers.
+Hover for a period's explanation and sources; click to hold it. Copy the URL to share islands, options and a selected record. The atlas fits narrow screens, supports reduced motion and offers a linked chronology beside a selected island. It uses native SVG, system fonts and locally bundled data. There is no database or map service.
 
-The top bar offers By Island / By Power when multiple islands are selected; a single island uses power grouping. The table experiment remains in Git history. Options contains Time / Events for x-axis spacing, Administration / Sovereign title, editable start and end years, regional presets, and independent checkboxes for claim and qualified-change markers. Date presets come directly from the Regional history records. Ranges include the final calendar year and may cover a single year; invalid entries leave the chart unchanged. Year edits apply on blur or Enter. Hiding qualified markers keeps their periods and evidence notes available. The panel stays open while controls change and supports Escape to return focus to the trigger. Both chart arrangements fit the available width. On phones power labels sit above their bands. In power grouping, a compact left column names each island beside its first visible rectangle; these names follow the active date window, including islands starting in Shared / unsettled. The period card always sits below the rectangle, aligned to its left edge or to its right edge when the card would overflow the screen. A final horizontal clamp handles narrow screens where neither corner can fit the full card. Pointer position does not affect placement; long cards scroll internally on small screens. Power label cells carry a faint tint matching their periods in both appearances, filling the left column behind the flag, heading and starting island names. On narrow charts the tint also fills the heading strip above the row. The color legend appears only in the island arrangement, where row labels cannot identify the powers; marker symbols are explained beside their option checkboxes. A muted palette runs through power periods, map dots and the site's light and dark surfaces. The sticky appearance button cycles through Auto (following the system), Light and Dark, with pre-paint preference resolution, persistent overrides, live system changes and a storage-failure fallback. Interface controls use Lucide SVG icons: Sun–Moon for system appearance, Sun for light, Moon for dark, and rotating chevrons for native disclosure sections.
+## Licenses and credits
 
-Opening periods describe the island’s Indigenous societies from the dataset instead of its whole-history summary. The island background appears expanded for a newly pinned island, combining historical notes, the locator map and every dated record, including contextual and claim records absent from the plotted periods. Choosing a chronology entry brings its card into view and expands the time window if necessary. There is no duplicate period panel below the chart. The Context, Sources and Method blocks follow in the same order as their introductory links, with regional history, the complete bibliography and dataset downloads, then scope, uncertainty and the flag key. The masthead gives the atlas name and Caribbean subtitle; quiet links beside the subtitle open context, sources and method. Duplicate event cards, the lower island picker and story tiles have been removed.
+Code and original interface assets: [MIT](LICENSE), © 2026 James Pearce. Original dataset prose and structure: [CC BY 4.0](data/LICENSE.md). Source publications retain their rights.
 
-The atlas opens with all 36 islands selected, grouped by power with event spacing and claim markers visible. Time uses calendar spacing. Events uses the sorted union of relevant administration or sovereignty changes for the selected islands, plus claims only when enabled. Contextual records do not add hidden gaps. Simultaneous dates share a tick; period boundaries anchor the range; labels thin out while retaining every minor tick. Switching the arrangement does not change that scale. The earlier line-width experiment is retained in Git history, not applied to rectangles.
-
-Flags are contemporary identifiers, not reconstructions of period flags. Courland and Gran Colombia use lettermarks, the Order of Malta uses its eight-pointed white cross on red, and multi-polity categories use neutral symbols. The expanded key gives full names and explains the convention. Power and island labels use SVG assets from [flag-icons](https://github.com/lipis/flag-icons), with its MIT notice retained in `public/flags/LICENSE`. See [ITERATIONS.md](ITERATIONS.md) for the separate design checkpoints.
-
-The site is statically exported, with system fonts and no database, analytics, remote font request, map SDK or WebGPU requirement. JSON, CSV, bibliography and editorial notes are downloadable from the page. `dist/client/` can be served by a static host.
-
-## Research and assets
-
-Original dataset prose and structure: CC BY 4.0. Source publications retain their rights. Coastlines: Natural Earth public-domain 1:110m land, clipped to the Caribbean. Island points are approximate geographic locators, not historical boundaries. Code is licensed under the [MIT License](LICENSE). Dataset corrections and source-backed pull requests are welcome at [jamesgpearce/contestedworlds](https://github.com/jamesgpearce/contestedworlds); see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-A Sites manifest is included for private preview hosting. It does not make the source repository or site public.
+[SVG flags](public/flags/LICENSE) come from flag-icons (MIT). Coastlines come from Natural Earth (public domain); see [third-party credits](THIRD_PARTY_NOTICES.md). Google Analytics is optional and configured at build time; local previews do not send visits. [Deployment settings and privacy signals](docs/deployment.md#analytics).
