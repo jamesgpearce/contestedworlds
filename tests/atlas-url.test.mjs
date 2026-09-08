@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import test from 'node:test';
+import { test } from 'vitest';
 import ts from 'typescript';
 
 const read = (path) => readFile(new URL(path, import.meta.url), 'utf8');
@@ -13,21 +13,21 @@ const moduleUrl = (source) =>
       },
     }).outputText,
   ).toString('base64')}`;
-const raw = await read('../lib/caribbean.json');
+const raw = await read('../src/lib/caribbean.json');
 const history = moduleUrl(
-  (await read('../lib/history.ts')).replace(
+  (await read('../src/lib/history.ts')).replace(
     "import raw from './caribbean.json';",
     `const raw = ${raw};`,
   ),
 );
 const periodsModule = moduleUrl(
-  (await read('../lib/periods.ts')).replace(
+  (await read('../src/lib/periods.ts')).replace(
     "'./history'",
     JSON.stringify(history),
   ),
 );
 const yearRangeModule = moduleUrl(
-  (await read('../lib/year-range.ts')).replace(
+  (await read('../src/lib/year-range.ts')).replace(
     "'./history'",
     JSON.stringify(history),
   ),
@@ -42,7 +42,7 @@ const {
   resolveAtlasDetail,
 } = await import(
   moduleUrl(
-    (await read('../lib/atlas-url.ts'))
+    (await read('../src/lib/atlas-url.ts'))
       .replace("'./history'", JSON.stringify(history))
       .replace("'./periods'", JSON.stringify(periodsModule))
       .replace("'./year-range'", JSON.stringify(yearRangeModule)),
@@ -53,7 +53,7 @@ const { islands, dateValue } = await import(history);
 const { calendarRange } = await import(yearRangeModule);
 const { inspectTarget } = await import(
   moduleUrl(
-    (await read('../lib/chart-inspection.ts'))
+    (await read('../src/lib/chart-inspection.ts'))
       .replaceAll("'./history'", JSON.stringify(history))
       .replace("'./periods'", JSON.stringify(periodsModule)),
   )

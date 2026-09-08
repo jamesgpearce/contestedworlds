@@ -13,22 +13,22 @@ const moduleUrl = (source) =>
     }).outputText,
   ).toString('base64')}`;
 const historyUrl = moduleUrl(
-  (await read('../lib/history.ts')).replace(
+  (await read('../src/lib/history.ts')).replace(
     "import raw from './caribbean.json';",
-    `const raw = ${await read('../lib/caribbean.json')};`,
+    `const raw = ${await read('../src/lib/caribbean.json')};`,
   ),
 );
 const { data, dateValue } = await import(historyUrl);
 const { periodsFor, arrangePeriods } = await import(
   moduleUrl(
-    (await read('../lib/periods.ts')).replace(
+    (await read('../src/lib/periods.ts')).replace(
       "'./history'",
       JSON.stringify(historyUrl),
     ),
   )
 );
 const { eventAxis } = await import(
-  moduleUrl(await read('../lib/event-axis.ts'))
+  moduleUrl(await read('../src/lib/event-axis.ts'))
 );
 const root = new URL('../public/', import.meta.url);
 const escape = (text) =>

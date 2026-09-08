@@ -29,6 +29,6 @@ Read the event-level uncertainty field in JSON or CSV and `editorial-notes.json`
 
 Every event has source IDs resolving to titled, linked bibliography entries. Government, library, museum, treaty editions and scholarship are preferred. World Statesmen is a secondary chronology used for many fine-grained dates; it contains occasional contradictions and is not treated as independent archival verification. Local scholarship takes precedence when it explains a discrepancy. Event links document provenance, not universal double verification. Bibliography links were located/read through web research; there is no permanent source archive or promise that every link will remain live.
 
-`data/islands/*.json` and `data/sources.json` are the editable research sources. `scripts/build-data.py` validates and compiles them. `public/data/caribbean.json` contains metadata, owners, islands, events, contextual eras and bibliography; `events.csv` is a flat export with post-event administration and sovereignty plus source URLs. Do not edit generated output directly.
+`data/islands/*.json` and `data/sources.json` are the editable research sources. `scripts/build-data.mjs` validates and compiles them. `public/data/caribbean.json` contains metadata, owners, islands, events, contextual eras and bibliography; `events.csv` is a flat export with post-event administration and sovereignty plus source URLs. Do not edit generated output directly.
 
 Original prose and dataset structure are offered under CC BY 4.0; external source texts retain their own rights.

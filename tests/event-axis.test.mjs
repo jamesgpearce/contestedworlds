@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import test from 'node:test';
+import { test } from 'vitest';
 import ts from 'typescript';
 const source = await readFile(
-  new URL('../lib/event-axis.ts', import.meta.url),
+  new URL('../src/lib/event-axis.ts', import.meta.url),
   'utf8',
 );
 const js = ts.transpileModule(source, {

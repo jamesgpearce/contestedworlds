@@ -1,33 +1,12 @@
-import {
-  cp,
-  mkdtemp,
-  readFile,
-  rename,
-  rm,
-  stat,
-  writeFile,
-} from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { cp, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-const root = fileURLToPath(new URL('../dist/client/', import.meta.url));
-const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-// Vinext exports a base path as a directory. Pages mounts the artifact at that
-// path itself, so upload the directory's contents, without a second nesting.
-if (base) {
-  if (!/^\/[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*$/.test(base))
-    throw new Error('Invalid base path');
-  const source = join(root, base.slice(1));
-  await stat(join(source, 'index.html'));
-  const prepared = await mkdtemp(join(dirname(root), 'pages-'));
-  await cp(source, prepared, { recursive: true });
-  await cp(join(root, '404.html'), join(prepared, '404.html'));
-  await rm(root, { recursive: true });
-  await rename(prepared, root);
-}
+const root = fileURLToPath(new URL('../docs/', import.meta.url));
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url)),
 );
-const site = new URL(process.env.NEXT_PUBLIC_SITE_URL || config.url);
+const base = process.env.VITE_BASE_PATH || '';
+const site = new URL(process.env.VITE_SITE_URL || config.url);
 site.search = '';
 site.hash = '';
 const escape = (value) =>
@@ -35,7 +14,15 @@ const escape = (value) =>
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('"', '&quot;');
+const indexPath = join(root, 'index.html');
+const index = (await readFile(indexPath, 'utf8'))
+  .replaceAll('__BASE_PATH__', base)
+  .replaceAll('__SOCIAL_IMAGE__', new URL(`${base}/social-card.png`, site).href)
+  .replaceAll('__SITE_URL__', site.href);
+await writeFile(indexPath, index);
+await cp(indexPath, join(root, '404.html'));
 await writeFile(join(root, '.nojekyll'), '');
+await writeFile(join(root, 'CNAME'), `${new URL(config.url).hostname}\n`);
 await writeFile(
   join(root, 'robots.txt'),
   `User-agent: *\nAllow: /\nSitemap: ${new URL('sitemap.xml', site)}\n`,

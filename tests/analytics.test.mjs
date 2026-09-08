@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { test } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
 const source = await readFile(
-  new URL('../lib/analytics.ts', import.meta.url),
+  new URL('../src/lib/analytics.ts', import.meta.url),
   'utf8',
 );
 const js = ts.transpileModule(source, {

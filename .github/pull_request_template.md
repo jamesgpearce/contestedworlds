@@ -12,4 +12,4 @@ Keep existing record IDs. Use your own explanatory prose; source publications re
 
 ## Validation
 
-For a data edit, run `python3 scripts/build-data.py --check`, or let GitHub Actions check your browser-based edit. For code changes, describe the relevant checks and results. Do not commit generated runtime JSON or `dist/`.
+For a data edit, run `npm run data:check`, or let GitHub Actions check your browser-based edit. For code changes, describe the relevant checks and results. Do not commit generated runtime JSON or `docs/`.

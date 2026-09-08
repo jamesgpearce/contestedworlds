@@ -24,7 +24,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
+          node-version: '22.13.0'
           cache: npm
       - uses: actions/setup-python@v6
         with:
@@ -35,13 +35,13 @@ jobs:
       - run: npm ci
       - run: npm run build && npm run check:export
         env:
-          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}/
+          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}/
           # Public identifier. Forks default to no analytics; set your own variable.
-          NEXT_PUBLIC_GA_ID: ${{ vars.GA_MEASUREMENT_ID || (github.repository == 'jamesgpearce/contestedworlds' && 'G-EYQ3SGDHPC' || '') }}
+          VITE_GA_ID: ${{ vars.GA_MEASUREMENT_ID || (github.repository == 'jamesgpearce/contestedworlds' && 'G-EYQ3SGDHPC' || '') }}
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: dist/client
+          path: docs
   deploy:
     needs: build
     runs-on: ubuntu-latest

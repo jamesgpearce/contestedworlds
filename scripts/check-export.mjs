@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-const root = fileURLToPath(new URL('../dist/client/', import.meta.url));
+const root = fileURLToPath(new URL('../docs/', import.meta.url));
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
-const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const base = process.env.VITE_BASE_PATH || '';
 const site = new URL(
-  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.VITE_SITE_URL ||
     JSON.parse(await readFile(new URL('../site.config.json', import.meta.url)))
       .url,
 );
@@ -56,9 +56,8 @@ assert.equal(
   'Canonical URL',
 );
 assert.ok(
-  html.includes('chart-measuring-space') &&
-    !html.includes('class="period-chart"'),
-  'Static markup must not expose a provisional chart',
+  html.includes('<div id="root"></div>') && html.includes('type="module"'),
+  'Static markup must include the Vite client entry',
 );
 const image = await readFile(path.join(root, 'social-card.png'));
 assert.equal(image.readUInt32BE(16), 1200);
@@ -71,8 +70,14 @@ for (const file of [
   'data/caribbean.json',
   'data/events.csv',
   'apple-touch-icon.png',
+  'CNAME',
 ])
   await stat(path.join(root, file));
+assert.equal(
+  (await readFile(path.join(root, 'CNAME'), 'utf8')).trim(),
+  'contestedworlds.com',
+  'Custom domain CNAME',
+);
 console.log(
   `Static export verified: ${paths.size} local/link references, social metadata, image dimensions and downloads (${base || '/'}).`,
 );

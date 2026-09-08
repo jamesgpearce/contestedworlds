@@ -14,14 +14,14 @@ No local installation is required for this path. Small PRs about one historical 
 
 ## Check locally
 
-Only Python 3.10+ is needed for data validation:
+Python 3.10+ is needed for data validation. Run the application tests with Node:
 
 ```sh
-python3 scripts/build-data.py --check
-python3 -m unittest discover -s tests -p '*_test.py'
+npm run data:check
+npm test
 ```
 
-Use two-space-indented UTF-8 JSON. Do not edit generated `lib/caribbean.json`, `public/data/`, or `dist/`. The compiler regenerates these files before development, tests and builds. With a running development server, run `npm run data:build` after editing source JSON.
+Use two-space-indented UTF-8 JSON. Do not edit generated `src/lib/caribbean.json`, `public/data/`, or `docs/`. The compiler regenerates these files before development, tests and builds. With a running development server, run `npm run data:build` after editing source JSON.
 
 ## Event records
 
@@ -39,18 +39,18 @@ Use two-space-indented UTF-8 JSON. Do not edit generated `lib/caribbean.json`, `
 }
 ```
 
-| Field | Meaning |
-| --- | --- |
-| `id` | Stable, unique ID prefixed with the island's ID and a hyphen. New suffixes need not be sequential. |
-| `date` | `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. Do not invent precision. |
-| `precision` | `year`, `month` or `day`, matching the date. `circa` uses a year plus an `uncertainty` note. |
-| `controller` | New principal administration, or `null` if it does not change. |
-| `sovereign` | New recorded sovereign title, or `null` if it does not change. |
-| `kind` | `settlement`, `capture`, `restoration`, `treaty`, `independence`, `withdrawal`, `context-change`, `resistance-change`, `claim`, `context`, `resistance` or `status`. |
-| `sources` | One or more IDs from the bibliography. |
-| `uncertainty` | Optional text qualifying date or extent; shown with the qualified-change marker. |
-| `qualification` | Optional further explanation displayed in the card. |
-| `claimant` | Required power ID for a `claim`. |
+| Field           | Meaning                                                                                                                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`            | Stable, unique ID prefixed with the island's ID and a hyphen. New suffixes need not be sequential.                                                                   |
+| `date`          | `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. Do not invent precision.                                                                                                          |
+| `precision`     | `year`, `month` or `day`, matching the date. `circa` uses a year plus an `uncertainty` note.                                                                         |
+| `controller`    | New principal administration, or `null` if it does not change.                                                                                                       |
+| `sovereign`     | New recorded sovereign title, or `null` if it does not change.                                                                                                       |
+| `kind`          | `settlement`, `capture`, `restoration`, `treaty`, `independence`, `withdrawal`, `context-change`, `resistance-change`, `claim`, `context`, `resistance` or `status`. |
+| `sources`       | One or more IDs from the bibliography.                                                                                                                               |
+| `uncertainty`   | Optional text qualifying date or extent; shown with the qualified-change marker.                                                                                     |
+| `qualification` | Optional further explanation displayed in the card.                                                                                                                  |
+| `claimant`      | Required power ID for a `claim`.                                                                                                                                     |
 
 Claims, context, resistance and status annotations have **both power fields set to `null`**. Occupation does not automatically annex an island. A treaty can change title before a new administration takes over. Power IDs are in [data/owners.json](data/owners.json).
 

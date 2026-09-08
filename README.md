@@ -8,9 +8,9 @@ An interactive atlas of the Caribbean through conquest, treaties, occupation and
 
 - [Contribute a historical correction](CONTRIBUTING.md)
 - [Editorial method and scope](data/methodology.md)
-- [Deploy to GitHub Pages and connect a domain](docs/deployment.md)
-- [How shared URLs work](docs/sharing-views.md)
-- [Code structure and validation](docs/architecture.md)
+- [Deploy to GitHub Pages and connect a domain](documentation/deployment.md)
+- [How shared URLs work](documentation/sharing-views.md)
+- [Code structure and validation](documentation/architecture.md)
 
 ## Correct the data
 
@@ -19,14 +19,14 @@ Open the island file on GitHub, choose **Edit**, and propose a pull request. Use
 For a local check, only Python 3.10+ is needed:
 
 ```sh
-python3 scripts/build-data.py --check
+npm run data:check
 ```
 
 The compiler checks structure, dates, chronology, power IDs and citations. Historical accuracy still needs human judgment. Disputed dates and geographic limits should be explicit in the record, rather than silently resolved into false precision.
 
 ## Run the atlas
 
-Requires Node 22.13+ and Python 3.10+. `.nvmrc` selects Node 22.
+Requires Node 22.13+.
 
 ```sh
 npm ci
@@ -35,18 +35,18 @@ npm run dev
 
 When editing JSON while the server is running, use `npm run data:build` to refresh the runtime dataset.
 
-| Command | Purpose |
-| --- | --- |
-| `npm run data:check` | Validate the editable research files without writing output |
-| `npm test` | Data, historical semantics, URL state, geometry, appearance and analytics checks |
-| `npm run lint` | Lint the entire application and its UI components |
-| `npm run typecheck` | Check TypeScript |
-| `npm run build` | Export the static site to `dist/client/` |
-| `npm run check:export` | Verify generated assets, metadata, image dimensions and deployment paths |
-| `npm run preview` | Serve the exported site locally |
-| `npm run social:build` | Rebuild the share card from actual Greater Antilles periods |
+| Command                | Purpose                                                                          |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| `npm run data:check`   | Validate the editable research files without writing output                      |
+| `npm test`             | Data, historical semantics, URL state, geometry, appearance and analytics checks |
+| `npm run lint`         | Lint the entire application and its UI components                                |
+| `npm run typecheck`    | Check TypeScript                                                                 |
+| `npm run build`        | Export the static site to `docs/` for GitHub Pages                               |
+| `npm run check:export` | Verify generated assets, metadata, image dimensions and deployment paths         |
+| `npm run preview`      | Serve the exported site locally                                                  |
+| `npm run social:build` | Rebuild the share card from actual Greater Antilles periods                      |
 
-GitHub Actions checks data separately before checking the application and both static URL layouts. A push to `main` publishes through the Pages workflow after validation. First enable **Settings → Pages → GitHub Actions**; see the [deployment guide](docs/deployment.md).
+GitHub Actions checks data separately before checking the application and both static URL layouts. A push to `main` publishes through the Pages workflow after validation. First enable **Settings → Pages → GitHub Actions**; see the [deployment guide](documentation/deployment.md).
 
 ## What the chart means
 
@@ -60,4 +60,4 @@ Hover for a period's explanation and sources; click to hold it. Copy the URL to 
 
 Code and original interface assets: [MIT](LICENSE), © 2026 James Pearce. Original dataset prose and structure: [CC BY 4.0](data/LICENSE.md). Source publications retain their rights.
 
-[SVG flags](public/flags/LICENSE) come from flag-icons (MIT). Coastlines come from Natural Earth (public domain); see [third-party credits](THIRD_PARTY_NOTICES.md). Google Analytics is optional and configured at build time; local previews do not send visits. [Deployment settings and privacy signals](docs/deployment.md#analytics).
+[SVG flags](public/flags/LICENSE) come from flag-icons (MIT). Coastlines come from Natural Earth (public domain); see [third-party credits](THIRD_PARTY_NOTICES.md). Google Analytics is optional and configured at build time; local previews do not send visits. [Deployment settings and privacy signals](documentation/deployment.md#analytics).

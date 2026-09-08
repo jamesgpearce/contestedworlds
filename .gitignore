@@ -11,10 +11,8 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/.vinext/
-/out/
+# build output
+/docs/
 
 # misc
 .DS_Store
@@ -32,14 +30,12 @@ yarn-error.log*
 
 # deployment and generated files
 .vercel
-next-env.d.ts
-/dist/
 /.wrangler/
 /outputs/
 /work/
 
 # Rebuilt from contributor JSON before dev, test and build.
-/lib/caribbean.json
+/src/lib/caribbean.json
 /public/data/
 *.tsbuildinfo
 __pycache__/

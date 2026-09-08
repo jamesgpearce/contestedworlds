@@ -1,0 +1,8 @@
+node_modules/
+docs/
+dist/
+public/
+data/
+src/lib/caribbean.json
+package-lock.json
+*.tsbuildinfo

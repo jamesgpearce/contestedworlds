@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import test from 'node:test';
+import { test } from 'vitest';
 import ts from 'typescript';
 
 // Execute the actual plotting module, without a browser or a second implementation.
 const input = await readFile(
-  new URL('../lib/history.ts', import.meta.url),
+  new URL('../src/lib/history.ts', import.meta.url),
   'utf8',
 );
 const json = await readFile(
-  new URL('../lib/caribbean.json', import.meta.url),
+  new URL('../src/lib/caribbean.json', import.meta.url),
   'utf8',
 );
 const javascript = ts.transpileModule(
