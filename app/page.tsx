@@ -627,7 +627,7 @@ export default function Home() {
         <a href={repository} target="_blank" rel="noreferrer">
           Open source on GitHub <Arrow />
         </a>
-        <span>Research edition · 2026</span>
+        <span>© 2026 James Pearce</span>
       </footer>
     </main>
   );
