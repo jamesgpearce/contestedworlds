@@ -10,6 +10,26 @@ export const analyticsEnabled = (
   privacy.doNotTrack !== '1' &&
   !privacy.globalPrivacyControl;
 
+/** Keep optional measurement work behind page loading and an idle opportunity. */
+export const deferAnalytics = (start: () => void) => {
+  let timer = 0;
+  let idle = 0;
+  const afterLoad = () => {
+    timer = window.setTimeout(() => {
+      if (window.requestIdleCallback)
+        idle = window.requestIdleCallback(start, { timeout: 2000 });
+      else start();
+    }, 1500);
+  };
+  if (document.readyState === 'complete') afterLoad();
+  else window.addEventListener('load', afterLoad, { once: true });
+  return () => {
+    window.removeEventListener('load', afterLoad);
+    window.clearTimeout(timer);
+    if (idle) window.cancelIdleCallback(idle);
+  };
+};
+
 /** One visit per page load. Filter and tooltip URL changes are not new pages. */
 export const analyticsCommands = (
   id: string,

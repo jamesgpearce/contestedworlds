@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'vitest';
+import { afterEach, test, vi } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
 const source = await readFile(
@@ -9,11 +9,15 @@ const source = await readFile(
 const js = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.ES2022 },
 }).outputText;
-const { analyticsEnabled, analyticsCommands } = await import(
+const { analyticsEnabled, analyticsCommands, deferAnalytics } = await import(
   `data:text/javascript;base64,${Buffer.from(js).toString('base64')}`
 );
 const id = 'G-EYQ3SGDHPC',
   url = 'https://contestedworlds.com/';
+afterEach(() => {
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
 test('Analytics only loads on its configured production host and respects privacy signals', () => {
   assert.equal(
     analyticsEnabled(id, url, { hostname: 'contestedworlds.com' }, {}),
@@ -48,3 +52,71 @@ test('The tag queues one canonical page view and disables advertising features',
   assert.equal(visits[0][2].page_location, url);
   assert.equal(new URL(visits[0][2].page_location).search, '');
 });
+
+const scheduler = (readyState = 'loading', supportsIdle = true) => {
+  vi.useFakeTimers();
+  const window = new EventTarget();
+  let idle;
+  Object.assign(window, {
+    setTimeout,
+    clearTimeout,
+    ...(supportsIdle && {
+      requestIdleCallback: vi.fn((callback, options) => {
+        assert.ok(options.timeout > 0 && options.timeout <= 2000);
+        idle = callback;
+        return 1;
+      }),
+      cancelIdleCallback: vi.fn(() => {
+        idle = undefined;
+      }),
+    }),
+  });
+  vi.stubGlobal('window', window);
+  vi.stubGlobal('document', { readyState });
+  return { window, runIdle: () => idle?.() };
+};
+
+test('Analytics waits for page load, a short grace period, and idle time', () => {
+  const { window, runIdle } = scheduler();
+  const start = vi.fn();
+  deferAnalytics(start);
+  vi.advanceTimersByTime(5000);
+  assert.equal(start.mock.calls.length, 0);
+  assert.equal(window.requestIdleCallback.mock.calls.length, 0);
+  window.dispatchEvent(new Event('load'));
+  vi.advanceTimersByTime(1499);
+  assert.equal(window.requestIdleCallback.mock.calls.length, 0);
+  vi.advanceTimersByTime(1);
+  assert.equal(start.mock.calls.length, 0);
+  assert.equal(window.requestIdleCallback.mock.calls.length, 1);
+  runIdle();
+  assert.equal(start.mock.calls.length, 1);
+  window.dispatchEvent(new Event('load'));
+  vi.advanceTimersByTime(5000);
+  assert.equal(start.mock.calls.length, 1);
+});
+
+test('A loaded page still starts Analytics when idle callbacks are unavailable', () => {
+  scheduler('complete', false);
+  const start = vi.fn();
+  deferAnalytics(start);
+  vi.advanceTimersByTime(1499);
+  assert.equal(start.mock.calls.length, 0);
+  vi.advanceTimersByTime(1);
+  assert.equal(start.mock.calls.length, 1);
+});
+
+for (const stage of ['load', 'grace period', 'idle']) {
+  test(`Analytics cleanup cancels work waiting for ${stage}`, () => {
+    const { window, runIdle } = scheduler();
+    const start = vi.fn();
+    const cancel = deferAnalytics(start);
+    if (stage !== 'load') window.dispatchEvent(new Event('load'));
+    if (stage === 'idle') vi.advanceTimersByTime(1500);
+    cancel();
+    window.dispatchEvent(new Event('load'));
+    vi.advanceTimersByTime(5000);
+    runIdle();
+    assert.equal(start.mock.calls.length, 0);
+  });
+}

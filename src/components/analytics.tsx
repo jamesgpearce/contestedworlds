@@ -1,10 +1,15 @@
 'use client';
 import { useEffect } from 'react';
-import { analyticsCommands, analyticsEnabled } from '@/lib/analytics';
+import {
+  analyticsCommands,
+  analyticsEnabled,
+  deferAnalytics,
+} from '@/lib/analytics';
 import { siteUrl, analyticsId } from '@/lib/site-config';
 
 const measurementId = analyticsId;
 let started = false;
+let queued = false;
 
 export function Analytics() {
   useEffect(() => {
@@ -13,10 +18,8 @@ export function Analytics() {
       !analyticsEnabled(measurementId, siteUrl, window.location, navigator)
     )
       return;
-    // Let the atlas hydrate and paint before requesting optional measurement code.
-    const timer = setTimeout(() => {
-      if (started) return;
-      started = true;
+    if (!queued) {
+      queued = true;
       const target = window as Window & {
         dataLayer?: unknown[];
         gtag?: (...args: unknown[]) => void;
@@ -32,12 +35,15 @@ export function Analytics() {
         document.title,
       ))
         target.gtag(...command);
+    }
+    return deferAnalytics(() => {
+      if (started) return;
+      started = true;
       const script = document.createElement('script');
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
       document.head.append(script);
-    }, 1500);
-    return () => clearTimeout(timer);
+    });
   }, []);
   return null;
 }
