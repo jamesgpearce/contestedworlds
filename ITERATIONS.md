@@ -178,3 +178,7 @@ New links name regions and islands directly, for example `islands=greater-antill
 ## Shared pinned details · 8 September 2026
 
 Clicking a rectangle or pinning a claim writes its stable record ID to `detail`; initial periods use `island-id.initial`. Refresh and browser navigation restore the same card and About panel, revealing its anchor after chart measurement. Previous/Next updates the record, dismissal removes it, and a filter that removes the target clears the pin. Hover stays transient. Restoration tests cover every rectangle in both political modes, every claim, clipped periods and invalid targets.
+
+## Details below the masthead · 8 September 2026
+
+Chart cards now sit above the visualization but below the sticky masthead and control menus. Their fixed relationship to the rectangle is preserved as they scroll underneath the title bar.

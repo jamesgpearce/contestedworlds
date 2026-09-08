@@ -2388,7 +2388,8 @@ details[open] > summary > .disclosure-chevron {
 
 /* Details share the exact target used to highlight the chart. */
 .period-card-positioner {
-  z-index: 45;
+  /* Above the chart, below the sticky masthead (40) and control popovers (50). */
+  z-index: 30;
 }
 .period-card-positioner[data-anchor-hidden] {
   visibility: hidden;
