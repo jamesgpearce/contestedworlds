@@ -45,7 +45,11 @@ export function PowerSymbol({
       ) : id === 'malta' ? (
         <g>
           <rect width={22} height={16.5} fill="#b8192d" />
-          <path d="M8 0v16.5M0 8.25h22" stroke="white" strokeWidth={3} />
+          <path
+            d="M4 1 10 4 16 1 13 7 19 4 16 10 19 16 13 13 16 19 10 16 4 19 7 13 1 16 4 10 1 4 7 7Z"
+            transform="translate(4.5 1.75) scale(.65)"
+            fill="white"
+          />
         </g>
       ) : id === 'indigenous' ? (
         <g fill="none" stroke="currentColor" strokeWidth={1.2}>

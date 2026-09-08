@@ -162,3 +162,7 @@ Power grouping now right-aligns a small island name beside each first visible re
 ## Claim headings that add context · 8 September 2026
 
 Claim cards omit event headings that merely restate the claimant and current island name. Specific voyages, patents, competing or qualified claims, and historical place names retain their headings. Two descriptions no longer restate the claim. Original event titles remain in the dataset and chronology; dates, powers, citations and qualifications are unchanged.
+
+## A distinct Maltese cross · 8 September 2026
+
+The Knights of Malta now use the Order's eight-pointed white cross on red, distinguishing them from Denmark's Nordic cross. The chart and expanded key share one lightweight SVG. Flag conventions identify it as the Order's emblem, with the official reference retained.
