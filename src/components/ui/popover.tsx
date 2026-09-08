@@ -8,7 +8,7 @@ import {
   useState,
   type ComponentProps,
 } from 'react';
-import { cn } from '@/lib/utils';
+import { cn, onViewportChange } from '@/lib/utils';
 
 type PopoverState = {
   open: boolean;
@@ -21,57 +21,8 @@ export function Popover({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const contentId = useId();
-  useLayoutEffect(() => {
-    if (!open) return;
-    const panel = rootRef.current?.querySelector<HTMLElement>(
-      '[data-slot="popover-content"]',
-    );
-    const trigger = rootRef.current?.querySelector<HTMLElement>(
-      '[data-slot="popover-trigger"]',
-    );
-    if (!panel || !trigger) return;
-    const position = () => {
-      const rect = trigger.getBoundingClientRect();
-      const margin = 14;
-      const gap = Number(panel.dataset.sideOffset || 8);
-      const below = Math.max(
-        0,
-        window.innerHeight - rect.bottom - gap - margin,
-      );
-      const above = Math.max(0, rect.top - gap - margin);
-      const naturalHeight = panel.scrollHeight + 2;
-      const useBelow = naturalHeight <= below || below >= above;
-      const available = Math.min(
-        window.innerHeight - 2 * margin,
-        Math.max(40, useBelow ? below : above),
-      );
-      const height = Math.min(naturalHeight, available);
-      const left =
-        panel.dataset.align === 'start'
-          ? rect.left
-          : rect.right - panel.offsetWidth;
-      panel.style.left = `${Math.max(margin, Math.min(left, window.innerWidth - panel.offsetWidth - margin))}px`;
-      panel.style.top = `${Math.max(margin, useBelow ? rect.bottom + gap : rect.top - gap - height)}px`;
-      panel.style.setProperty('--available-height', `${available}px`);
-    };
-    position();
-    window.addEventListener('resize', position);
-    window.addEventListener('scroll', position, true);
-    return () => {
-      window.removeEventListener('resize', position);
-      window.removeEventListener('scroll', position, true);
-    };
-  }, [open]);
   useEffect(() => {
     if (!open) return;
-    const content = rootRef.current?.querySelector<HTMLElement>(
-      '[data-slot="popover-content"]',
-    );
-    (
-      content?.querySelector<HTMLElement>(
-        'button:not(:disabled):not([tabindex="-1"]), input:not(:disabled), select:not(:disabled), a[href]',
-      ) || content
-    )?.focus();
     const close = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
@@ -148,9 +99,49 @@ export function PopoverContent({
   sideOffset?: number;
 }) {
   const popover = useContext(PopoverContext);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    const trigger = panel
+      ?.closest('.popover-root')
+      ?.querySelector<HTMLElement>('[data-slot="popover-trigger"]');
+    if (!panel || !trigger) return;
+    const position = () => {
+      const rect = trigger.getBoundingClientRect();
+      const margin = 14;
+      const gap = Number(panel.dataset.sideOffset || 8);
+      const below = Math.max(
+        0,
+        window.innerHeight - rect.bottom - gap - margin,
+      );
+      const above = Math.max(0, rect.top - gap - margin);
+      const naturalHeight = panel.scrollHeight + 2;
+      const useBelow = naturalHeight <= below || below >= above;
+      const available = Math.min(
+        window.innerHeight - 2 * margin,
+        Math.max(40, useBelow ? below : above),
+      );
+      const height = Math.min(naturalHeight, available);
+      const left =
+        panel.dataset.align === 'start'
+          ? rect.left
+          : rect.right - panel.offsetWidth;
+      panel.style.left = `${Math.max(margin, Math.min(left, window.innerWidth - panel.offsetWidth - margin))}px`;
+      panel.style.top = `${Math.max(margin, useBelow ? rect.bottom + gap : rect.top - gap - height)}px`;
+      panel.style.setProperty('--available-height', `${available}px`);
+    };
+    position();
+    (
+      panel?.querySelector<HTMLElement>(
+        'button:not(:disabled):not([tabindex="-1"]), input:not(:disabled), select:not(:disabled), a[href]',
+      ) || panel
+    )?.focus({ preventScroll: true });
+    return onViewportChange(position);
+  }, [popover?.open, align, sideOffset]);
   if (!popover?.open) return null;
   return (
     <div
+      ref={panelRef}
       id={popover.contentId}
       role="dialog"
       aria-labelledby={`${popover.contentId}-title`}

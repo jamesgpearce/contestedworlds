@@ -21,11 +21,13 @@
     "preview": "vite preview --host 127.0.0.1 --port 3000",
     "postbuild": "node scripts/prepare-static.mjs",
     "check:export": "node scripts/check-export.mjs",
+    "size:compare": "npm run data:build && node scripts/compare-minifiers.mjs",
     "social:build": "npm run data:build && node scripts/social-assets.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
     "lucide-react": "1.31.0",
+    "preact": "10.29.8",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
@@ -43,6 +45,7 @@
     "globals": "^17.12.0",
     "prettier": "^3.9.6",
     "sharp": "0.35.4",
+    "terser": "5.51.2",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.70.0",
     "vite": "8.2.2",

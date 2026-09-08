@@ -4,6 +4,7 @@ import { Cite } from '@/components/citations';
 import { owners, powerColor } from '@/lib/history';
 import type { Inspection } from '@/lib/chart-inspection';
 import type { Period } from '@/lib/periods';
+import { onViewportChange } from '@/lib/utils';
 
 export function PeriodCard({
   inspection,
@@ -55,12 +56,7 @@ export function PeriodCard({
       setPosition({ left, top });
     };
     update();
-    window.addEventListener('resize', update);
-    window.addEventListener('scroll', update, true);
-    return () => {
-      window.removeEventListener('resize', update);
-      window.removeEventListener('scroll', update, true);
-    };
+    return onViewportChange(update);
   }, [anchor, inspection, panelRef]);
 
   useEffect(() => {

@@ -174,11 +174,19 @@ export function HistoryChart({
     // subsequent resizing, not the chart's initial dimensions.
     const measuredWidth = container.getBoundingClientRect().width;
     if (measuredWidth > 0) setWidth(measuredWidth);
+    let resizeFrame = 0;
     const observer = new ResizeObserver(([entry]) => {
-      if (entry.contentRect.width > 0) setWidth(entry.contentRect.width);
+      cancelAnimationFrame(resizeFrame);
+      // Render outside the observer delivery to avoid a layout feedback loop.
+      resizeFrame = requestAnimationFrame(() => {
+        if (entry.contentRect.width > 0) setWidth(entry.contentRect.width);
+      });
     });
     observer.observe(container);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(resizeFrame);
+    };
   }, []);
   const periods = useMemo(
     () => tracks.flatMap((i) => periodsFor(i, mode, range)),
@@ -586,9 +594,6 @@ export function HistoryChart({
                   }
                 }}
                 onClick={() => select(p)}
-                onPointerEnter={(e) => {
-                  if (e.pointerType !== 'touch') showPeriod(p);
-                }}
                 onPointerMove={(e) => {
                   if (e.pointerType !== 'touch') showPeriod(p);
                 }}
@@ -668,10 +673,6 @@ export function HistoryChart({
                 tabIndex={-1}
                 aria-label={label}
                 onClick={() => selectClaim(island, event)}
-                onPointerEnter={(e) => {
-                  if (e.pointerType !== 'touch')
-                    show({ islandId: island.id, eventId: event.id, year: t });
-                }}
                 onPointerMove={(e) => {
                   if (e.pointerType !== 'touch')
                     show({ islandId: island.id, eventId: event.id, year: t });

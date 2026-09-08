@@ -9,7 +9,27 @@ export default defineConfig(({ mode }) => {
     );
   return {
     base: basePath ? `${basePath}/` : '/',
-    build: { outDir: 'docs', emptyOutDir: true },
-    resolve: { alias: { '@': `${process.cwd()}/src` } },
+    build: {
+      outDir: 'docs',
+      emptyOutDir: true,
+      license: { fileName: 'licenses.txt' },
+      // Measured smaller than Terser for this bundle; size:compare checks both.
+      minify: 'oxc',
+      terserOptions: { ecma: 2020, module: true, compress: { passes: 3 } },
+    },
+    resolve: {
+      alias: [
+        { find: '@', replacement: `${process.cwd()}/src` },
+        // Keep the React component API, with Preact as the browser runtime.
+        { find: /^react$/, replacement: 'preact/compat' },
+        { find: /^react-dom$/, replacement: 'preact/compat' },
+        { find: /^react-dom\/client$/, replacement: 'preact/compat/client' },
+        { find: /^react\/jsx-runtime$/, replacement: 'preact/jsx-runtime' },
+        {
+          find: /^react\/jsx-dev-runtime$/,
+          replacement: 'preact/jsx-dev-runtime',
+        },
+      ],
+    },
   };
 });
