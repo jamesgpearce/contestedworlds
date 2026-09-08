@@ -487,6 +487,37 @@ export function HistoryChart({
             buttons in the period details. Vertical distance and rectangle
             height do not measure population, area, or importance.
           </desc>
+          {arrangement === 'powers' && (
+            <g
+              className="power-label-cells"
+              aria-hidden="true"
+              opacity={changing ? 0 : 1}
+            >
+              {layout.rows.map((row) => (
+                <g
+                  key={row.id}
+                  fill={`color-mix(in srgb, ${powerColor(row.id)} 10%, var(--paper))`}
+                >
+                  {layout.left > 8 && (
+                    <rect
+                      x={0}
+                      y={row.top}
+                      width={layout.left}
+                      height={row.bottom - row.top}
+                    />
+                  )}
+                  {layout.compact && (
+                    <rect
+                      x={0}
+                      y={row.top}
+                      width={width - layout.right}
+                      height={30}
+                    />
+                  )}
+                </g>
+              ))}
+            </g>
+          )}
           {ticks.map((t) => (
             <g key={t} aria-hidden="true">
               <text
@@ -520,7 +551,7 @@ export function HistoryChart({
           {layout.rows.map((row) => (
             <line
               key={row.id}
-              x1={layout.left}
+              x1={arrangement === 'powers' ? 0 : layout.left}
               x2={width - layout.right}
               y1={row.bottom}
               y2={row.bottom}
@@ -782,7 +813,7 @@ export function HistoryChart({
           {layout.rows.map((row) => (
             <div
               key={`${arrangement}:${row.id}`}
-              className={`period-row-label ${layout.compact ? 'above-row' : ''}`}
+              className={`period-row-label ${layout.compact ? 'above-row' : ''} ${arrangement === 'powers' ? 'power-label' : ''}`}
               style={{
                 top: row.labelY,
                 width: layout.compact ? width - 16 : layout.left - 16,
@@ -793,12 +824,7 @@ export function HistoryChart({
                   <svg width="22" height="17" viewBox="0 0 22 17">
                     <PowerSymbol id={row.id} />
                   </svg>
-                  <span
-                    className="power-row-name"
-                    style={{
-                      background: `color-mix(in srgb, ${powerColor(row.id)} 10%, var(--paper))`,
-                    }}
-                  >
+                  <span className="power-row-name">
                     {row.id === 'indigenous'
                       ? 'Indigenous'
                       : owners[row.id].label}

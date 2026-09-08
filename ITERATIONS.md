@@ -186,3 +186,7 @@ Chart cards now sit above the visualization but below the sticky masthead and co
 ## Country codes in shared links · 8 September 2026
 
 Island selections and pinned records now use country or territory codes: `islands=cu,lc` and `detail=lc.12`. Atlas suffixes distinguish separate histories within one country; the bare country code selects every represented island. Region names remain accepted and are used when shorter. Removed the previous bitmask and full-name formats, as requested.
+
+## Tint the complete power label cell · 8 September 2026
+
+Each power's pale tint fills the left cell from one row boundary to the next, behind the flag, heading and starting island labels. On narrow charts it also spans the heading strip above the periods. The inset name badge is removed; row rules extend across the label cells, and both appearances retain the same restrained tint strength.

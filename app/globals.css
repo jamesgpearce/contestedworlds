@@ -2120,8 +2120,8 @@ footer > span:first-child {
 .period-row-labels {
   transition: opacity 150ms ease;
 }
-.period-row-label.above-row > span,
-.period-row-label.above-row > svg {
+.period-row-label.above-row:not(.power-label) > span,
+.period-row-label.above-row:not(.power-label) > svg {
   background: var(--paper);
 }
 .period-row-label.above-row > span {
