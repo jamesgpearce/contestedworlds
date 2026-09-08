@@ -17,7 +17,7 @@ export function inspectTarget(
   mode: Mode,
   range: [number, number],
 ) {
-  if (!target) return null;
+  if (!target || target.year < range[0] || target.year > range[1]) return null;
   const island = tracks.find((i) => i.id === target.islandId);
   if (!island) return null;
   const sequence = periods.filter((p) => p.islandId === island.id);
@@ -41,7 +41,7 @@ export function inspectTarget(
     standalone,
     power:
       event?.kind === 'claim' ? event.claimant || period.power : period.power,
-    dates: standalone ? eventDate(standalone) : periodDates(period, range),
+    dates: standalone ? eventDate(standalone) : periodDates(period),
     sequence,
     index: sequence.indexOf(period),
   };

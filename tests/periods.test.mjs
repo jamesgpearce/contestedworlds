@@ -27,6 +27,7 @@ const periodsModule = moduleUrl(
 );
 const {
   periodsFor,
+  periodDates,
   packPeriods,
   arrangePeriods,
   plottedEvent,
@@ -283,4 +284,23 @@ test('Starting labels identify every island under its actual power at the visibl
       }
     }
   }
+});
+
+// Cropping the chart must not rewrite the historical dates in its cards.
+test('Clipped cards retain full period dates and the original Indigenous baseline', () => {
+  for (const island of islands)
+    for (const mode of ['administration', 'sovereignty']) {
+      const full = periodsFor(island, mode, [1450, 2026]);
+      for (const range of [
+        [1500, 1700],
+        [1763, 1800],
+        [1950, 2000],
+      ]) {
+        for (const clipped of periodsFor(island, mode, range)) {
+          const original = full.find((p) => p.id === clipped.id);
+          assert.equal(periodDates(clipped), periodDates(original), island.id);
+          assert.equal(clipped.endEvent?.id, original.endEvent?.id, island.id);
+        }
+      }
+    }
 });

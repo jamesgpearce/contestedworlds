@@ -1,6 +1,8 @@
 import {
   dateValue,
   eventDate,
+  START,
+  END,
   type HistoryEvent,
   type Island,
   type Mode,
@@ -17,9 +19,9 @@ export type Period = {
   event: HistoryEvent | null;
   endEvent: HistoryEvent | null;
 };
-export function periodDates(p: Period, range: [number, number]) {
-  const start = p.event ? eventDate(p.event) : `Before ${range[0]}`;
-  return `${start} – ${p.endEvent ? eventDate(p.endEvent) : Math.floor(p.end)}`;
+export function periodDates(p: Period) {
+  const start = p.event ? eventDate(p.event) : `Before ${START}`;
+  return `${start} – ${p.endEvent ? eventDate(p.endEvent) : END}`;
 }
 
 export function plottedEvent(e: HistoryEvent, mode: Mode, claims = false) {
@@ -60,8 +62,10 @@ export function periodsFor(
   };
   for (const e of island.events.filter((e) => plottedEvent(e, mode))) {
     const t = dateValue(e.date);
-    if (t > range[1]) break;
     append(t, e);
+    // A clipped rectangle still describes the full historical period. Retain
+    // its real ending event even when that handover falls outside the window.
+    if (t > range[1]) return result;
     start = t;
     power =
       mode === 'administration' ? e.resultingController : e.resultingSovereign;

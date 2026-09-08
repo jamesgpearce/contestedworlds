@@ -178,6 +178,57 @@ export function HistoryChart({
     () => tracks.flatMap((i) => periodsFor(i, mode, range)),
     [tracks, mode, range],
   );
+  const trackNames = useMemo(
+    () => Object.fromEntries(tracks.map((island) => [island.id, island.name])),
+    [tracks],
+  );
+  const periodLabels = useMemo(
+    () =>
+      Object.fromEntries(
+        periods.map((p) => [
+          p.id,
+          `${trackNames[p.islandId]}. ${owners[p.power].label}. ${periodDates(p)}.${p.event ? ' ' + p.event.title : ''}`,
+        ]),
+      ),
+    [periods, trackNames],
+  );
+  // Routes and claim-to-period matches do not change during hover or animation.
+  const routes = useMemo(
+    () =>
+      tracks.map((island) => periods.filter((p) => p.islandId === island.id)),
+    [tracks, periods],
+  );
+  const claims = useMemo(
+    () =>
+      showClaims
+        ? tracks.flatMap((island) =>
+            island.events.flatMap((event) => {
+              const time = dateValue(event.date);
+              if (event.kind !== 'claim' || time < range[0] || time > range[1])
+                return [];
+              const period = inspectTarget(
+                { islandId: island.id, eventId: event.id, year: time },
+                tracks,
+                periods,
+                mode,
+                range,
+              )?.period;
+              return period
+                ? [
+                    {
+                      island,
+                      event,
+                      period,
+                      time,
+                      label: `${island.name}. Claim only. ${eventDate(event)}. ${event.title}`,
+                    },
+                  ]
+                : [];
+            }),
+          )
+        : [],
+    [tracks, periods, mode, range, showClaims],
+  );
   const layout = useMemo(
     () =>
       arrangePeriods(
@@ -355,18 +406,6 @@ export function HistoryChart({
     if (x(n) - x(range[0]) >= 58 && x(range[1]) - x(n) >= 58) years.push(n);
   years.push(range[1]);
   const ticks = spacing === 'events' ? scale.labels(plotWidth, 64) : years;
-  const claims = showClaims
-    ? tracks.flatMap((island) =>
-        island.events
-          .filter(
-            (e) =>
-              e.kind === 'claim' &&
-              dateValue(e.date) >= range[0] &&
-              dateValue(e.date) <= range[1],
-          )
-          .map((event) => ({ island, event })),
-      )
-    : [];
   return (
     <div className="period-atlas" ref={ref}>
       <PeriodCard
@@ -473,8 +512,7 @@ export function HistoryChart({
             aria-hidden="true"
             opacity={frame.connectors}
           >
-            {tracks.flatMap((i) => {
-              const route = periods.filter((p) => p.islandId === i.id);
+            {routes.flatMap((route) => {
               return route.slice(1).map((p, n) => {
                 const previous = route[n],
                   a = frame.positions[previous.id],
@@ -512,7 +550,6 @@ export function HistoryChart({
             const active =
               p.id === inspection?.period.id && !inspection.standalone;
             const selected = pinned && active;
-            const name = tracks.find((i) => i.id === p.islandId)!.name;
             return (
               <g
                 key={p.id}
@@ -525,7 +562,7 @@ export function HistoryChart({
                 data-highlighted={activeIsland === p.islandId}
                 aria-expanded={active}
                 aria-controls={active ? 'period-metadata' : undefined}
-                aria-label={`${name}. ${owners[p.power].label}. ${periodDates(p, range)}.${p.event ? ' ' + p.event.title : ''}`}
+                aria-label={periodLabels[p.id]}
                 aria-pressed={selected}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -601,17 +638,7 @@ export function HistoryChart({
               </g>
             );
           })}
-          {claims.map(({ island, event }) => {
-            const t = dateValue(event.date);
-            // Resolve the same period as the card, including exact handover dates.
-            const p = inspectTarget(
-              { islandId: island.id, eventId: event.id, year: t },
-              tracks,
-              periods,
-              mode,
-              range,
-            )?.period;
-            if (!p) return null;
+          {claims.map(({ island, event, period: p, time: t, label }) => {
             const pos = frame.positions[p.id] || layout.positions[p.id];
             const xx = x(t);
             const yy = pos.y + pos.height / 2;
@@ -624,7 +651,7 @@ export function HistoryChart({
                 opacity={activeIsland && activeIsland !== island.id ? 0.22 : 1}
                 role="button"
                 tabIndex={-1}
-                aria-label={`${island.name}. Claim only. ${eventDate(event)}. ${event.title}`}
+                aria-label={label}
                 onClick={() => selectClaim(island, event)}
                 onPointerEnter={(e) => {
                   if (e.pointerType !== 'touch')
@@ -684,7 +711,7 @@ export function HistoryChart({
         >
           {layout.starting.map((p) => {
             const pos = frame.positions[p.id] || layout.positions[p.id];
-            const name = tracks.find((i) => i.id === p.islandId)?.name;
+            const name = trackNames[p.islandId];
             return (
               <span
                 key={p.islandId}
@@ -744,7 +771,7 @@ export function HistoryChart({
                       />
                     </svg>
                   )}
-                  <span>{tracks.find((i) => i.id === row.id)?.name}</span>
+                  <span>{trackNames[row.id]}</span>
                 </>
               )}
             </div>

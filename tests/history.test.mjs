@@ -24,18 +24,7 @@ const javascript = ts.transpileModule(
     },
   },
 ).outputText;
-const {
-  islands,
-  data,
-  stateAt,
-  historyPath,
-  dateValue,
-  eventDate,
-  powersInRange,
-  chartPowerRows,
-  changeCount,
-  changeWidth,
-} = await import(
+const { islands, stateAt, dateValue, eventDate, changeCount } = await import(
   `data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`
 );
 const island = (id) => islands.find((i) => i.id === id);
@@ -70,29 +59,6 @@ test('Changing powers takes effect on the date, never on 1 January by accident',
     'independent',
   );
 });
-test('All paths are finite, monotonic in time, and end in the correct row', () => {
-  for (const mode of ['administration', 'sovereignty']) {
-    for (const range of [
-      [1450, 2026],
-      [1600, 1820],
-      [1790, 2026],
-    ]) {
-      const x = (n) => ((n - range[0]) / (range[1] - range[0])) * 1000;
-      const y = (id) => data.owners.findIndex((o) => o.id === id) * 40;
-      for (const i of islands) {
-        const path = historyPath(i, mode, range, x, y);
-        assert.ok(!/NaN|undefined|Infinity/.test(path), i.id);
-        const times = [...path.matchAll(/H([\d.]+)/g)].map((m) => Number(m[1]));
-        assert.ok(times.every((t, n) => t >= (times[n - 1] ?? 0) && t <= 1000));
-        assert.equal(times.at(-1), 1000);
-        const rows = [...path.matchAll(/[MV](?:[\d.]+,)?([\d.]+)/g)].map((m) =>
-          Number(m[1]),
-        );
-        assert.equal(rows.at(-1), y(stateAt(i, range[1], mode)));
-      }
-    }
-  }
-});
 test('Display preserves month, year, and circa precision', () => {
   assert.equal(
     eventDate({ date: '1804', year: 1804, precision: 'year' }),
@@ -108,153 +74,7 @@ test('Display preserves month, year, and circa precision', () => {
   );
 });
 
-const layoutSource = await readFile(
-  new URL('../lib/chart-layout.ts', import.meta.url),
-  'utf8',
-);
-const layoutJS = ts.transpileModule(layoutSource, {
-  compilerOptions: { module: ts.ModuleKind.ES2022 },
-}).outputText;
-const { chartLayout } = await import(
-  `data:text/javascript;base64,${Buffer.from(layoutJS).toString('base64')}`
-);
-
-test('Responsive projection keeps every history inside the phone and desktop plot', () => {
-  for (const [width, height] of [
-    [292, 337],
-    [347, 401],
-    [362, 539],
-    [720, 580],
-    [1376, 645],
-  ]) {
-    for (const mode of ['administration', 'sovereignty']) {
-      for (const range of [
-        [1450, 2026],
-        [1600, 1820],
-        [1790, 2026],
-      ]) {
-        const layout = chartLayout(width, height, range, data.owners.length);
-        assert.ok(layout.step >= 20, 'Power labels need distinct rows');
-        assert.equal(layout.x(range[0]), layout.left);
-        assert.equal(layout.x(range[1]), width - layout.right);
-        for (const [index, island] of islands.entries()) {
-          const y = (id) =>
-            layout.y(data.owners.findIndex((o) => o.id === id)) +
-            (index - (islands.length - 1) / 2) * layout.laneStep;
-          const path = historyPath(island, mode, range, layout.x, y, 5);
-          assert.ok(!/NaN|undefined|Infinity/.test(path));
-          for (const [, x] of path.matchAll(/H([\d.]+)/g))
-            assert.ok(+x >= layout.left && +x <= width - layout.right);
-          for (const [, y] of path.matchAll(/[MV](?:[\d.]+,)?([\d.]+)/g))
-            assert.ok(+y >= 0 && +y <= height);
-        }
-      }
-    }
-  }
-});
-test('Responsive date ticks retain both endpoints without overlapping', () => {
-  for (const width of [292, 347, 362, 720, 1376]) {
-    for (const range of [
-      [1450, 2026],
-      [1600, 1820],
-      [1790, 2026],
-    ]) {
-      const { ticks, x } = chartLayout(width, 400, range, data.owners.length);
-      assert.equal(ticks[0], range[0]);
-      assert.equal(ticks.at(-1), range[1]);
-      for (let n = 1; n < ticks.length; n++)
-        assert.ok(x(ticks[n]) - x(ticks[n - 1]) >= 48);
-    }
-  }
-});
-
-test('Rounded bends stay on dated transitions and shrink around close events', () => {
-  const events = [1600, 1601, 1700, 1700, 1800].map((year, index) => ({
-    date: String(year),
-    changesControl: true,
-    resultingController: index % 2 ? 'spain' : 'france',
-    controller: index % 2 ? 'spain' : 'france',
-  }));
-  const sample = { initialController: 'spain', events };
-  const path = historyPath(
-    sample,
-    'administration',
-    [1450, 1800],
-    (n) => n,
-    (s) => (s === 'spain' ? 0 : 40),
-    5,
-  );
-  const curves = [
-    ...path.matchAll(/Q([\d.]+),([\d.]+) ([\d.]+),([\d.]+)/g),
-  ].map((m) => m.slice(1).map(Number));
-  assert.equal(
-    curves.length,
-    4,
-    'Only the two separated transitions have curved elbows',
-  );
-  for (const [cx, cy, ex, ey] of curves) {
-    assert.ok(
-      cx === 1600 || cx === 1601,
-      'Bezier control stays on the actual event date',
-    );
-    assert.ok(
-      Math.abs(ex - cx) <= 0.5 && Math.abs(ey - cy) <= 0.5,
-      'One-year gap caps each bend at half a unit',
-    );
-    assert.ok(
-      cy >= 0 && cy <= 40 && ey >= 0 && ey <= 40,
-      'Bends never overshoot their rows',
-    );
-  }
-  assert.ok(
-    path.includes('H1700V40H1700V0'),
-    'Same-day changes remain sharp, preserving their sequence',
-  );
-  assert.ok(
-    path.endsWith('H1800V40H1800'),
-    'A transfer at the right endpoint cannot curve beyond the range',
-  );
-});
-
-test('Grouped rows preserve every power in the selected island history', () => {
-  for (const island of islands)
-    for (const mode of ['administration', 'sovereignty'])
-      for (const range of [
-        [1450, 2026],
-        [1600, 1820],
-        [1790, 2026],
-      ]) {
-        const relevant = powersInRange(island, mode, range);
-        const rows = chartPowerRows(island, mode, range, true);
-        for (const id of relevant)
-          assert.ok(
-            rows.some((r) => r.id === id),
-            `${island.id}: ${id} must have its own row`,
-          );
-        assert.equal(
-          rows.filter((r) => r.id !== 'other').length,
-          relevant.size,
-        );
-        assert.equal(
-          rows.some((r) => r.id === 'other'),
-          relevant.size < data.owners.length,
-        );
-        assert.equal(
-          chartPowerRows(island, mode, range, false).length,
-          data.owners.length,
-        );
-        for (const other of islands)
-          for (const date of [range[0], range[1]]) {
-            const power = stateAt(other, date, mode);
-            assert.ok(
-              rows.some((r) => r.id === power || r.id === 'other'),
-              'Every background history retains a plotted row',
-            );
-          }
-      }
-});
-
-test('Change widths use dated control or title records within the chosen period', () => {
+test('Change counts use dated control or title records within the chosen period', () => {
   const guadeloupe = island('guadeloupe');
   assert.equal(changeCount(guadeloupe, 'administration', [1813, 1813.999]), 0);
   assert.equal(changeCount(guadeloupe, 'sovereignty', [1813, 1813.999]), 1);
@@ -265,13 +85,4 @@ test('Change widths use dated control or title records within the chosen period'
     );
     assert.equal(changeCount(i, 'administration', [2027, 2030]), 0);
   }
-  assert.ok(changeWidth(0) > 0, 'Unchanged histories remain visible');
-  assert.ok(
-    changeWidth(20) > changeWidth(5),
-    'More changes receive greater weight',
-  );
-  assert.ok(
-    changeWidth(20) < 4,
-    'Weight remains restrained across dense comparisons',
-  );
 });
