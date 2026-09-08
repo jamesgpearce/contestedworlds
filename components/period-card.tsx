@@ -130,7 +130,7 @@ export function PeriodCard({
                 </Popover.Description>
                 {inspection.event?.uncertainty && (
                   <p className="qualification">
-                    <span>Evidence note</span>
+                    <span>Qualified change</span>
                     {inspection.event.uncertainty}
                   </p>
                 )}
