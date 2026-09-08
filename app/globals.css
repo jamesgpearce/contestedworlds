@@ -1987,6 +1987,17 @@ footer > span:first-child {
   width: 100%;
   min-width: 0;
 }
+.chart-measuring {
+  container-type: inline-size;
+}
+.chart-measuring-space {
+  height: var(--wide-chart-height);
+}
+@container (width < 700px) {
+  .chart-measuring-space {
+    height: var(--compact-chart-height);
+  }
+}
 .period-canvas {
   position: relative;
   width: 100%;
@@ -2131,7 +2142,7 @@ footer > span:first-child {
     transition: none;
   }
 }
-/* Contain the server's provisional plot width until the first measured layout. */
+/* Keep chart interactions contained during subsequent container resizes. */
 .period-canvas {
   overflow-x: clip;
 }

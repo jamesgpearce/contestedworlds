@@ -198,3 +198,7 @@ Rectangles and claim markers no longer enter the Tab sequence. Removed the chart
 ## Direct hover through the card gap · 8 September 2026
 
 Removed pointer-corridor protection so every rectangle or claim immediately takes over hover, including the next lane visible in the gap above the card. Clicking a target holds its details. The separate Pin details button and Pinned label are removed; the close button and Previous/Next remain, including on touch devices.
+
+## Measure before the first chart frame · 8 September 2026
+
+Removed the initial 1,000px chart-width guess. Static HTML reserves row heights for wide and narrow containers; the SVG first appears after a synchronous container measurement in a layout effect. ResizeObserver handles later size changes. This avoids showing a narrow chart and then stretching it after hydration.

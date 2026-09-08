@@ -128,7 +128,7 @@ export function HistoryChart({
 }) {
   const pinned = !!pinnedTarget;
   const ref = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(1000);
+  const [width, setWidth] = useState(0);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastRevealRequest = useRef(0);
@@ -154,12 +154,17 @@ export function HistoryChart({
     },
     [],
   );
-  useEffect(() => {
-    if (!ref.current) return;
+  useLayoutEffect(() => {
+    const container = ref.current;
+    if (!container) return;
+    // Measure synchronously before the first hydrated paint; the observer handles
+    // subsequent resizing, not the chart's initial dimensions.
+    const measuredWidth = container.getBoundingClientRect().width;
+    if (measuredWidth > 0) setWidth(measuredWidth);
     const observer = new ResizeObserver(([entry]) => {
       if (entry.contentRect.width > 0) setWidth(entry.contentRect.width);
     });
-    observer.observe(ref.current);
+    observer.observe(container);
     return () => observer.disconnect();
   }, []);
   const periods = useMemo(
@@ -302,6 +307,33 @@ export function HistoryChart({
     setHover(null);
     onClaim(island, event);
   };
+  if (!width) {
+    // Static HTML cannot know the browser's container width. Reserve the correct
+    // row height for either layout, but never expose a provisionally sized SVG.
+    const wideHeight = arrangePeriods(
+      periods,
+      tracks.map((island) => island.id),
+      data.owners.map((owner) => owner.id),
+      1000,
+      arrangement,
+    ).height;
+    return (
+      <div className="period-atlas chart-measuring" ref={ref} aria-busy="true">
+        <div
+          className="chart-measuring-space"
+          style={
+            {
+              '--wide-chart-height': `${wideHeight}px`,
+              '--compact-chart-height': `${layout.height}px`,
+            } as React.CSSProperties
+          }
+        />
+        <p className="chart-scale-note" role="status">
+          Preparing chart…
+        </p>
+      </div>
+    );
+  }
   const years = [range[0]];
   const tickStep =
     [25, 50, 100, 200, 500].find(
