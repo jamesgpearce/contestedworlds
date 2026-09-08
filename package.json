@@ -15,7 +15,8 @@
     "data:build": "node scripts/build-data.mjs",
     "predev": "npm run data:build",
     "prebuild": "npm run data:build",
-    "test": "npm run data:build && vitest run",
+    "test": "npm run data:build && vitest run --exclude 'tests/browser/**'",
+    "test:browser": "playwright test",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview --host 127.0.0.1 --port 3000",
     "postbuild": "node scripts/prepare-static.mjs",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "1.63.0",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

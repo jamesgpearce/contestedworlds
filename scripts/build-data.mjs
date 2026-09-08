@@ -12,7 +12,23 @@ function requireValue(condition, message) {
 
 async function readJson(name) {
   try {
-    return JSON.parse(await readFile(join(dataRoot, name), 'utf8'));
+    const input = await readFile(join(dataRoot, name), 'utf8');
+    const value = JSON.parse(input);
+    // JSON.parse checks syntax, but silently overwrites duplicate object keys.
+    // Consume whole strings so braces and colons inside prose are ignored.
+    const objects = [];
+    for (const [token] of input.matchAll(/"(?:\\.|[^"\\])*"\s*:?|[{}]/g)) {
+      if (token === '{') objects.push(new Set());
+      else if (token === '}') objects.pop();
+      else if (token.endsWith(':')) {
+        const key = JSON.parse(token.slice(0, -1));
+        const keys = objects.at(-1);
+        if (keys.has(key))
+          throw new SyntaxError(`Duplicate key ${JSON.stringify(key)}`);
+        keys.add(key);
+      }
+    }
+    return value;
   } catch (error) {
     if (error instanceof SyntaxError)
       throw new Error(`${name}: ${error.message}`);
@@ -25,12 +41,12 @@ function dateKey(value) {
     typeof value === 'string' && /^\d{4}(-\d{2}){0,2}$/.test(value),
     `Invalid date: ${value}`,
   );
-  const parts = value.split('-').map(Number);
-  const date = new Date(Date.UTC(parts[0], (parts[1] || 1) - 1, parts[2] || 1));
+  const [year, month = 1, day = 1] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
   requireValue(
-    date.getUTCFullYear() === parts[0] &&
-      date.getUTCMonth() === (parts[1] || 1) - 1 &&
-      date.getUTCDate() === (parts[2] || 1),
+    date.getUTCFullYear() === year &&
+      date.getUTCMonth() === month - 1 &&
+      date.getUTCDate() === day,
     `Invalid date: ${value}`,
   );
   return date;

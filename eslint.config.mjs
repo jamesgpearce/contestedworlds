@@ -11,6 +11,8 @@ export default tseslint.config(
       'docs/**',
       'dist/**',
       'node_modules/**',
+      'playwright-report/**',
+      'test-results/**',
       'public/**',
       'public/data/**',
       'src/lib/caribbean.json',

@@ -70,7 +70,7 @@ function environment(stored = null, systemDark = false, blocked = false) {
   };
   vm.runInNewContext(javascript, context);
   const api = context.exports;
-  vm.runInNewContext(api.themeBootstrap, context);
+  api.initializeTheme();
   return {
     api,
     root,

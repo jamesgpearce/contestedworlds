@@ -1,12 +1,18 @@
 import { cp, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadEnv } from 'vite';
 const root = fileURLToPath(new URL('../docs/', import.meta.url));
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url)),
 );
-const base = process.env.VITE_BASE_PATH || '';
-const site = new URL(process.env.VITE_SITE_URL || config.url);
+const env = loadEnv(
+  'production',
+  fileURLToPath(new URL('../', import.meta.url)),
+  'VITE_',
+);
+const base = env.VITE_BASE_PATH || '';
+const site = new URL(env.VITE_SITE_URL || config.url);
 site.search = '';
 site.hash = '';
 const escape = (value) =>

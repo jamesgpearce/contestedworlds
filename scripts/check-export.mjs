@@ -3,11 +3,17 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadEnv } from 'vite';
 const root = fileURLToPath(new URL('../docs/', import.meta.url));
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
-const base = process.env.VITE_BASE_PATH || '';
+const env = loadEnv(
+  'production',
+  fileURLToPath(new URL('../', import.meta.url)),
+  'VITE_',
+);
+const base = env.VITE_BASE_PATH || '';
 const site = new URL(
-  process.env.VITE_SITE_URL ||
+  env.VITE_SITE_URL ||
     JSON.parse(await readFile(new URL('../site.config.json', import.meta.url)))
       .url,
 );

@@ -27,7 +27,8 @@ Selection membership, a pinned target and transient hover are distinct. Hover ne
 - Vitest exercises the real TypeScript timeline, periods, URL, theme and analytics modules. Historical fixtures explain important distinctions such as occupation without annexation.
 - Lint covers all application components; TypeScript checks the complete source tree.
 - Static-export checks verify referenced files, metadata, image dimensions, downloads, the client entry and CNAME.
-- CI runs data checks separately, then application tests and root/project-path exports. Pages deployment is gated on those checks.
+- Playwright builds and serves the production artifact, then checks interaction in Chromium, Firefox and WebKit, with additional touch-emulated phone profiles. The suite uses behavior and geometry assertions, with traces and screenshots on failure; `npm test` runs the separate Vitest suite.
+- CI runs data checks separately, then application tests, browser tests and root/project-path exports. Pages deployment is gated on those checks.
 
 The audit's automated checks are not a new physical-device or screen-reader certification. Older browser observations are archived in [validation-history.md](validation-history.md); they should not be confused with evidence for the current build. Historical accuracy still requires source review.
 

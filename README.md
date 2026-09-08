@@ -16,7 +16,7 @@ An interactive atlas of the Caribbean through conquest, treaties, occupation and
 
 Open the island file on GitHub, choose **Edit**, and propose a pull request. Use an existing citation from [data/sources.json](data/sources.json), or add one with a specific page or passage. Preserve existing event IDs. The automated checks run on your PR.
 
-For a local check, only Python 3.10+ is needed:
+For a local check, use Node 22.13+:
 
 ```sh
 npm run data:check
@@ -35,18 +35,21 @@ npm run dev
 
 When editing JSON while the server is running, use `npm run data:build` to refresh the runtime dataset.
 
-| Command                | Purpose                                                                          |
-| ---------------------- | -------------------------------------------------------------------------------- |
-| `npm run data:check`   | Validate the editable research files without writing output                      |
-| `npm test`             | Data, historical semantics, URL state, geometry, appearance and analytics checks |
-| `npm run lint`         | Lint the entire application and its UI components                                |
-| `npm run typecheck`    | Check TypeScript                                                                 |
-| `npm run build`        | Export the static site to `docs/` for GitHub Pages                               |
-| `npm run check:export` | Verify generated assets, metadata, image dimensions and deployment paths         |
-| `npm run preview`      | Serve the exported site locally                                                  |
-| `npm run social:build` | Rebuild the share card from actual Greater Antilles periods                      |
+| Command                | Purpose                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| `npm run data:check`   | Validate the editable research files without writing output                          |
+| `npm test`             | Data, historical semantics, URL state, geometry, appearance and analytics checks     |
+| `npm run test:browser` | Build and test browser interactions in Chromium, Firefox, WebKit and emulated phones |
+| `npm run lint`         | Lint the entire application and its UI components                                    |
+| `npm run typecheck`    | Check TypeScript                                                                     |
+| `npm run build`        | Export the static site to `docs/` for GitHub Pages                                   |
+| `npm run check:export` | Verify generated assets, metadata, image dimensions and deployment paths             |
+| `npm run preview`      | Serve the exported site locally                                                      |
+| `npm run social:build` | Rebuild the share card from actual Greater Antilles periods                          |
 
 GitHub Actions checks data separately before checking the application and both static URL layouts. A push to `main` publishes through the Pages workflow after validation. First enable **Settings → Pages → GitHub Actions**; see the [deployment guide](documentation/deployment.md).
+
+Install the test browsers once with `npx playwright install chromium firefox webkit` (on Linux, add `--with-deps`), then run `npm run test:browser`. The suite builds and serves the production site on port 4173, checks shared links, chart inspection, keyboard controls, theme preferences, reduced motion and phone layouts, and runs in CI before deployment. Use `npm run test:browser -- --project=firefox` for one browser or `npx playwright show-report` to inspect the HTML report. Failed tests retain traces and screenshots; CI uploads the report and evidence for 14 days. Phone checks emulate touch and viewport sizes, and do not replace physical-device or screen-reader testing.
 
 ## What the chart means
 

@@ -2,25 +2,87 @@ import {
   createContext,
   useContext,
   useEffect,
+  useId,
+  useLayoutEffect,
   useRef,
   useState,
   type ComponentProps,
 } from 'react';
 import { cn } from '@/lib/utils';
 
-type PopoverState = { open: boolean; setOpen: (open: boolean) => void };
+type PopoverState = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  contentId: string;
+};
 const PopoverContext = createContext<PopoverState | null>(null);
 
 export function Popover({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const contentId = useId();
+  useLayoutEffect(() => {
+    if (!open) return;
+    const panel = rootRef.current?.querySelector<HTMLElement>(
+      '[data-slot="popover-content"]',
+    );
+    const trigger = rootRef.current?.querySelector<HTMLElement>(
+      '[data-slot="popover-trigger"]',
+    );
+    if (!panel || !trigger) return;
+    const position = () => {
+      const rect = trigger.getBoundingClientRect();
+      const margin = 14;
+      const gap = Number(panel.dataset.sideOffset || 8);
+      const below = Math.max(
+        0,
+        window.innerHeight - rect.bottom - gap - margin,
+      );
+      const above = Math.max(0, rect.top - gap - margin);
+      const naturalHeight = panel.scrollHeight + 2;
+      const useBelow = naturalHeight <= below || below >= above;
+      const available = Math.min(
+        window.innerHeight - 2 * margin,
+        Math.max(40, useBelow ? below : above),
+      );
+      const height = Math.min(naturalHeight, available);
+      const left =
+        panel.dataset.align === 'start'
+          ? rect.left
+          : rect.right - panel.offsetWidth;
+      panel.style.left = `${Math.max(margin, Math.min(left, window.innerWidth - panel.offsetWidth - margin))}px`;
+      panel.style.top = `${Math.max(margin, useBelow ? rect.bottom + gap : rect.top - gap - height)}px`;
+      panel.style.setProperty('--available-height', `${available}px`);
+    };
+    position();
+    window.addEventListener('resize', position);
+    window.addEventListener('scroll', position, true);
+    return () => {
+      window.removeEventListener('resize', position);
+      window.removeEventListener('scroll', position, true);
+    };
+  }, [open]);
   useEffect(() => {
     if (!open) return;
+    const content = rootRef.current?.querySelector<HTMLElement>(
+      '[data-slot="popover-content"]',
+    );
+    (
+      content?.querySelector<HTMLElement>(
+        'button:not(:disabled):not([tabindex="-1"]), input:not(:disabled), select:not(:disabled), a[href]',
+      ) || content
+    )?.focus();
     const close = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
     const escape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape' && !event.defaultPrevented) {
+        event.preventDefault();
+        setOpen(false);
+        rootRef.current
+          ?.querySelector<HTMLButtonElement>('[data-slot="popover-trigger"]')
+          ?.focus();
+      }
     };
     document.addEventListener('pointerdown', close);
     document.addEventListener('keydown', escape);
@@ -30,8 +92,20 @@ export function Popover({ children }: { children: React.ReactNode }) {
     };
   }, [open]);
   return (
-    <PopoverContext.Provider value={{ open, setOpen }}>
-      <div ref={rootRef} className="popover-root">
+    <PopoverContext.Provider value={{ open, setOpen, contentId }}>
+      <div
+        ref={rootRef}
+        className="popover-root"
+        onBlur={(event) => {
+          // A tap can blur to the document in WebKit; outside pointer presses
+          // already dismiss the panel without racing the trigger's click.
+          if (
+            event.relatedTarget &&
+            !event.currentTarget.contains(event.relatedTarget)
+          )
+            setOpen(false);
+        }}
+      >
         {children}
       </div>
     </PopoverContext.Provider>
@@ -48,6 +122,10 @@ export function PopoverTrigger({
   return (
     <button
       type="button"
+      data-slot="popover-trigger"
+      aria-expanded={popover.open}
+      aria-controls={popover.contentId}
+      aria-haspopup="dialog"
       data-popup-open={popover.open || undefined}
       className={className}
       onClick={(event) => {
@@ -73,6 +151,10 @@ export function PopoverContent({
   if (!popover?.open) return null;
   return (
     <div
+      id={popover.contentId}
+      role="dialog"
+      aria-labelledby={`${popover.contentId}-title`}
+      tabIndex={-1}
       data-slot="popover-content"
       data-align={align}
       data-side-offset={sideOffset}
@@ -89,8 +171,10 @@ export function PopoverHeader({ className, ...props }: ComponentProps<'div'>) {
 }
 
 export function PopoverTitle({ className, ...props }: ComponentProps<'div'>) {
+  const popover = useContext(PopoverContext);
   return (
     <div
+      id={popover ? `${popover.contentId}-title` : undefined}
       role="heading"
       aria-level={3}
       className={cn('popover-title', className)}

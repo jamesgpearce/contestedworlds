@@ -6,8 +6,16 @@ function preference(value: unknown): ThemePreference {
   return value === 'light' || value === 'dark' ? value : 'system';
 }
 
-// Runs in the document head, before the page paints or React hydrates.
-export const themeBootstrap = `(()=>{let p='system';try{const v=localStorage.getItem('caribbean-atlas-theme');if(v==='light'||v==='dark')p=v}catch{}const d=p==='dark'||(p==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);const r=document.documentElement;r.dataset.themePreference=p;r.dataset.theme=d?'dark':'light';r.classList.toggle('dark',d);r.style.colorScheme=d?'dark':'light'})()`;
+// Restore appearance before React renders the atlas.
+export function initializeTheme() {
+  let saved: ThemePreference = 'system';
+  try {
+    saved = preference(window.localStorage.getItem(storageKey));
+  } catch {
+    // System appearance still works when storage is unavailable.
+  }
+  applyTheme(saved);
+}
 
 export function getThemePreference(): ThemePreference {
   return typeof document === 'undefined'

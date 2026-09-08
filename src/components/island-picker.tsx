@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Check, ChevronDown, Minus } from 'lucide-react';
 import { islands } from '@/lib/history';
 
@@ -13,13 +13,22 @@ export function IslandPicker({
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
   useEffect(() => {
     if (!open) return;
+    rootRef.current
+      ?.querySelector<HTMLButtonElement>('[role="menuitem"]:not(:disabled)')
+      ?.focus();
     const close = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
     const escape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape' && !event.defaultPrevented) {
+        event.preventDefault();
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
     };
     document.addEventListener('pointerdown', close);
     document.addEventListener('keydown', escape);
@@ -48,21 +57,74 @@ export function IslandPicker({
   }
   const choose = (next: string[]) => onChange(next);
   return (
-    <div ref={rootRef} className="island-picker">
+    <div
+      ref={rootRef}
+      className="island-picker"
+      onBlur={(event) => {
+        // WebKit may blur to the document when tapping the trigger. Outside
+        // pointer presses are handled separately, without reopening the menu.
+        if (
+          event.relatedTarget &&
+          !event.currentTarget.contains(event.relatedTarget)
+        )
+          setOpen(false);
+      }}
+    >
       <button
         type="button"
+        ref={triggerRef}
         className="islands-trigger"
         aria-label={`Choose islands: ${label}`}
         aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={menuId}
         onClick={() => setOpen(!open)}
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            setOpen(true);
+          }
+        }}
       >
         <span>{label}</span>
         <ChevronDown size={18} aria-hidden="true" />
       </button>
       {open && (
-        <div className="islands-menu" role="menu">
+        <div
+          className="islands-menu"
+          role="menu"
+          tabIndex={-1}
+          id={menuId}
+          aria-label="Choose islands"
+          onKeyDown={(event) => {
+            if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key))
+              return;
+            const buttons = Array.from(
+              event.currentTarget.querySelectorAll<HTMLButtonElement>(
+                'button:not(:disabled)',
+              ),
+            );
+            const index = buttons.indexOf(
+              document.activeElement as HTMLButtonElement,
+            );
+            if (index < 0) return;
+            event.preventDefault();
+            const next =
+              event.key === 'Home'
+                ? 0
+                : event.key === 'End'
+                  ? buttons.length - 1
+                  : (index +
+                      (event.key === 'ArrowDown' ? 1 : -1) +
+                      buttons.length) %
+                    buttons.length;
+            buttons[next].focus();
+          }}
+        >
           <button
             type="button"
+            role="menuitem"
+            tabIndex={-1}
             className="menu-item"
             onClick={() => choose(islands.map((island) => island.id))}
           >
@@ -70,15 +132,26 @@ export function IslandPicker({
           </button>
           <button
             type="button"
+            role="menuitem"
+            tabIndex={-1}
             className="menu-item"
             disabled={!ids.length}
-            onClick={() => choose([])}
+            onClick={() => {
+              // Clearing disables this button. Move focus before that blur can
+              // close the menu, so keyboard and touch users can choose again.
+              rootRef.current
+                ?.querySelector<HTMLButtonElement>('[role="menuitem"]')
+                ?.focus({ preventScroll: true });
+              choose([]);
+            }}
           >
             Clear selection
           </button>
           {ids.length > 0 && (
             <button
               type="button"
+              role="menuitem"
+              tabIndex={-1}
               className="menu-item"
               onClick={() => choose([inspected])}
             >
@@ -114,6 +187,7 @@ export function IslandPicker({
                     type="button"
                     className="island-group-toggle"
                     role="menuitemcheckbox"
+                    tabIndex={-1}
                     aria-checked={partial ? 'mixed' : allSelected}
                     onClick={toggleGroup}
                   >
@@ -138,6 +212,7 @@ export function IslandPicker({
                         type="button"
                         className="island-group-member"
                         role="menuitemcheckbox"
+                        tabIndex={-1}
                         aria-checked={checked}
                         key={island.id}
                         onClick={() =>
