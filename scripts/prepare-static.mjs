@@ -28,7 +28,9 @@ const atlas = manifest['src/render.tsx'];
 const preloads = [
   `<link rel="modulepreload" crossorigin href="${base}/${atlas.file}">`,
   ...atlas.css.map(
-    (file) => `<link rel="preload" as="style" href="${base}/${file}">`,
+    // Match Vite's stylesheet request so browsers can reuse this preload.
+    (file) =>
+      `<link rel="preload" as="style" crossorigin href="${base}/${file}">`,
   ),
 ].join('\n');
 const index = (await readFile(indexPath, 'utf8'))

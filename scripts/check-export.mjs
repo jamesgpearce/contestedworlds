@@ -108,6 +108,13 @@ assert.ok(
   html.includes(`rel="modulepreload" crossorigin href="${base}/${atlas.file}"`),
   'Preload the atlas code alongside its data',
 );
+for (const file of atlas.css)
+  assert.ok(
+    html.includes(
+      `rel="preload" as="style" crossorigin href="${base}/${file}"`,
+    ),
+    'CSS preload must match the stylesheet request mode to be reused',
+  );
 for (const name of ['caribbean', 'coastlines']) {
   const file = manifest[`src/lib/${name}.json`].file;
   assert.ok(

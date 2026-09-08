@@ -29,6 +29,8 @@ History and coastlines are separate content-hashed JSON assets. `atlas-data.ts` 
 
 `index.html` contains a small loading screen and inline critical CSS. `main.tsx` restores the theme and imports `render.tsx` while the JSON loads. The generated HTML preloads the chart module and its stylesheet; the full stylesheet is applied by the dynamic import rather than blocking the loading screen. Fetch preloads are avoided because WebKit duplicated their transfers in verification. The app uses system fonts, so there are no font downloads or font preloads. Failed data/chunk loads show a retry action that reloads the same shared URL; data requests time out after 15 seconds.
 
+The loading screen uses vertical padding so its spacing cannot collapse into the body's margin and move the page when the atlas mounts. CSS preloads use the same anonymous CORS mode as Vite's stylesheet requests, allowing the initial request to be reused. Loading tests cover both behaviors with the chart and data held back.
+
 Preact's compatibility layer replaces React DOM's larger renderer without changing component imports; the browser suite covers the resulting interactions. React packages remain installed for the React API/types and Lucide's peer dependency, but are aliased out of the browser bundle.
 
 `npm run size:compare` measures both Oxc and three-pass Terser against the entire JavaScript graph without writing `docs/`. Oxc remains the production default: it currently produces less raw JavaScript, while gzip sizes are effectively tied (Terser saves 14 bytes across the complete graph). Shared viewport listeners and a direct `clsx` re-export remove repeated runtime wrappers; source formatting is left readable because the minifier removes whitespace.

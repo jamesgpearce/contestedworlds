@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('first paint needs neither the atlas chunk nor JSON; data fetches start early and run once', async ({
+test('loading stays in place while code arrives; JSON and CSS load early and once', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -13,6 +13,11 @@ test('first paint needs neither the atlas chunk nor JSON; data fetches start ear
     releaseData = resolve;
   });
   const requests: string[] = [];
+  const stylesheets: string[] = [];
+  page.on('request', (request) => {
+    if (/\/assets\/render-.*\.css$/.test(request.url()))
+      stylesheets.push(request.url());
+  });
   await page.route('**/assets/render-*.js', async (route) => {
     await code;
     await route.continue();
@@ -32,6 +37,9 @@ test('first paint needs neither the atlas chunk nor JSON; data fetches start ear
     ).toBeVisible();
     await expect(page.locator('.period-chart')).toHaveCount(0);
     await expect.poll(() => new Set(requests).size).toBe(2);
+    await expect.poll(() => stylesheets.length).toBe(1);
+    // A collapsing loading-screen margin used to move the whole body on mount.
+    expect((await page.locator('body').boundingBox())?.y).toBe(0);
     expect(
       await page
         .locator('#boot-status')
@@ -48,7 +56,9 @@ test('first paint needs neither the atlas chunk nor JSON; data fetches start ear
       'French administration established',
     );
     await expect(page.locator('#boot-screen')).toHaveCount(0);
+    expect((await page.locator('body').boundingBox())?.y).toBe(0);
     expect(requests.length, 'Each JSON asset should load exactly once').toBe(2);
+    expect(stylesheets.length, 'Reuse the early CSS preload').toBe(1);
   } finally {
     releaseCode();
     releaseData();
