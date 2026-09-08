@@ -12,6 +12,7 @@ export function PeriodCard({
   anchor,
   panelRef,
   onSelect,
+  onShowIsland,
   onDismiss,
   onEnter,
   onLeave,
@@ -24,6 +25,7 @@ export function PeriodCard({
   };
   panelRef: React.RefObject<HTMLDivElement | null>;
   onSelect: (period: Period) => void;
+  onShowIsland?: () => void;
   onDismiss: () => void;
   onEnter: () => void;
   onLeave: () => void;
@@ -104,7 +106,19 @@ export function PeriodCard({
             {inspection && (
               <>
                 <div className="period-card-heading">
-                  <Popover.Title>{inspection.island.name}</Popover.Title>
+                  <div className="period-card-title">
+                    <Popover.Title>{inspection.island.name}</Popover.Title>
+                    {onShowIsland && (
+                      <button
+                        type="button"
+                        className="period-card-isolate"
+                        aria-label={`Show only ${inspection.island.name}`}
+                        onClick={onShowIsland}
+                      >
+                        Show only this island
+                      </button>
+                    )}
+                  </div>
                   <button
                     className="period-card-close"
                     aria-label="Close period details"

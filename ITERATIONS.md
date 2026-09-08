@@ -216,3 +216,7 @@ Chart initialization now waits for both the browser's URL snapshot and the measu
 Fixed period metadata at clipped date-window boundaries and memoized expensive chart labels/claim lookups. Removed retired geometry, unused UI/CSS and dependencies, and updated the runtime/build stack. Stronger Python validation catches malformed contributor edits before generation.
 
 Prepared data-first contribution instructions, correction templates, CI, a GitHub Pages workflow and custom-domain instructions for contestedworlds.com. Added canonical/social metadata, a Greater Antilles By Power share card generated from the chart's real geometry, and the supplied Analytics tag with production-host and privacy-signal checks. Public site configuration lives in site.config.json; both root and project-path exports are checked.
+
+## Focus one island from its card · 8 September 2026
+
+Cards show a small “Show only this island” action beneath the country name when more than one island is displayed. It selects that single track and retains the exact period or claim as the pinned, shareable detail. The action disappears once only one island is shown.

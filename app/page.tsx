@@ -418,6 +418,14 @@ export default function Home() {
                 onDismiss={() => updateView({ detail: null })}
                 onSelect={selectPeriod}
                 onClaim={(_, e) => selectEvent(e)}
+                onShowIsland={({ island, period, standalone }) => {
+                  setLastSelected(island.id);
+                  setRevealRequest((value) => value + 1);
+                  updateView({
+                    selectedIds: [island.id],
+                    detail: standalone?.id || detailForPeriod(period),
+                  });
+                }}
               />
             </>
           )}

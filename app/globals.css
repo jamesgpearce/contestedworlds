@@ -1383,6 +1383,21 @@ details[open] > summary > .disclosure-chevron {
   line-height: 1.3;
   letter-spacing: -0.02em;
 }
+.period-card-title {
+  min-width: 0;
+}
+.period-card-isolate {
+  margin-top: 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--faint);
+  font-size: 0.875rem;
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 3px;
+}
 .period-card-close {
   flex: none;
   display: grid;

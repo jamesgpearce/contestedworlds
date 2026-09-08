@@ -30,7 +30,11 @@ import {
 import { islandFlags } from '@/lib/island-flags';
 import { eventAxis } from '@/lib/event-axis';
 import { PeriodCard } from '@/components/period-card';
-import { inspectTarget, type InspectionTarget } from '@/lib/chart-inspection';
+import {
+  inspectTarget,
+  type Inspection,
+  type InspectionTarget,
+} from '@/lib/chart-inspection';
 import { PowerSymbol } from '@/components/power-symbol';
 
 // Selection markers and enlarged hit areas must not move the card's anchor.
@@ -118,6 +122,7 @@ export function HistoryChart({
   onDismiss,
   onSelect,
   onClaim,
+  onShowIsland,
 }: {
   viewReady: boolean;
   tracks: Island[];
@@ -133,6 +138,7 @@ export function HistoryChart({
   onDismiss: () => void;
   onSelect: (period: Period) => void;
   onClaim: (island: Island, event: HistoryEvent) => void;
+  onShowIsland: (inspection: Inspection) => void;
 }) {
   const pinned = !!pinnedTarget;
   const ref = useRef<HTMLDivElement>(null);
@@ -415,6 +421,15 @@ export function HistoryChart({
         anchor={anchor}
         panelRef={panelRef}
         onSelect={(p) => select(p, true)}
+        onShowIsland={
+          tracks.length > 1 && inspection
+            ? () => {
+                cancelClose();
+                setHover(null);
+                onShowIsland(inspection);
+              }
+            : undefined
+        }
         onDismiss={dismiss}
         onEnter={cancelClose}
         onLeave={leave}
