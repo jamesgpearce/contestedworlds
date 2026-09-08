@@ -417,7 +417,7 @@ h3 {
 .chronology {
   min-width: 0;
 }
-.locator-map svg {
+.locator-map > svg {
   display: block;
   width: 100%;
   height: auto;
@@ -709,7 +709,7 @@ footer > span:first-child {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  .locator-map svg {
+  .locator-map > svg {
     max-height: 240px;
   }
   .event-list {
