@@ -39,7 +39,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}/
           # Public identifier. Forks default to no analytics; set your own variable.
           NEXT_PUBLIC_GA_ID: ${{ vars.GA_MEASUREMENT_ID || (github.repository == 'jamesgpearce/contestedworlds' && 'G-EYQ3SGDHPC' || '') }}
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist/client
   deploy:
