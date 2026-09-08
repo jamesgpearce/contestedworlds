@@ -158,3 +158,7 @@ Island grouping now places modern country or territory SVG flags beside island n
 ## Island names at the start of each track · 8 September 2026
 
 Power grouping now right-aligns a small island name beside each first visible rectangle. Labels use the actual starting power, including Shared / unsettled, and follow custom date windows. Power headings move above rows with these names; Indigenous is shortened in the row heading. A compact label column keeps the names separate from dates on phones.
+
+## Claim headings that add context · 8 September 2026
+
+Claim cards omit event headings that merely restate the claimant and current island name. Specific voyages, patents, competing or qualified claims, and historical place names retain their headings. Two descriptions no longer restate the claim. Original event titles remain in the dataset and chronology; dates, powers, citations and qualifications are unchanged.

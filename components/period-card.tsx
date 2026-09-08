@@ -30,6 +30,16 @@ export function PeriodCard({
   onEnter: () => void;
   onLeave: () => void;
 }) {
+  const event = inspection?.event;
+  const claimedPlace = event?.title.match(
+    /^(?:Spain|England|France) claims (.+)$/i,
+  )?.[1];
+  // Keep specific voyages, grants, competing claims and historical place names.
+  const repeatedClaimTitle =
+    event?.kind === 'claim' &&
+    (/^an? (?:English|Spanish|French) claim$/i.test(event.title) ||
+      claimedPlace?.toLowerCase() === inspection?.island.name.toLowerCase() ||
+      claimedPlace === 'the island');
   return (
     <Popover.Root
       open={!!inspection}
@@ -112,7 +122,9 @@ export function PeriodCard({
                   </strong>
                   <span>{inspection.dates}</span>
                 </div>
-                {inspection.event && <h4>{inspection.event.title}</h4>}
+                {inspection.event && !repeatedClaimTitle && (
+                  <h4>{inspection.event.title}</h4>
+                )}
                 <Popover.Description id="period-metadata-description">
                   {inspection.event?.detail || inspection.island.peoples}
                 </Popover.Description>
