@@ -202,3 +202,7 @@ Removed pointer-corridor protection so every rectangle or claim immediately take
 ## Measure before the first chart frame · 8 September 2026
 
 Removed the initial 1,000px chart-width guess. Static HTML reserves row heights for wide and narrow containers; the SVG first appears after a synchronous container measurement in a layout effect. ResizeObserver handles later size changes. This avoids showing a narrow chart and then stretching it after hydration.
+
+## A personal introduction to the method · 8 September 2026
+
+Method now opens with James Pearce's motivation for making the atlas, alongside the open-source contribution note in two equal-width text panels. The panels stack on narrow screens.

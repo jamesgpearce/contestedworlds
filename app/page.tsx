@@ -561,20 +561,31 @@ export default function Home() {
             <DisclosureIcon />
             <h2>Method</h2>
           </summary>
-          <p className="contribution-note">
-            <strong>Open source. Corrections welcome.</strong> The code is
-            MIT-licensed and the dataset is CC BY 4.0. Found a missing event, a
-            date to correct, or a better source?{' '}
-            <a
-              href={`${repository}/blob/main/CONTRIBUTING.md`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Make a pull request against the dataset
-            </a>{' '}
-            on GitHub. Each island has an editable JSON file; no chart code
-            changes are needed.
-          </p>
+          <div className="method-intro">
+            <p>
+              <strong>Why I made this.</strong> While traveling through the
+              Caribbean, I realized how little I knew about the historical
+              imperial chessboard of these islands, and how, for centuries, they
+              had lain at the center of global geopolitics. I hope this
+              infographic conveys just how complex, surprising, and often tragic
+              their histories have been.
+              <span className="method-author">James Pearce</span>
+            </p>
+            <p>
+              <strong>Open source. Corrections welcome.</strong> The code is
+              MIT-licensed and the dataset is CC BY 4.0. Found a missing event,
+              a date to correct, or a better source?{' '}
+              <a
+                href={`${repository}/blob/main/CONTRIBUTING.md`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Make a pull request against the dataset
+              </a>{' '}
+              on GitHub. Each island has an editable JSON file; no chart code
+              changes are needed.
+            </p>
+          </div>
           <div className="method-grid">
             <p>
               <strong>

@@ -2592,15 +2592,28 @@ details[open] > summary > .disclosure-chevron {
   padding-bottom: 24px;
 }
 
-.contribution-note {
-  max-width: 90ch;
+.method-intro {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 32px;
   margin: 20px 0;
+}
+.method-intro p {
   font-size: 0.875rem;
   line-height: 1.75;
   color: var(--faint);
 }
-.contribution-note strong {
+.method-intro strong {
   color: var(--ink);
+}
+.method-author {
+  display: block;
+  margin-top: 8px;
+}
+@media (max-width: 750px) {
+  .method-intro {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Name each starting lane without obscuring dated rectangles. */
