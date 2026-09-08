@@ -1,6 +1,7 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- Inline SVG needs its image role; the labeled scroll region has an explicit accessible role. */
 /* oxlint-disable jsx-a11y/no-noninteractive-tabindex -- Keyboard users must be able to focus and scroll the chart. */
 'use client';
+import { assetPath, repository } from '@/lib/site-config';
 import { Fragment, useState, useEffect, useMemo } from 'react';
 import { flushSync } from 'react-dom';
 import {
@@ -58,8 +59,6 @@ import {
   changeCount,
   powerColor,
 } from '@/lib/history';
-
-const repository = 'https://github.com/jamesgpearce/contestedworlds';
 
 const ranges: Record<string, [number, number]> = Object.fromEntries(
   yearPresets.map((preset) => [preset.id, [preset.start, preset.end]]),
@@ -524,11 +523,11 @@ export default function Home() {
             <span>{data.sources.length} sources</span>
           </summary>
           <div className="downloads">
-            <a href="/data/caribbean.json" download>
+            <a href={assetPath('/data/caribbean.json')} download>
               Dataset · JSON{' '}
               <Download className="inline-icon" aria-hidden="true" />
             </a>
-            <a href="/data/events.csv" download>
+            <a href={assetPath('/data/events.csv')} download>
               Chronology · CSV{' '}
               <Download className="inline-icon" aria-hidden="true" />
             </a>
@@ -538,7 +537,7 @@ export default function Home() {
             government histories and scholarship are supplemented by specialist
             chronologies. A citation establishes provenance, not a claim of
             archival certainty.{' '}
-            <a href="/data/editorial-notes.json" download>
+            <a href={assetPath('/data/editorial-notes.json')} download>
               Download the qualified records
             </a>
             .

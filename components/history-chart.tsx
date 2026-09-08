@@ -1,5 +1,6 @@
 /* oxlint-disable jsx-a11y/prefer-tag-over-role -- SVG periods expose button semantics; native Previous/Next controls navigate the selected history. */
 'use client';
+import { assetPath } from '@/lib/site-config';
 import {
   useState,
   useRef,
@@ -765,7 +766,7 @@ export function HistoryChart({
                       aria-hidden="true"
                     >
                       <image
-                        href={`/flags/${islandFlags[row.id]}.svg`}
+                        href={assetPath(`/flags/${islandFlags[row.id]}.svg`)}
                         width={22}
                         height={16.5}
                       />

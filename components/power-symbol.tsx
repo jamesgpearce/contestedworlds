@@ -1,3 +1,4 @@
+import { assetPath } from '@/lib/site-config';
 /** Contemporary identifiers, not a reconstruction of flags at each historical date. */
 const flagFiles: Record<string, string> = {
   spain: 'es',
@@ -41,7 +42,11 @@ export function PowerSymbol({
   return (
     <g transform={`translate(${x} ${y})`} aria-hidden="true">
       {flag ? (
-        <image href={`/flags/${flag}.svg`} width={22} height={16.5} />
+        <image
+          href={assetPath(`/flags/${flag}.svg`)}
+          width={22}
+          height={16.5}
+        />
       ) : id === 'malta' ? (
         <g>
           <rect width={22} height={16.5} fill="#b8192d" />
