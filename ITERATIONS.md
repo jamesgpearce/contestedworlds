@@ -166,3 +166,7 @@ Claim cards omit event headings that merely restate the claimant and current isl
 ## A distinct Maltese cross · 8 September 2026
 
 The Knights of Malta now use the Order's eight-pointed white cross on red, distinguishing them from Denmark's Nordic cross. The chart and expanded key share one lightweight SVG. Flag conventions identify it as the Order's emblem, with the official reference retained.
+
+## Shareable chart views · 8 September 2026
+
+The address bar now holds the selected islands, grouping, axis spacing, political mode, calendar range and marker choices. Default values disappear from the URL; other island selections use a versioned base-36 bitmask with fixed positions independent of dataset ordering. The URL restores through hydration, refresh and browser navigation, and changes replace the current history entry. Appearance stays personal and inspection stays transient. Tests cover stable links, all 36 island positions, invalid inputs, option combinations and URL synchronization.

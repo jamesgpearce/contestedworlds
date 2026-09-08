@@ -11,6 +11,7 @@ import {
   Download,
 } from 'lucide-react';
 import { registerAtlasTools } from '@/lib/atlas-tools';
+import { useAtlasView } from '@/lib/use-atlas-view';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -63,27 +64,29 @@ function DisclosureIcon() {
 }
 
 export default function Home() {
+  const [view, updateView] = useAtlasView();
+  const {
+    selectedIds,
+    arrangement,
+    mode,
+    yearRange,
+    showClaims,
+    showQualified,
+    axisSpacing,
+  } = view;
   const [selected, setSelected] = useState('saint-lucia');
-  const [selectedIds, setSelectedIds] = useState(() =>
-    islands.map((island) => island.id),
-  );
-  const [arrangement, setArrangement] = useState<Arrangement>('powers');
-  const [mode, setMode] = useState<Mode>('administration');
-  const [yearRange, setYearRange] = useState<[number, number]>(ranges.all);
   const range = useMemo(() => calendarRange(yearRange), [yearRange]);
   const [pinned, setPinned] = useState(false);
   const [focusRequest, setFocusRequest] = useState(0);
   const [eventId, setEventId] = useState('saint-lucia-12');
-  const [showClaims, setShowClaims] = useState(true);
-  const [showQualified, setShowQualified] = useState(true);
   const [year, setYear] = useState(dateValue('1763-02-10'));
-  const [axisSpacing, setAxisSpacing] = useState('events');
   const [evidence, setEvidence] = useState(false);
-  const current = islands.find((i) => i.id === selected) || islands[0];
   const tracks = useMemo(
     () => islands.filter((i) => selectedIds.includes(i.id)),
     [selectedIds],
   );
+  const current =
+    tracks.find((i) => i.id === selected) || tracks[0] || islands[0];
   const activeArrangement = tracks.length > 1 ? arrangement : 'powers';
   const period =
     Object.keys(ranges).find(
@@ -92,7 +95,7 @@ export default function Home() {
     ) || 'custom';
   const changeRange = (next: [number, number]) => {
     setPinned(false);
-    setYearRange([...next]);
+    updateView({ yearRange: [...next] });
     const bounds = calendarRange(next);
     setYear((value) => Math.max(bounds[0], Math.min(value, bounds[1])));
     setEventId('');
@@ -107,10 +110,10 @@ export default function Home() {
     setEventId(e.id);
     setYear(dateValue(e.date));
     if (dateValue(e.date) < range[0] || dateValue(e.date) > range[1])
-      setYearRange(ranges.all);
+      updateView({ yearRange: ranges.all });
   };
   const changeSelection = (ids: string[]) => {
-    setSelectedIds(ids);
+    updateView({ selectedIds: ids });
     if (!ids.includes(selected)) setPinned(false);
     if (ids.length && !ids.includes(selected)) {
       setSelected(ids[0]);
@@ -130,15 +133,18 @@ export default function Home() {
           setPinned(true);
           setFocusRequest((value) => value + 1);
           setSelected(islandId);
-          setSelectedIds([islandId]);
           setYear(year);
-          setMode(mode);
-          setYearRange(ranges.all);
+          updateView({ selectedIds: [islandId], mode, yearRange: ranges.all });
           setEventId('');
         });
       }),
-    [],
+    [updateView],
   );
+  useEffect(() => {
+    const dismiss = () => setPinned(false);
+    window.addEventListener('popstate', dismiss);
+    return () => window.removeEventListener('popstate', dismiss);
+  }, []);
   const eventScale = useMemo(
     () =>
       eventAxis(
@@ -222,7 +228,7 @@ export default function Home() {
               </h2>
               <IslandPicker
                 ids={selectedIds}
-                inspected={selected}
+                inspected={current.id}
                 onChange={changeSelection}
               />
               <span className="coverage">
@@ -235,7 +241,7 @@ export default function Home() {
                 <Tabs
                   value={activeArrangement}
                   onValueChange={(value) =>
-                    setArrangement(value as Arrangement)
+                    updateView({ arrangement: value as Arrangement })
                   }
                 >
                   <TabsList aria-label="Group periods by">
@@ -262,7 +268,7 @@ export default function Home() {
                     <p className="chart-option-label">Periods represent</p>
                     <Tabs
                       value={mode}
-                      onValueChange={(v) => setMode(v as Mode)}
+                      onValueChange={(v) => updateView({ mode: v as Mode })}
                     >
                       <TabsList aria-label="What the periods represent">
                         <TabsTrigger value="administration">
@@ -283,7 +289,9 @@ export default function Home() {
                     <p className="chart-option-label">X-axis spacing</p>
                     <Tabs
                       value={axisSpacing}
-                      onValueChange={(value) => setAxisSpacing(String(value))}
+                      onValueChange={(value) =>
+                        updateView({ axisSpacing: value as 'events' | 'time' })
+                      }
                     >
                       <TabsList aria-label="X-axis evenly spaces">
                         <TabsTrigger value="time">Time</TabsTrigger>
@@ -336,7 +344,9 @@ export default function Home() {
                       <Checkbox
                         id="show-claims"
                         checked={showClaims}
-                        onCheckedChange={setShowClaims}
+                        onCheckedChange={(showClaims) =>
+                          updateView({ showClaims })
+                        }
                       />
                       <span>Claim markers</span>
                       <Diamond size={12} aria-hidden="true" />
@@ -345,7 +355,9 @@ export default function Home() {
                       <Checkbox
                         id="show-qualified"
                         checked={showQualified}
-                        onCheckedChange={setShowQualified}
+                        onCheckedChange={(showQualified) =>
+                          updateView({ showQualified })
+                        }
                       />
                       <span>Qualified changes</span>
                       <Circle size={10} aria-hidden="true" />
@@ -377,10 +389,10 @@ export default function Home() {
                 scale={eventScale}
                 showClaims={showClaims}
                 showQualified={showQualified}
-                inspectedId={selected}
+                inspectedId={current.id}
                 eventId={eventId}
                 year={year}
-                pinned={pinned}
+                pinned={pinned && selectedIds.includes(selected)}
                 focusRequest={focusRequest}
                 onDismiss={() => setPinned(false)}
                 onSelect={selectPeriod}

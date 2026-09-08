@@ -28,6 +28,26 @@ npm run build      # Pre-render the page and create dist/client/.
 
 Generated `lib/caribbean.json`, `public/data/`, and `dist/` are ignored by Git. The included GitHub Actions workflow checks dataset contributions and the production build. A JSON Schema supplies editor assistance; the Python compiler additionally verifies calendar dates, citation references, chronological order and political semantics.
 
+## Sharing a view
+
+Copy the address bar to share the selected islands and chart options. Refresh restores that view. Changes replace the current URL without reloading or adding a browser-history entry for every checkbox. Defaults are omitted; a default view has no query string. Appearance remains a personal device preference, and hover or pinned details are not included.
+
+For example, `?i=1.35u&g=i&a=t&y=1600-1850` selects Cuba and Saint Lucia, grouped by island on a calendar axis from 1600 through 1850.
+
+The compact query contract lives in `lib/atlas-url.ts`:
+
+| Key | Non-default value | Omitted default |
+| --- | --- | --- |
+| `i` | `1.` followed by a base-36 island bitmask; `1.0` selects none | All islands |
+| `g` | `i` for island grouping | Power grouping |
+| `a` | `t` for calendar time | Event spacing |
+| `m` | `s` for sovereign title | Administration |
+| `y` | Inclusive `start-end` calendar years | Full dataset range |
+| `c` | `0` to hide claim markers | Visible |
+| `q` | `0` to hide qualified-change markers | Visible |
+
+Island bit positions are an explicit, append-only list independent of dataset order. Never reorder or reuse them; append a new ID when adding an island track. Regression fixtures protect existing links. Invalid fields fall back individually, and unrelated query parameters and section anchors are preserved.
+
 ## Design and accessibility
 
 The original two-territory mark uses a stepped open boundary and remains legible at favicon size. The masthead follows the page appearance; the SVG favicon follows the browser’s light/dark preference. A standalone mark is available in `public/mark.svg`.
