@@ -76,6 +76,45 @@ class ContributorSafety(unittest.TestCase):
     def test_compilation_is_deterministic(self):
         self.assertEqual(builder.compile_data(), builder.compile_data())
 
+    def test_optional_card_text_cannot_be_an_object(self):
+        self.edit(lambda data: data['events'][0].update(uncertainty={'note': 'Oops'}))
+        with self.assertRaisesRegex(ValueError, 'uncertainty: expected nonempty text'):
+            builder.compile_data()
+
+    def test_unknown_island_fields_are_not_silently_ignored(self):
+        self.edit(lambda data: data.update(initialSoveriegn='spain'))
+        with self.assertRaisesRegex(ValueError, 'unknown or generated fields'):
+            builder.compile_data()
+
+    def test_missing_event_fields_identify_the_record(self):
+        self.edit(lambda data: data['events'][0].pop('detail'))
+        with self.assertRaisesRegex(ValueError, r'saint-lucia.events\[0\]: missing fields'):
+            builder.compile_data()
+
+    def test_coordinates_and_citations_reject_wrong_types(self):
+        for field, value in [('coordinates', [-61]), ('coordinates', [True, 14]),
+                             ('sources', [{'id': 'regional'}])]:
+            with self.subTest(field=field, value=value):
+                original = builder.read('islands/saint-lucia.json')
+                self.edit(lambda data: data.update({field: value}))
+                with self.assertRaises(ValueError):
+                    builder.compile_data()
+                (builder.DATA / 'islands/saint-lucia.json').write_text(json.dumps(original))
+
+    def test_duplicate_eras_cannot_create_ambiguous_presets(self):
+        path = builder.DATA / 'contexts.json'
+        contexts = json.loads(path.read_text())
+        contexts.append(contexts[0])
+        path.write_text(json.dumps(contexts))
+        with self.assertRaisesRegex(ValueError, 'duplicate ID'):
+            builder.compile_data()
+
+    def test_nonstandard_json_numbers_are_rejected(self):
+        path = builder.DATA / 'islands/saint-lucia.json'
+        path.write_text(path.read_text().replace('"events": [', '"extra": NaN, "events": ['))
+        with self.assertRaisesRegex(ValueError, 'invalid number NaN'):
+            builder.compile_data()
+
 
 if __name__ == '__main__':
     unittest.main()

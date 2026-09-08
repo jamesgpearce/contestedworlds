@@ -4,7 +4,7 @@
   "compiled": "2026-09-06",
   "startYear": 1450,
   "endYear": 2026,
-  "scope": "All 31 present-day places in rough.tsv, expanded to 36 historical tracks. This is a scoped regional chronology, not an inventory of every Caribbean cay or mainland state.",
+  "scope": "All 31 present-day places in scope.json, expanded to 36 historical tracks. This is a scoped regional chronology, not an inventory of every Caribbean cay or mainland state.",
   "baseline": "1450 is a graphical starting point, not an origin date. Indigenous history reaches back millennia. Initial states are schematic regional context, not claims that a single people continuously governed a modern territory.",
   "method": "Track effective external administration and separately recorded sovereign title. Claims and geographically limited raids are annotations. A control change marks the principal colonial administration, not uniform control of every community. Years and circa dates retain their stated precision.",
   "sovereignty": "Sovereign-title view records the framework used by colonial governments and later states, not a judgment that conquest lawfully extinguished Indigenous sovereignty. Disputed and shared situations use a distinct lane. The French annexation of the European Netherlands in 1810 is not automatically propagated to already occupied Dutch islands.",

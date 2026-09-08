@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.invalid/caribbean-atlas/island.schema.json",
+  "$id": "https://raw.githubusercontent.com/jamesgpearce/contestedworlds/main/data/island.schema.json",
   "title": "Caribbean historical track",
   "description": "Editable historical facts. The Python compiler additionally checks dates, references, chronology and political-power semantics.",
   "type": "object",
