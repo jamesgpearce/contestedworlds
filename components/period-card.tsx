@@ -26,7 +26,7 @@ export function PeriodCard({
   panelRef: React.RefObject<HTMLDivElement | null>;
   onPin: () => void;
   onSelect: (period: Period) => void;
-  onDismiss: (restoreFocus?: boolean) => void;
+  onDismiss: () => void;
   onEnter: () => void;
   onLeave: () => void;
 }) {
@@ -58,7 +58,7 @@ export function PeriodCard({
           details.cancel();
           return;
         }
-        onDismiss(details.reason === 'escape-key');
+        onDismiss();
       }}
     >
       <Popover.Portal>
@@ -110,7 +110,7 @@ export function PeriodCard({
                   <button
                     className="period-card-close"
                     aria-label="Close period details"
-                    onClick={() => onDismiss(true)}
+                    onClick={onDismiss}
                   >
                     <X size={17} aria-hidden="true" />
                   </button>

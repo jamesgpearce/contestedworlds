@@ -108,7 +108,7 @@ export function HistoryChart({
   showClaims,
   showQualified,
   pinnedTarget,
-  focusRequest,
+  revealRequest,
   onDismiss,
   onSelect,
   onClaim,
@@ -122,7 +122,7 @@ export function HistoryChart({
   showClaims: boolean;
   showQualified: boolean;
   pinnedTarget: InspectionTarget | null;
-  focusRequest: number;
+  revealRequest: number;
   onDismiss: () => void;
   onSelect: (period: Period) => void;
   onClaim: (island: Island, event: HistoryEvent) => void;
@@ -132,14 +132,12 @@ export function HistoryChart({
   const [width, setWidth] = useState(1000);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const ignoreFocus = useRef(false);
   const pointerTransit = useRef<{ origin: Point; scope: string } | null>(null);
-  const lastFocusRequest = useRef(0);
+  const lastRevealRequest = useRef(0);
   const [hover, setHover] = useState<{
     target: InspectionTarget;
     scope: string;
   } | null>(null);
-  const [focusId, setFocusId] = useState('');
   const scope = [
     arrangement,
     spacing,
@@ -239,7 +237,7 @@ export function HistoryChart({
     [getAnchorElement],
   );
   useEffect(() => {
-    if (!focusRequest || focusRequest === lastFocusRequest.current) return;
+    if (!revealRequest || revealRequest === lastRevealRequest.current) return;
     // Shared details may arrive before the responsive chart has measured itself.
     if (
       Math.abs((ref.current?.clientWidth || 0) - width) > 1 ||
@@ -249,34 +247,26 @@ export function HistoryChart({
       return;
     const element = getAnchorElement();
     if (!element) return;
-    lastFocusRequest.current = focusRequest;
+    lastRevealRequest.current = revealRequest;
     element.scrollIntoView({
       block: 'center',
       behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
         ? 'instant'
         : 'smooth',
     });
-    element.focus({ preventScroll: true });
   }, [
-    focusRequest,
+    revealRequest,
     getAnchorElement,
     width,
     frame.height,
     target.height,
     changing,
   ]);
-  const dismiss = (restoreFocus = false) => {
+  const dismiss = () => {
     pointerTransit.current = null;
     cancelClose();
     setHover(null);
     onDismiss();
-    if (restoreFocus) {
-      ignoreFocus.current = true;
-      getAnchorElement()?.focus({ preventScroll: true });
-      queueMicrotask(() => {
-        ignoreFocus.current = false;
-      });
-    }
   };
   const leave = useCallback(() => {
     pointerTransit.current = null;
@@ -342,7 +332,7 @@ export function HistoryChart({
     };
   }, [pinned, hover, leave, travelingToCard, cancelClose]);
   const show = (target: InspectionTarget, point?: Point) => {
-    if (pinned || ignoreFocus.current) return;
+    if (pinned) return;
     if (point && travelingToCard(point)) return;
     pointerTransit.current = null;
     cancelClose();
@@ -362,7 +352,6 @@ export function HistoryChart({
     pointerTransit.current = null;
     cancelClose();
     setHover(null);
-    setFocusId(p.id);
     onSelect(p);
     if (reveal)
       requestAnimationFrame(() =>
@@ -383,9 +372,6 @@ export function HistoryChart({
       selectClaim(inspection.island, inspection.standalone);
     else select(inspection.period);
   };
-  const tabTarget = periods.some((p) => p.id === focusId)
-    ? focusId
-    : inspection?.period.id || periods[0]?.id;
   const years = [range[0]];
   const tickStep =
     [25, 50, 100, 200, 500].find(
@@ -411,53 +397,6 @@ export function HistoryChart({
           .map((event) => ({ island, event })),
       )
     : [];
-  const keyboard = (e: React.KeyboardEvent<SVGGElement>, p: Period) => {
-    const route = periods.filter((q) => q.islandId === p.islandId),
-      n = route.indexOf(p);
-    let next: Period | undefined;
-    if (e.key === 'ArrowRight') next = route[Math.min(n + 1, route.length - 1)];
-    else if (e.key === 'ArrowLeft') next = route[Math.max(0, n - 1)];
-    else if (e.key === 'Home') next = route[0];
-    else if (e.key === 'End') next = route.at(-1);
-    else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      const index = tracks.findIndex((i) => i.id === p.islandId);
-      const island =
-        tracks[
-          Math.max(
-            0,
-            Math.min(tracks.length - 1, index + (e.key === 'ArrowUp' ? -1 : 1)),
-          )
-        ];
-      next =
-        periods.find(
-          (q) =>
-            q.islandId === island.id && q.start <= p.start && q.end > p.start,
-        ) || periods.find((q) => q.islandId === island.id);
-    } else if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      select(p);
-      return;
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      dismiss(true);
-      return;
-    } else if (e.key === 'Tab' && !e.shiftKey && inspection) {
-      e.preventDefault();
-      (
-        panelRef.current?.querySelector<HTMLElement>('[data-panel-primary]') ||
-        panelRef.current?.querySelector<HTMLElement>('a, button:not(:disabled)')
-      )?.focus();
-      return;
-    }
-    if (next) {
-      e.preventDefault();
-      setFocusId(next.id);
-      if (pinned) select(next);
-      ref.current
-        ?.querySelector<SVGGElement>(`[data-period-id="${next.id}"]`)
-        ?.focus();
-    }
-  };
   return (
     <div className="period-atlas" ref={ref}>
       <PeriodCard
@@ -482,10 +421,10 @@ export function HistoryChart({
           <desc>
             Rectangles represent periods of{' '}
             {mode === 'administration' ? 'administration' : 'sovereign status'}.
-            Color identifies the power. Use left and right arrow keys on a
-            period, up and down to change islands, or the previous and next
-            buttons in the period details. Vertical distance and rectangle
-            height do not measure population, area, or importance.
+            Color identifies the power. Select a rectangle or claim marker to
+            inspect it, then use Previous and Next in the details card. Vertical
+            distance and rectangle height do not measure population, area, or
+            importance.
           </desc>
           {arrangement === 'powers' && (
             <g
@@ -612,20 +551,20 @@ export function HistoryChart({
                 transform={`translate(0 ${pos.y})`}
                 className="period-mark"
                 role="button"
-                tabIndex={p.id === tabTarget ? 0 : -1}
+                tabIndex={-1}
                 opacity={activeIsland && activeIsland !== p.islandId ? 0.22 : 1}
                 data-highlighted={activeIsland === p.islandId}
                 aria-expanded={active}
                 aria-controls={active ? 'period-metadata' : undefined}
                 aria-label={`${name}. ${owners[p.power].label}. ${periodDates(p, range)}.${p.event ? ' ' + p.event.title : ''}`}
                 aria-pressed={selected}
-                onKeyDown={(e) => keyboard(e, p)}
-                onClick={() => select(p)}
-                onFocus={() => {
-                  setFocusId(p.id);
-                  showPeriod(p);
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    select(p);
+                  }
                 }}
-                onBlur={leave}
+                onClick={() => select(p)}
                 onPointerEnter={(e) => {
                   if (e.pointerType !== 'touch') showPeriod(p, pointFrom(e));
                 }}
@@ -715,7 +654,7 @@ export function HistoryChart({
                 data-claim-period-id={p.id}
                 opacity={activeIsland && activeIsland !== island.id ? 0.22 : 1}
                 role="button"
-                tabIndex={0}
+                tabIndex={-1}
                 aria-label={`${island.name}. Claim only. ${eventDate(event)}. ${event.title}`}
                 onClick={() => selectClaim(island, event)}
                 onPointerEnter={(e) => {
@@ -733,17 +672,13 @@ export function HistoryChart({
                     );
                 }}
                 onPointerLeave={leaveMark}
-                onFocus={() =>
-                  show({ islandId: island.id, eventId: event.id, year: t })
-                }
-                onBlur={leave}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     selectClaim(island, event);
                   } else if (e.key === 'Escape') {
                     e.preventDefault();
-                    dismiss(true);
+                    dismiss();
                   }
                 }}
               >

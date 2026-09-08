@@ -190,3 +190,7 @@ Island selections and pinned records now use country or territory codes: `island
 ## Tint the complete power label cell · 8 September 2026
 
 Each power's pale tint fills the left cell from one row boundary to the next, behind the flag, heading and starting island labels. On narrow charts it also spans the heading strip above the periods. The inset name badge is removed; row rules extend across the label cells, and both appearances retain the same restrained tint strength.
+
+## Remove chart Tab navigation · 8 September 2026
+
+Rectangles and claim markers no longer enter the Tab sequence. Removed the chart's Tab/arrow-key routing, focus-triggered cards, automatic focus when revealing or dismissing details, and focus strokes around hit areas. Mouse and touch inspection, pinned highlighting, Previous/Next and normal keyboard access to interface controls remain.

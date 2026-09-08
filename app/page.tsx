@@ -91,7 +91,7 @@ export default function Home() {
   const eventId = pinnedTarget?.eventId || '';
   const year = pinnedTarget?.year ?? yearRange[0];
   const range = useMemo(() => calendarRange(yearRange), [yearRange]);
-  const [focusRequest, setFocusRequest] = useState(0);
+  const [revealRequest, setRevealRequest] = useState(0);
   const [evidence, setEvidence] = useState(false);
   const tracks = useMemo(
     () => islands.filter((i) => selectedIds.includes(i.id)),
@@ -118,7 +118,7 @@ export default function Home() {
     );
     if (!island) return;
     setLastSelected(island.id);
-    if (reveal) setFocusRequest((value) => value + 1);
+    if (reveal) setRevealRequest((value) => value + 1);
     updateView({
       detail: e.id,
       ...(e.kind === 'claim' ? { showClaims: true } : {}),
@@ -139,7 +139,7 @@ export default function Home() {
     () =>
       registerAtlasTools(({ islandId, year, mode }) => {
         flushSync(() => {
-          setFocusRequest((value) => value + 1);
+          setRevealRequest((value) => value + 1);
           setLastSelected(islandId);
           const island = islands.find((island) => island.id === islandId)!;
           const period = periodsFor(
@@ -160,7 +160,7 @@ export default function Home() {
   useEffect(() => {
     const revealSharedDetail = () => {
       if (readAtlasView(window.location.search).detail)
-        setFocusRequest((value) => value + 1);
+        setRevealRequest((value) => value + 1);
     };
     revealSharedDetail();
     window.addEventListener('popstate', revealSharedDetail);
@@ -413,7 +413,7 @@ export default function Home() {
                 showClaims={showClaims}
                 showQualified={showQualified}
                 pinnedTarget={pinnedTarget}
-                focusRequest={focusRequest}
+                revealRequest={revealRequest}
                 onDismiss={() => updateView({ detail: null })}
                 onSelect={selectPeriod}
                 onClaim={(_, e) => selectEvent(e)}
