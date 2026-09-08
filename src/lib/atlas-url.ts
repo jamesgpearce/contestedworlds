@@ -88,22 +88,19 @@ export type AtlasView = {
   detail: string | null;
 };
 
-export function defaultAtlasView(): AtlasView {
-  return {
-    selectedIds: islands.map((island) => island.id),
-    arrangement: 'powers',
-    mode: 'administration',
-    yearRange: [START, END],
-    axisSpacing: 'events',
-    showClaims: true,
-    showQualified: true,
-    detail: null,
-  };
-}
+export const defaultAtlasView = (): AtlasView => ({
+  selectedIds: islands.map((island) => island.id),
+  arrangement: 'powers',
+  mode: 'administration',
+  yearRange: [START, END],
+  axisSpacing: 'events',
+  showClaims: true,
+  showQualified: true,
+  detail: null,
+});
 
-export function detailForPeriod(period: Period): string {
-  return period.event?.id || `${period.islandId}.initial`;
-}
+export const detailForPeriod = (period: Period): string =>
+  period.event?.id || `${period.islandId}.initial`;
 
 /** Resolve a stable record identity, never an array index or rounded year. */
 export function resolveAtlasDetail(view: AtlasView): InspectionTarget | null {

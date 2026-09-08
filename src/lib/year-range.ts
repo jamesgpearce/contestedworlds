@@ -6,9 +6,7 @@ export const yearPresets = [
 ];
 
 /** Include records throughout the final calendar year, including 31 December. */
-export function calendarRange([start, end]: [number, number]): [
+export const calendarRange = ([start, end]: [number, number]): [
   number,
   number,
-] {
-  return [start, dateValue(`${end}-12-31`)];
-}
+] => [start, dateValue(`${end}-12-31`)];

@@ -24,12 +24,9 @@ export function periodDates(p: Period) {
   return `${start} – ${p.endEvent ? eventDate(p.endEvent) : END}`;
 }
 
-export function plottedEvent(e: HistoryEvent, mode: Mode, claims = false) {
-  return (
-    (mode === 'administration' ? e.changesControl : e.changesSovereignty) ||
-    (claims && e.kind === 'claim')
-  );
-}
+export const plottedEvent = (e: HistoryEvent, mode: Mode, claims = false) =>
+  (mode === 'administration' ? e.changesControl : e.changesSovereignty) ||
+  (claims && e.kind === 'claim');
 export function periodsFor(
   island: Island,
   mode: Mode,

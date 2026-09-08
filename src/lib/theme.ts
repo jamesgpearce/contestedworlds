@@ -2,9 +2,8 @@ export type ThemePreference = 'system' | 'light' | 'dark';
 const storageKey = 'caribbean-atlas-theme';
 const changeEvent = 'atlas-theme-change';
 
-function preference(value: unknown): ThemePreference {
-  return value === 'light' || value === 'dark' ? value : 'system';
-}
+const preference = (value: unknown): ThemePreference =>
+  value === 'light' || value === 'dark' ? value : 'system';
 
 // Restore appearance before React renders the atlas.
 export function initializeTheme() {
@@ -17,11 +16,10 @@ export function initializeTheme() {
   applyTheme(saved);
 }
 
-export function getThemePreference(): ThemePreference {
-  return typeof document === 'undefined'
+export const getThemePreference = (): ThemePreference =>
+  typeof document === 'undefined'
     ? 'system'
     : preference(document.documentElement.dataset.themePreference);
-}
 
 function applyTheme(value: ThemePreference) {
   const dark =

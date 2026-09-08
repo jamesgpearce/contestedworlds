@@ -54,14 +54,10 @@ import {
 const ranges: Record<string, [number, number]> = Object.fromEntries(
   yearPresets.map((preset) => [preset.id, [preset.start, preset.end]]),
 );
-function Arrow() {
-  return <ArrowUpRight className="inline-icon" aria-hidden="true" />;
-}
-function DisclosureIcon() {
-  return (
-    <ChevronDown className="disclosure-chevron" size={14} aria-hidden="true" />
-  );
-}
+const Arrow = () => <ArrowUpRight className="inline-icon" aria-hidden="true" />;
+const DisclosureIcon = () => (
+  <ChevronDown className="disclosure-chevron" size={14} aria-hidden="true" />
+);
 
 export default function Home() {
   const [view, updateView, viewReady] = useAtlasView();

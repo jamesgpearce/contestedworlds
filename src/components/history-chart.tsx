@@ -37,11 +37,10 @@ import {
 import { PowerSymbol } from '@/components/power-symbol';
 
 // Selection markers and enlarged hit areas must not move the card's anchor.
-function periodBounds(element: SVGGraphicsElement) {
-  return (
+const periodBounds = (element: SVGGraphicsElement) =>
+  (
     element.querySelector<SVGGraphicsElement>('[data-period-body]') || element
   ).getBoundingClientRect();
-}
 
 type Frame = {
   positions: Record<string, Placement>;

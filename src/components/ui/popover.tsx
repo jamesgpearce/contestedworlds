@@ -157,9 +157,12 @@ export function PopoverContent({
   );
 }
 
-export function PopoverHeader({ className, ...props }: ComponentProps<'div'>) {
-  return <div className={cn('popover-header', className)} {...props} />;
-}
+export const PopoverHeader = ({
+  className,
+  ...props
+}: ComponentProps<'div'>) => (
+  <div className={cn('popover-header', className)} {...props} />
+);
 
 export function PopoverTitle({ className, ...props }: ComponentProps<'div'>) {
   const popover = useContext(PopoverContext);
@@ -174,9 +177,9 @@ export function PopoverTitle({ className, ...props }: ComponentProps<'div'>) {
   );
 }
 
-export function PopoverDescription({
+export const PopoverDescription = ({
   className,
   ...props
-}: ComponentProps<'p'>) {
-  return <p className={cn('popover-description', className)} {...props} />;
-}
+}: ComponentProps<'p'>) => (
+  <p className={cn('popover-description', className)} {...props} />
+);

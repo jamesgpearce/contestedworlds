@@ -85,13 +85,11 @@ export function stateAt(i: Island, year: number, mode: Mode) {
   }
   return owner;
 }
-export function changes(i: Island, mode: Mode) {
-  return i.events.filter((e) =>
+export const changes = (i: Island, mode: Mode) =>
+  i.events.filter((e) =>
     mode === 'administration' ? e.changesControl : e.changesSovereignty,
   );
-}
-export function changeCount(i: Island, mode: Mode, range: [number, number]) {
-  return changes(i, mode).filter(
+export const changeCount = (i: Island, mode: Mode, range: [number, number]) =>
+  changes(i, mode).filter(
     (e) => dateValue(e.date) >= range[0] && dateValue(e.date) <= range[1],
   ).length;
-}

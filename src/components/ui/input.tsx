@@ -1,5 +1,8 @@
 import type { ComponentProps } from 'react';
 
-export function Input({ className = '', ...props }: ComponentProps<'input'>) {
-  return <input data-slot="input" className={className} {...props} />;
-}
+export const Input = ({
+  className = '',
+  ...props
+}: ComponentProps<'input'>) => (
+  <input data-slot="input" className={className} {...props} />
+);
