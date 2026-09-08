@@ -194,3 +194,7 @@ Each power's pale tint fills the left cell from one row boundary to the next, be
 ## Remove chart Tab navigation · 8 September 2026
 
 Rectangles and claim markers no longer enter the Tab sequence. Removed the chart's Tab/arrow-key routing, focus-triggered cards, automatic focus when revealing or dismissing details, and focus strokes around hit areas. Mouse and touch inspection, pinned highlighting, Previous/Next and normal keyboard access to interface controls remain.
+
+## Direct hover through the card gap · 8 September 2026
+
+Removed pointer-corridor protection so every rectangle or claim immediately takes over hover, including the next lane visible in the gap above the card. Clicking a target holds its details. The separate Pin details button and Pinned label are removed; the close button and Previous/Next remain, including on touch devices.

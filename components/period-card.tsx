@@ -1,6 +1,6 @@
 'use client';
 import { Popover } from '@base-ui/react/popover';
-import { ArrowLeft, ArrowRight, Pin, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { Cite } from '@/components/citations';
 import { owners, powerColor } from '@/lib/history';
 import type { Inspection } from '@/lib/chart-inspection';
@@ -11,7 +11,6 @@ export function PeriodCard({
   pinned,
   anchor,
   panelRef,
-  onPin,
   onSelect,
   onDismiss,
   onEnter,
@@ -24,7 +23,6 @@ export function PeriodCard({
     getBoundingClientRect: () => DOMRect;
   };
   panelRef: React.RefObject<HTMLDivElement | null>;
-  onPin: () => void;
   onSelect: (period: Period) => void;
   onDismiss: () => void;
   onEnter: () => void;
@@ -146,19 +144,6 @@ export function PeriodCard({
                   />
                 </div>
                 <div className="period-card-navigation">
-                  <div className="period-card-pin">
-                    {pinned ? (
-                      <span className="period-card-pinned">
-                        <Pin size={13} aria-hidden="true" />
-                        Pinned
-                      </span>
-                    ) : (
-                      <button onClick={onPin} data-panel-primary>
-                        <Pin size={13} aria-hidden="true" />
-                        Pin details
-                      </button>
-                    )}
-                  </div>
                   <span className="period-card-count">
                     {inspection.index + 1} / {inspection.sequence.length}
                   </span>

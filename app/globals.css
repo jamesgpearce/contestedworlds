@@ -2471,8 +2471,7 @@ details[open] > summary > .disclosure-chevron {
   border-top: 1px solid var(--border);
   font-size: 0.75rem;
 }
-.period-card-navigation button,
-.period-card-pinned {
+.period-card-navigation button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2482,21 +2481,11 @@ details[open] > summary > .disclosure-chevron {
   border: 0;
   background: transparent;
 }
-.period-card-pinned {
-  color: var(--faint);
-}
-.period-card-pin {
-  flex: 0 0 88px;
-}
-.period-card-pin > * {
-  width: 100%;
-  white-space: nowrap;
-}
 .period-card-navigation svg {
   flex: none;
 }
 .period-card-count {
-  margin-inline: auto 4px;
+  margin-inline: 0 auto;
   color: var(--faint);
 }
 .period-card button:hover:enabled {
@@ -2507,8 +2496,7 @@ details[open] > summary > .disclosure-chevron {
   cursor: default;
 }
 @media (pointer: coarse) {
-  .period-card button,
-  .period-card-pinned {
+  .period-card button {
     min-height: 44px;
   }
   .period-card-close {
