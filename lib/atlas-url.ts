@@ -17,45 +17,65 @@ export const urlRegions: Record<string, string> = {
   'western-caribbean': 'Western Caribbean',
 };
 
-// Read-only compatibility with the original links. Never reorder these positions.
-export const islandUrlOrder = [
-  'haiti',
-  'cuba',
-  'dominican',
-  'puerto-rico',
-  'jamaica',
-  'trinidad',
-  'tobago',
-  'bahamas',
-  'guadeloupe',
-  'martinique',
-  'barbados',
-  'curacao',
-  'saint-lucia',
-  'grenada',
-  'aruba',
-  'saint-vincent',
-  'saint-croix',
-  'saint-thomas',
-  'saint-john',
-  'antigua',
-  'barbuda',
-  'dominica',
-  'cayman',
-  'saint-kitts',
-  'nevis',
-  'turks-caicos',
-  'sint-maarten',
-  'saint-martin',
-  'british-virgins',
-  'bonaire',
-  'anguilla',
-  'saint-barts',
-  'montserrat',
-  'sint-eustatius',
-  'saba',
-  'nueva-esparta',
-] as const;
+// ISO country/territory codes, with atlas suffixes for separately plotted islands.
+// https://unstats.un.org/unsd/methodology/m49/overview/
+export const islandUrlCodes: Record<string, string> = {
+  haiti: 'ht',
+  cuba: 'cu',
+  dominican: 'do',
+  'puerto-rico': 'pr',
+  jamaica: 'jm',
+  trinidad: 'tt-tr',
+  tobago: 'tt-to',
+  bahamas: 'bs',
+  guadeloupe: 'gp',
+  martinique: 'mq',
+  barbados: 'bb',
+  curacao: 'cw',
+  'saint-lucia': 'lc',
+  grenada: 'gd',
+  aruba: 'aw',
+  'saint-vincent': 'vc',
+  'saint-croix': 'vi-c',
+  'saint-thomas': 'vi-t',
+  'saint-john': 'vi-j',
+  antigua: 'ag-a',
+  barbuda: 'ag-b',
+  dominica: 'dm',
+  cayman: 'ky',
+  'saint-kitts': 'kn-k',
+  nevis: 'kn-n',
+  'turks-caicos': 'tc',
+  'sint-maarten': 'sx',
+  'saint-martin': 'mf',
+  'british-virgins': 'vg',
+  bonaire: 'bq-bo',
+  anguilla: 'ai',
+  'saint-barts': 'bl',
+  montserrat: 'ms',
+  'sint-eustatius': 'bq-se',
+  saba: 'bq-sa',
+  'nueva-esparta': 've',
+};
+const islandsByCode = new Map(
+  Object.entries(islandUrlCodes).map(([id, code]) => [code, id]),
+);
+
+function encodeDetail(detail: string): string {
+  const island = islands.find(
+    (island) =>
+      detail === `${island.id}.initial` ||
+      island.events.some((event) => event.id === detail),
+  )!;
+  return `${islandUrlCodes[island.id]}.${detail === `${island.id}.initial` ? 'initial' : detail.slice(island.id.length + 1)}`;
+}
+function decodeDetail(value: string | null): string | null {
+  const parts = value?.toLowerCase().split('.');
+  if (!parts || parts.length !== 2) return null;
+  const id = islandsByCode.get(parts[0]);
+  if (!id) return null;
+  return parts[1] === 'initial' ? `${id}.initial` : `${id}-${parts[1]}`;
+}
 
 export type AtlasView = {
   selectedIds: string[];
@@ -118,65 +138,71 @@ export function resolveAtlasDetail(view: AtlasView): InspectionTarget | null {
   return { islandId: island.id, eventId: event.id, year };
 }
 
-function decodeLegacyIslands(value: string | null): string[] | undefined {
-  if (!value || !/^1\.[0-9a-z]{1,32}$/.test(value)) return;
-  let mask = BigInt(0);
-  for (const digit of value.slice(2))
-    mask = mask * BigInt(36) + BigInt(parseInt(digit, 36));
-  const selected = new Set<string>(
-    islandUrlOrder.filter(
-      (_, index) => (mask & (BigInt(1) << BigInt(index))) !== BigInt(0),
-    ),
-  );
-  // Newer links can contain islands not yet present in this dataset.
-  return islands
-    .filter((island) => selected.has(island.id))
-    .map((island) => island.id);
-}
-
 function decodeIslands(value: string | null): string[] | undefined {
   if (value === null) return;
-  if (value === 'none') return [];
-  const tokens = new Set(value.split(',').map((token) => token.trim()));
+  const tokens = new Set(
+    value
+      .toLowerCase()
+      .split(',')
+      .map((token) => token.trim()),
+  );
   if (tokens.has('all')) return islands.map((island) => island.id);
+  if (tokens.size === 1 && tokens.has('none')) return [];
   const regions = new Set(
     [...tokens].map((token) => urlRegions[token]).filter(Boolean),
   );
-  const selected = islands.filter(
-    (island) => tokens.has(island.id) || regions.has(island.region),
-  );
+  const selected = islands.filter((island) => {
+    const code = islandUrlCodes[island.id];
+    return (
+      tokens.has(code) ||
+      tokens.has(code.split('-')[0]) ||
+      regions.has(island.region)
+    );
+  });
   return selected.length ? selected.map((island) => island.id) : undefined;
 }
 
+function countryTokens(ids: Set<string>): string[] {
+  const tokens = new Set<string>();
+  for (const island of islands.filter((island) => ids.has(island.id))) {
+    const code = islandUrlCodes[island.id],
+      country = code.split('-')[0];
+    const wholeCountry = islands.every(
+      (member) =>
+        islandUrlCodes[member.id].split('-')[0] !== country ||
+        ids.has(member.id),
+    );
+    tokens.add(wholeCountry ? country : code);
+  }
+  return [...tokens];
+}
+
 function encodeIslands(ids: string[]) {
-  const selected = new Set(ids);
-  const tokens: string[] = [];
+  let remaining = new Set(ids);
+  const regions: string[] = [];
   for (const [slug, region] of Object.entries(urlRegions)) {
     const members = islands.filter((island) => island.region === region);
+    if (!members.length || !members.every((island) => remaining.has(island.id)))
+      continue;
+    const rest = new Set(remaining);
+    members.forEach((island) => rest.delete(island.id));
+    // Prefer a region only when it shortens the full list, including shared countries.
     if (
-      members.length > 1 &&
-      members.every((island) => selected.has(island.id))
+      [slug, ...countryTokens(rest)].join(',').length <
+      countryTokens(remaining).join(',').length
     ) {
-      tokens.push(slug);
-      members.forEach((island) => selected.delete(island.id));
+      regions.push(slug);
+      remaining = rest;
     }
   }
-  tokens.push(
-    ...islands
-      .filter((island) => selected.has(island.id))
-      .map((island) => island.id),
-  );
-  return tokens.join(',') || 'none';
+  return [...regions, ...countryTokens(remaining)].join(',') || 'none';
 }
 
 /** Invalid fields fall back independently, leaving the rest of a link usable. */
 export function readAtlasView(search: string): AtlasView {
   const params = new URLSearchParams(search);
   const view = defaultAtlasView();
-  view.selectedIds =
-    (params.has('islands')
-      ? decodeIslands(params.get('islands'))
-      : decodeLegacyIslands(params.get('i'))) ?? view.selectedIds;
+  view.selectedIds = decodeIslands(params.get('islands')) ?? view.selectedIds;
   if (params.get('g') === 'i') view.arrangement = 'islands';
   if (params.get('a') === 't') view.axisSpacing = 'time';
   if (params.get('m') === 's') view.mode = 'sovereignty';
@@ -189,7 +215,7 @@ export function readAtlasView(search: string): AtlasView {
     if (start >= START && end <= END && start <= end)
       view.yearRange = [start, end];
   }
-  view.detail = params.get('detail');
+  view.detail = decodeDetail(params.get('detail'));
   if (!resolveAtlasDetail(view)) view.detail = null;
   return view;
 }
@@ -197,7 +223,7 @@ export function readAtlasView(search: string): AtlasView {
 /** Own only our query keys: preserve unrelated parameters and section anchors. */
 export function atlasViewUrl(href: string, view: AtlasView): string {
   const url = new URL(href);
-  for (const key of ['islands', 'i', 'g', 'a', 'm', 'y', 'c', 'q', 'detail'])
+  for (const key of ['islands', 'g', 'a', 'm', 'y', 'c', 'q', 'detail'])
     url.searchParams.delete(key);
   const selected = new Set(view.selectedIds);
   if (!islands.every((island) => selected.has(island.id))) {
@@ -211,7 +237,7 @@ export function atlasViewUrl(href: string, view: AtlasView): string {
   if (!view.showClaims) url.searchParams.set('c', '0');
   if (!view.showQualified) url.searchParams.set('q', '0');
   if (view.detail && resolveAtlasDetail(view))
-    url.searchParams.set('detail', view.detail);
+    url.searchParams.set('detail', encodeDetail(view.detail));
   return `${url.pathname}${url.search.replaceAll('%2C', ',')}${url.hash}`;
 }
 

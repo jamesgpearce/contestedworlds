@@ -36,7 +36,7 @@ const {
   defaultAtlasView,
   readAtlasView,
   atlasViewUrl,
-  islandUrlOrder,
+  islandUrlCodes,
   createAtlasUrlStore,
   detailForPeriod,
   resolveAtlasDetail,
@@ -71,67 +71,58 @@ test('The default view has a bare URL; an empty selection is explicit', () => {
   assert.deepEqual(roundTrip(empty), empty);
 });
 
-test('Every island and older encoded links survive sharing', () => {
+test('Country codes uniquely identify every track and shared-country subsets', () => {
   const defaults = defaultAtlasView();
-  assert.equal(new Set(islandUrlOrder).size, islandUrlOrder.length);
-  assert.deepEqual(new Set(islandUrlOrder), new Set(defaults.selectedIds));
+  assert.deepEqual(
+    new Set(Object.keys(islandUrlCodes)),
+    new Set(defaults.selectedIds),
+  );
+  assert.equal(
+    new Set(Object.values(islandUrlCodes)).size,
+    defaults.selectedIds.length,
+  );
   for (const id of defaults.selectedIds) {
     const view = { ...defaults, selectedIds: [id] };
     assert.deepEqual(roundTrip(view), view);
+    assert.deepEqual(
+      readAtlasView(`?islands=${islandUrlCodes[id].toUpperCase()}`).selectedIds,
+      [id],
+    );
   }
-  assert.deepEqual(readAtlasView('?i=1.35u').selectedIds, [
-    'cuba',
-    'saint-lucia',
+  for (const [code, ids] of [
+    ['tt', ['trinidad', 'tobago']],
+    ['ag', ['antigua', 'barbuda']],
+    ['kn', ['saint-kitts', 'nevis']],
+    ['vi', ['saint-croix', 'saint-thomas', 'saint-john']],
+    ['bq', ['bonaire', 'sint-eustatius', 'saba']],
+  ]) {
+    assert.deepEqual(readAtlasView(`?islands=${code}`).selectedIds, ids);
+    assert.equal(
+      atlasViewUrl(origin, { ...defaults, selectedIds: ids }),
+      `/atlas?islands=${code}`,
+    );
+  }
+  assert.deepEqual(readAtlasView('?islands=tt-tr,vi-j,bq-sa').selectedIds, [
+    'trinidad',
+    'saint-john',
+    'saba',
   ]);
-  assert.deepEqual(
-    readAtlasView('?i=1.vkhsvlr').selectedIds,
-    defaults.selectedIds,
+  assert.deepEqual(readAtlasView('?islands=MF,SX').selectedIds, [
+    'sint-maarten',
+    'saint-martin',
+  ]);
+  assert.equal(
+    atlasViewUrl(origin, {
+      ...defaults,
+      selectedIds: ['saint-lucia'],
+      detail: 'saint-lucia-12',
+    }),
+    '/atlas?islands=lc&detail=lc.12',
   );
 });
 
-test('Published island bit positions remain stable as data evolves', () => {
-  assert.deepEqual(islandUrlOrder.slice(0, 36), [
-    'haiti',
-    'cuba',
-    'dominican',
-    'puerto-rico',
-    'jamaica',
-    'trinidad',
-    'tobago',
-    'bahamas',
-    'guadeloupe',
-    'martinique',
-    'barbados',
-    'curacao',
-    'saint-lucia',
-    'grenada',
-    'aruba',
-    'saint-vincent',
-    'saint-croix',
-    'saint-thomas',
-    'saint-john',
-    'antigua',
-    'barbuda',
-    'dominica',
-    'cayman',
-    'saint-kitts',
-    'nevis',
-    'turks-caicos',
-    'sint-maarten',
-    'saint-martin',
-    'british-virgins',
-    'bonaire',
-    'anguilla',
-    'saint-barts',
-    'montserrat',
-    'sint-eustatius',
-    'saba',
-    'nueva-esparta',
-  ]);
-});
-
 test('Readable selections combine whole regions and individual islands', () => {
-  const selected = readAtlasView('?islands=greater-antilles,saint-lucia,cuba');
+  const selected = readAtlasView('?islands=greater-antilles,lc,cu');
   assert.deepEqual(selected.selectedIds, [
     'haiti',
     'cuba',
@@ -142,18 +133,16 @@ test('Readable selections combine whole regions and individual islands', () => {
   ]);
   assert.equal(
     atlasViewUrl(origin, selected),
-    '/atlas?islands=greater-antilles,saint-lucia',
+    '/atlas?islands=ht,cu,do,pr,jm,lc',
   );
   assert.equal(
-    atlasViewUrl(origin, readAtlasView('?islands=cuba,saint-lucia')),
-    '/atlas?islands=cuba,saint-lucia',
+    atlasViewUrl(origin, readAtlasView('?islands=cu,lc')),
+    '/atlas?islands=cu,lc',
   );
-  assert.deepEqual(readAtlasView('?islands=unknown,cuba').selectedIds, [
-    'cuba',
-  ]);
+  assert.deepEqual(readAtlasView('?islands=unknown,cu').selectedIds, ['cuba']);
   assert.deepEqual(readAtlasView('?islands=unknown'), defaultAtlasView());
   assert.deepEqual(readAtlasView('?islands=all'), defaultAtlasView());
-  assert.deepEqual(readAtlasView('?islands=none&i=1.2').selectedIds, []);
+  assert.deepEqual(readAtlasView('?islands=none').selectedIds, []);
   for (const region of [
     ...new Set(JSON.parse(raw).islands.map((island) => island.region)),
   ]) {
@@ -208,7 +197,7 @@ test('Malformed and unsupported fields fall back independently', () => {
   const defaults = defaultAtlasView();
   for (const value of ['bad', '2.0', '1.-1', '1.12!', `1.${'z'.repeat(100)}`])
     assert.deepEqual(
-      readAtlasView(`?i=${value}`).selectedIds,
+      readAtlasView(`?islands=${value}`).selectedIds,
       defaults.selectedIds,
     );
   for (const years of [
@@ -233,7 +222,7 @@ test('Rewriting a view preserves unrelated query parameters and reference anchor
   const view = defaultAtlasView();
   assert.equal(
     atlasViewUrl(
-      `${origin}?utm_source=friend&i=1.2&g=i&a=t&m=s&y=1600-1800&c=0&q=0#bibliography`,
+      `${origin}?utm_source=friend&islands=cu&g=i&a=t&m=s&y=1600-1800&c=0&q=0#bibliography`,
       view,
     ),
     '/atlas?utm_source=friend#bibliography',
@@ -278,7 +267,7 @@ function browserAt(href) {
 }
 
 test('First read restores a link without rewriting it; subsequent edits survive refresh', () => {
-  const env = browserAt(`${origin}?i=1.35u&a=t#sources-method`);
+  const env = browserAt(`${origin}?islands=cu,lc&a=t#sources-method`);
   const store = createAtlasUrlStore(env.browser);
   const initial = store.getSnapshot();
   assert.deepEqual(initial.selectedIds, ['cuba', 'saint-lucia']);
@@ -312,11 +301,11 @@ test('Back/forward restoration and later edits use the navigated view', () => {
   const store = createAtlasUrlStore(env.browser);
   const unsubscribe = store.subscribe(() => store.getSnapshot());
   store.update({ showQualified: false });
-  env.navigate('/atlas?i=1.2&m=s&c=0');
+  env.navigate('/atlas?islands=cu&m=s&c=0');
   assert.deepEqual(store.getSnapshot().selectedIds, ['cuba']);
   assert.equal(store.getSnapshot().showQualified, true);
   store.update((view) => ({ showClaims: !view.showClaims }));
-  assert.equal(env.browser.location.search, '?islands=cuba&m=s');
+  assert.equal(env.browser.location.search, '?islands=cu&m=s');
   env.navigate('/atlas');
   assert.deepEqual(store.getSnapshot(), defaultAtlasView());
   unsubscribe();
@@ -370,7 +359,7 @@ test('Claim links restore claim metadata, including exact dates', () => {
 });
 
 test('Initial and clipped rectangles retain identity without date approximations', () => {
-  const initial = readAtlasView('?islands=dominica&detail=dominica.initial');
+  const initial = readAtlasView('?islands=dm&detail=dm.initial');
   assert.equal(resolveAtlasDetail(initial).periodId, 'dominica:initial');
   const island = islands.find((island) => island.id === 'saint-lucia');
   const view = defaultAtlasView();
@@ -391,7 +380,7 @@ test('Initial and clipped rectangles retain identity without date approximations
 });
 
 test('Pinned details survive refresh and navigation; dismissal and invalidated targets clear them', () => {
-  const env = browserAt(`${origin}?islands=dominica&detail=dominica.initial`);
+  const env = browserAt(`${origin}?islands=dm&detail=dm.initial`);
   const store = createAtlasUrlStore(env.browser);
   const unsubscribe = store.subscribe(() => store.getSnapshot());
   const initial = store.getSnapshot();
@@ -410,21 +399,21 @@ test('Pinned details survive refresh and navigation; dismissal and invalidated t
   assert.equal(resolveAtlasDetail(store.getSnapshot()).periodId, periods[1].id);
   store.update({ detail: null });
   assert.equal(env.browser.location.searchParams.has('detail'), false);
-  env.navigate('/atlas?islands=dominica&detail=dominica.initial');
+  env.navigate('/atlas?islands=dm&detail=dm.initial');
   assert.equal(store.getSnapshot().detail, 'dominica.initial');
   store.update({ selectedIds: ['cuba'] });
   assert.equal(store.getSnapshot().detail, null);
-  env.navigate('/atlas?islands=dominica&detail=dominica.initial');
+  env.navigate('/atlas?islands=dm&detail=dm.initial');
   store.update({ yearRange: [1900, 2000] });
   assert.equal(store.getSnapshot().detail, null);
-  env.navigate('/atlas?islands=cuba&detail=cuba-01');
+  env.navigate('/atlas?islands=cu&detail=cu.01');
   store.update({ showClaims: false });
   assert.equal(store.getSnapshot().detail, null);
   for (const query of [
     'detail=unknown',
     'detail=cuba-999',
     'detail=bogus.initial',
-    'islands=cuba&detail=dominica.initial',
+    'islands=cu&detail=dm.initial',
   ])
     assert.equal(readAtlasView(`?${query}`).detail, null);
   unsubscribe();

@@ -182,3 +182,7 @@ Clicking a rectangle or pinning a claim writes its stable record ID to `detail`;
 ## Details below the masthead · 8 September 2026
 
 Chart cards now sit above the visualization but below the sticky masthead and control menus. Their fixed relationship to the rectangle is preserved as they scroll underneath the title bar.
+
+## Country codes in shared links · 8 September 2026
+
+Island selections and pinned records now use country or territory codes: `islands=cu,lc` and `detail=lc.12`. Atlas suffixes distinguish separate histories within one country; the bare country code selects every represented island. Region names remain accepted and are used when shorter. Removed the previous bitmask and full-name formats, as requested.
